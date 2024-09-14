@@ -113,8 +113,9 @@ plot(X,Y,type = "l")
 
 
 
-Codigo y documentar la calibración
+# Codigo y documentar la calibración
 
+# Recordar que hay que optimizar esto #
 
-
+# Debo ver que onda con esto
 
