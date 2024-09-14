@@ -1,7 +1,7 @@
 rm(list=ls())
 
 #### FASE DE ACOTAMIENTO ####
-
+## Cambio random ##
 ### Parametros de entrada ###
 ## X_0 = punto inicial
 ## Delta = Tamaño del paso
