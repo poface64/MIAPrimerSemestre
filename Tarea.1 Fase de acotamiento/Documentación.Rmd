@@ -1,0 +1,263 @@
+---
+title: "\\textbf{Optimización inteligente}"
+subtitle: "\\textbf{Tarea 1. Fase de Acotamiento}"
+author: "\\textbf{Ángel García Báez}"
+date: "\\textbf{2024-09-16}"
+output: pdf_document
+header-includes:
+   - \usepackage{sectsty}
+   - \allsectionsfont{\bfseries}
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = F,
+                      message = F,
+                      warning = F)
+```
+
+# Breve introducción 
+
+Se planteo un ejercicio en clase donde se pedía encontrar el intervalo (espacio de búsqueda) donde sería factible encontrar el mínimo global de la función $f(x) = x^2 + \frac{54}{x}$ haciendo uso del método conocido como fase de acotamiento.
+
+Para ello, se dio la explicación sobre que es lo que hace el método con su respectivo pseudocodigo, el reto ahora es poder programarlo en el lenguaje de programación predilecto (en este caso, en lenguaje $R$) para poder lograr encontrar dicho intervalo donde es más factible buscar el valor mínimo de la función en la menor cantidad de iteraciones posibles.
+
+A continuación se muestra el pseudocodigo resumido de lo que busca hacer el algoritmo:
+
+
+## Método de la fase de acotamiento
+
+Algoritmo
+
+Paso 1: Elegir un punto inicial $x^{(0)}$ y un incremento $\Delta$ 
+
+
+\setlength{\leftskip}{5em} 
+Hacer $k = 0$
+
+\setlength{\leftskip}{0pt}
+
+
+
+Paso 2: IF $f(x^{(0)}-|\Delta| > f(x^{(0)}+|\Delta|)$, THEN
+
+\setlength{\leftskip}{5em} 
+ $\Delta$ es positivo
+ 
+\setlength{\leftskip}{0pt}
+
+\setlength{\leftskip}{3.5em} 
+ ELSE IF $f(x^{(0)}-|\Delta| < f(x^{(0)}+|\Delta|)$
+ 
+\setlength{\leftskip}{0pt}
+
+\setlength{\leftskip}{5em} 
+ $\Delta$ es negativo
+ 
+\setlength{\leftskip}{0pt}
+
+Paso 3: $x^{(k+1)}<x^{(k)}+ 2^k\Delta$
+
+Paso 4: IF $f(x^{(k+1)})<f(x^{(k)})$ THEN 
+
+\setlength{\leftskip}{5em} 
+ $k = k+1$  y vuelve al paso 3.
+ 
+\setlength{\leftskip}{0pt}
+
+\setlength{\leftskip}{3.5em} 
+ELSE el mínimo se encuentra en el intervalo 
+ 
+\setlength{\leftskip}{0pt}
+
+\setlength{\leftskip}{5em} 
+$(x^{(k-1)},x^{(k+1)})$ \
+TERMINAR
+
+\setlength{\leftskip}{0pt}
+
+Una vez explicado lo que se debe de hacer y visto la estructura del método, se realizo la implementación de dicho algoritmo (Anexo 1) en lenguaje $R$ para ponerlo a prueba contra la función dada en un inicio.
+
+\newpage
+
+# Experimentación con los resultados.
+
+Primero, debido a que la función se puede gráficar en un espacio de 2 dimensiones, se recurrio a esto para tener un referente visual del comportamiento de la misma:
+
+```{r}
+# Declarar la función y evaluarla 
+fx = function(x){(x^2) +  (54/x)}
+  # Definir la función de forma rapida
+x = c(seq(-10,-0.1,by = 0.01),seq(0.1,10,by = 0.01))
+y = fx(x)
+# Gráficar
+plot(x = x,y = y,type = "l",
+     col = "blue",lwd = 3,
+     main = expression("Gráfica para " ~ x^2 + frac(54, x)),
+     xlim = c(-20, 20), ylim = c(-20, 60))
+abline(h =0 )
+abline(v =0 )
+# Lineal del minimo
+abline(h =27,col = "red",lwd = 3 )
+
+```
+
+
+La función presenta ciertos comportamientos interesantes, por ejemplo, a medida de que se acerca al 0 por la izquierda, dicha función tiende al infinito negativo (si buscara ahí el mínimo, nunca lo encontraría) y si se acerca al 0 por la derecha, el valor de la función tiende a ir hacia el infinito positivo (ahí tampoco es factible buscar).
+
+Dado que la mayoría de los problemas que tienen que ver con cosas del mundo real implican que los valores sean positivos, se optara por buscar valores mayores o iguales a 0 de X tal que permitan llegar al mínimo que se ubica cuando $x = 3$ que devuelve un $f(x) = 27$.
+
+## Primer acercamiento
+
+Durante la clase, se dieron los parámetros de inicio para la búsqueda: $x_0 = 0.5$ y $\Delta = 0.5$, los cuales al ser evaluados en el algoritmo implementado, devuelven los siguientes resultados:
+
+```{r}
+# Llamo el codigo
+source("Tarea 1. Fase de acotamiento.r")
+# Imprimo los resultados
+fx = function(x){(x^2) +  (54/x)}
+
+FA(FX = fx,x_0 = 0.6,Delta = 0.5)
+
+```
+
+Bajo estos parámetros, el algoritmo encuentra un intervalo que garantiza la existencia de un mínimo, pero dicho intervalo aun es muy extenso, recordar que sabemos de antemano que el valor que minimiza la función es 3, por lo que el intervalo que devuelve es demasiado amplio para realizar dicha búsqueda, podría mejorarse.
+
+## Exploración Bajo grid search
+
+De forma muy breve, el método de la rejilla consiste en proponer un posible conjunto de valores para los parámetros, obtener todas las posibles combinaciones de ellos e irlas evaluando una a una hasta lograr dar con cual fue la mejor combinación que cumpla con las expectativas requeridas.
+
+Cuando son cantidades grandes de parámetros esto resulta computacionalmente muy costoso, pero para efectos prácticos, esta técnica sí puede ser implementada para este problema dado que solo son 2 parámetros de entrada y evaluar la función no resulta particularmente costoso.
+
+Se propone el siguiente conjunto de posibles valores para $X_0$ y $\Delta$:
+
+$$X_0 = [2,3],\qquad \Delta = [0.5,0.1]$$ 
+
+Esto da como resultado las siguientes combinaciones de parámetros que van a ser evaluadas:
+
+$$
+\begin{bmatrix}
+x_0 & \Delta \\
+2 & 0.5 \\
+3 & 0.5 \\
+2 & 0.1 \\
+3 & 0.1 
+\end{bmatrix}
+$$
+
+A continuación se muestran los resultados de dichas evaluaciones:
+
+
+### Evaluación para $x_0 = 2$  y $\Delta = 0.5$
+
+```{r}
+# Evaluación para x_0 = 2  y delta = 0.5
+FA(FX = fx,x_0 = 2,Delta = 0.5)
+```
+
+### Evaluación para $x_0 = 2  \text{" y "} \Delta = 0.1$
+
+```{r}
+# Evaluación para x_0 = 2  y delta = 0.1
+FA(FX = fx,x_0 = 2,Delta = 0.1)
+```
+
+
+### Evaluación para $x_0 = 3$  y $\Delta = 0.5$
+
+```{r}
+# Evaluación para x_0 = 3  y delta = 0.5
+FA(FX = fx,x_0 = 3,Delta = 0.5)
+```
+
+
+### Evaluación para $x_0 = 3$  y $\Delta = 0.1$
+
+```{r}
+# Evaluación para x_0 = 3  y delta = .01
+FA(FX = fx,x_0 = 3,Delta = 0.1)
+```
+
+Tras revisar los resultados encontrados por la propuesta de grid search, se observa que en cuanto se fija el valor de inicio en 3 el algoritmo tiende a converger a soluciones en menos de una iteración, a diferencia de cuando el valor inicial de $x_0 = 2$ en donde llega a tarar hasta 4 iteraciones.
+
+Se propone otra pequeña busqueda para el valor de $x_0 = 2.9$ y $x_0 = 3$ pero ahora variando a coveniecia el valor $\Delta$, esto con la finalidad de encontrar un intervalo más fino de busqueda. 
+
+### Evaluación para $x_0 = 2.9$  y $\Delta = 0.1$
+
+```{r}
+# Evaluación para x_0 = 3  y delta = .01
+FA(FX = fx,x_0 = 2.9,Delta = 0.1)
+```
+
+### Evaluación para $x_0 = 2.9$  y $\Delta = 0.01$
+
+```{r}
+# Evaluación para x_0 = 2.9  y delta = 0.01
+FA(FX = fx,x_0 = 2.9,Delta = 0.01)
+```
+
+### Evaluación para $x_0 = 3$  y $\Delta = 0.01$
+
+```{r}
+# Evaluación para x_0 = 3  y delta = 0.01
+FA(FX = fx,x_0 = 3,Delta = 0.01)
+```
+
+### Evaluación para $x_0 = 3$  y $\Delta = 0.0001$
+
+```{r}
+# Evaluación para x_0 = 3  y delta = 0.0001
+FA(FX = fx,x_0 = 3,Delta = 0.0001)
+```
+
+En base a este nuevo cambio de parámetros, se observa que al tomar de referencia el valor de $2.9$ y hacer el $\Delta$ más pequeño, logra encontrar intervalos relativamente pequeños pero con hasta 4 iteraciones para lograrlo.
+
+Por otro lado, al fijar el valor de $x_0$ a 3 y variar el $\Delta$ para valores pequeños, se observa que logra encontrar intervalos cada vez más finos donde podria estar la solución y en apenas 1 iteración.
+
+### Evaluando en valores negativos
+
+Se propone ver que ocurre sí la función se evalua en valores negativos para observar el comportamiento de la misma:
+
+
+```{r}
+# Evaluación para x_0 = -5  y delta = 0.5
+FA(FX = fx,x_0 = -5,Delta = 0.5)
+```
+
+
+```{r}
+# Evaluación para x_0 = -5  y delta = 1
+FA(FX = fx,x_0 = -5,Delta = 1)
+```
+
+```{r}
+# Evaluación para x_0 = -4  y delta = 0.5
+FA(FX = fx,x_0 = -5,Delta = 1)
+```
+
+Se observa que la función no encuentra muy buenos resultados, puesto que se atasca en valores minimos pero locales al intentar pasar por la asintota, en su rango no logra detectar la presencia del minimo que se esta buscando en el punto 3.
+
+# Conclusiones y comentarios finales
+
+Este problema que permite observar el comportamiento de la función que se desea minimizar resulto interesante para comprender el funcionamiento del algoritmo _Fase de acotamiento_.
+
+Para la función dada, si bien, ya se sabia de antemano que el mínimo iba a estar en 3, resulta curioso como el método que no sabe esta información a priori, llega a encontrar una región factible donde podría estar ese mínimo. 
+
+Dicho sea de paso que la definición del punto inicial es clave, puesto que si se hubiera iniciado en algún valor negativo, se corría el peligro de que el método se fuera a buscar dentro de la asintota que tiende al infinito y por ello, nunca llegara a un resultado factible, quedándose ciclado o dando una aproximación muy desatinada, o encontrando regiones para mínimos locales quizás.
+
+Finalmente, tras las pruebas realizadas mediante un grid search relativamente pequeño, se pudo determinar que valores cercanos a 3 dan buenos resultados porque el algoritmo debe realizar apenas 1 iteración indistintamente del tamaño del $\Delta$.
+
+Ahora, para encontrar el intervalo más fino posible, seria necesario fijar el valor de $x_0$ en 3 y hacer que el valor de $\Delta$ sea lo más pequeño posible $x_0=(0.00\dots01)$, por lo que para efectos prácticos de esta actividad, se dejo fijado $\Delta = 0.0001$, el cual hace que el algoritmo reporte un intervalo de búsqueda en $[2.99995,3.00010]$, encontrado tras 1 iteración y 4 evaluaciones de la función a estudiar.
+
+
+
+
+\newpage
+
+
+# Anexo 1 del codigo fuente del algoritmo
+
+```{r,eval = T,echo=F}
+# Incluir el codigo
+cat(readLines("Tarea 1. Fase de acotamiento.r"), sep = "\n")
+```
+
