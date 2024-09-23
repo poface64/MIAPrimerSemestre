@@ -1,0 +1,265 @@
+---
+title: "Razonamiento bajo incertidumbre: tarea 1."
+author: "Angel García Báez"
+date: "2024-08-21"
+output: 
+  pdf_document:
+    latex_engine: xelatex
+    toc: true
+toc-title: "Índice"
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE,
+                      message = F,
+                      warning = F)
+```
+
+# Instrucciones
+
+Dada una imagen, descomponerla en sus valores RGB:
+
+-   Calcular el vector de medias.
+-   Gráficar en 3D con sus respectivos colores de RGB para cada pixel.
+-   Calcula la matriz de varianzas y covarianzas.
+-   Calcular la matriz de correlaciones.
+-   Dar una interpretación a los resultados obtenidos.
+
+\newpage
+
+# Cargar una imagen simple y descomponerla.
+
+A manera de realizar una primera incursión en la descomposición de una imagen en sus valores de RGB, se va a tratar de descomponer la siguiente imagen de colores muy marcados y simples para buscar la manera de decirle a R que obtenga los valores de la siguiente imagen:
+
+![](im1.png)
+
+Dicha imagen esta compuesta por 5 colores: Azul, amarillo, rojo, naranja y negro, por lo que se espera que al descomponerla en sus canales RGB se obtengan 5 casos únicos.
+
+A continuación se realiza el proceso de cargar la imagen y descomponerla:
+
+```{r}
+# Cargar las librerias necesarias
+library(png)
+library(reshape2)
+
+# Leer la imagen
+ruta = "im1.png"
+imagen = readPNG(ruta)
+str(imagen) # EL archivo cargado es un CUBO de información
+```
+
+```{r }
+# Del cubo de información se extrae cada capa de color
+rojo = imagen[ , ,1] # Extraer inf de  R
+verde = imagen[ , ,2] # Extraer inf de G
+azul = imagen[ , ,3] # Extraer inf de B
+
+# Convertir a vectores los canales de color
+vrojo = as.vector(rojo) # Vector de rojo
+vverde = as.vector(verde) # Vector de verde
+vazul = as.vector(azul) # Vector de azul
+
+# Compactar los vectores en un dataframe
+datos = cbind.data.frame(R = vrojo,
+                         G = vverde,
+                         B = vazul)
+```
+
+A continuación se muestran los primeros 6 casos de la matriz formada por los valores de RGB de cada pixel de la imagen:
+
+```{r}
+# EL dataframe esta compuesto por 261744 filas (pixeles) y 3 columnas (R,G y B)
+library(flextable)# LIbreria para hacer tablas bonitas
+autofit(theme_box(flextable(head(datos))))
+```
+
+Ahora, se calcula el vector de medias de la matriz conformada por los colores de los pixeles de la imagen:
+
+```{r}
+# Calcular la media de cada variable y hacerla vector
+media = data.frame(t(apply(datos,2,mean)))
+autofit(theme_box(flextable(media)))
+```
+
+$$\vec{\mu} = [0.802177,0.6180255,0.3007519]$$
+
+Ahora, se añade ese vector a los datos y se procede a realizar la gráfica de dispersión en 3 dimensiones:
+
+```{r}
+# Añadir el vector de medias a los datos
+datos1 = rbind.data.frame(datos,media)
+
+# Realizar el gráfico en 3D
+
+## Crear el gráfico en SVG para no perder calidad
+svg("r1.svg")
+# Ejecutar el gráfico
+scatterplot3d(datos1[,1:3], # Datos de R,G y B como X,Y y Z 
+              color = rgb(datos1$R,datos1$G,datos1$B),# Colores acorde a su RGB
+              pch = 16, # Forma rellenita de los puntos
+              angle = 600, #Rotación del gráfico
+              cex.symbols = 2) 
+# Exportarlo
+dev.off()
+### Comprimir el gráfico a JPEG
+sv = rsvg("r1.svg",
+          height = 2000,
+          width = 2000)
+### Exportar en jpeg
+writeJPEG(sv, "r1.jpg", quality = 10)
+```
+
+![](r1.jpg)
+
+## Obtención de la matriz de varianzas y covarianzas
+
+La forma de calcular la matriz de varianzas y covarianzas de la matriz de datos, puede resumirse en la siguiente expresión:
+
+$$\Sigma = \frac{1}{n-1}  (X^TX-n\bar{x}^T\bar{x} ) $$
+
+Donde:
+
+$$
+\begin{matrix}
+\Sigma = \text{Matriz de varianzas y covarianzas} \\
+X = \text{Matriz de datos} \\
+X^T = \text{Matriz de datos transpuesta} \\
+n = \text{Filas o casos de la matriz}\\
+\bar{x} = \text{Vector fila de las medias}\\
+\bar{x}^T = \text{Vector fila de las medias transpuesto}
+\end{matrix}
+$$
+
+```{r}
+### Calcu.ar la matriz de varianzas y covarianzas a mano
+X = as.matrix(datos) # Matriz de datos X
+m = t(apply(datos,2,mean)) # Vector de medias 
+n = nrow(X)
+XTX = t(X)%*%X 
+S = (XTX- n*(t(m)%*%m))/(n-1)
+# Pasar a una tabla bonita:
+autofit(theme_box(flextable(as.data.frame(S))))
+```
+
+## Obtención de la matriz de correlaciones
+
+Para obtener la matriz de correlaciones a partir de la matriz de vairanzas y covarianzas, se puede usar la siguiente expresión:
+
+$$R = D^{-1/2}\Sigma D^{-1/2}$$
+
+Donde:
+
+$$D = diag(\Sigma)$$
+
+```{r}
+# Hacer la matriz diagonal
+D = matrix(0,3,3) 
+diag(D) = diag(S)
+# Usarla en la expresión
+R = sqrt(solve(D)) %*% S %*% sqrt(solve(D))
+colnames(R) = c("R","G","B")
+# Pasar a una tabla bonita:
+autofit(theme_box(flextable(as.data.frame(R))))
+```
+
+\newpage
+
+# Imagen 1
+
+Despues de hacer la prueba de que se puede realizar la descomposición en lenguaje R, se procede a trabajar con una imagen más complicada, dicha imagen es la siguiente:
+
+![](im2.jpg)
+
+Lo primero que hay que hacer es decirle a R que lea la imagen y obtenga la información de cada uno de sus pixeles:
+
+```{r}
+# Leer la imagen en jpg
+ruta = "im2.jpg"
+imagen = readJPEG(ruta)
+str(imagen) # EL archivo cargado es un CUBO de información
+
+```
+
+Después de cargar la imagen y que R identificara las capas de colores en los pixeles, dichas capas o canales se extraen y se convierten en vectores:
+
+```{r}
+# Del cubo de información se extrae cada capa de color
+rojo = imagen[ , ,1] # Extraer inf de  R
+verde = imagen[ , ,2] # Extraer inf de G
+azul = imagen[ , ,3] # Extraer inf de B
+
+# Convertir a vectores los canales de color
+
+# Compactar los vectores en un dataframe
+datos = cbind.data.frame(R = as.vector(rojo),
+                         G = as.vector(verde),
+                         B = as.vector(azul))
+```
+
+Posteriormente se muestra como esta conformado el arreglo de los datos:
+
+```{r}
+# EL dataframe esta compuesto por 261744 filas (pixeles) y 3 columnas (R,G y B)
+autofit(theme_box(flextable(head(datos)))) #2,250,000 pixeles/casos
+```
+
+Ahora, se calcula el vector de medias de la matriz conformada por los colores de los pixeles de la imagen:
+
+```{r}
+# Calcular la media de cada variable y hacerla vector
+media = data.frame(t(apply(datos,2,mean)))
+autofit(theme_box(flextable(media)))
+```
+
+$$\vec{\mu} = [0.5489734,0.3176347,0.4056583]$$
+
+Ahora, se añade ese vector a los datos y se procede a realizar la gráfica de dispersión en 3 dimensiones:
+
+```{r,eval = F}
+# Añadir el vector de medias a los datos
+datos1 = rbind.data.frame(datos,media)
+
+# Realizar el gráfico en 3D
+
+## Crear el gráfico en SVG para no perder calidad
+svg("r2.svg")
+# Ejecutar el gráfico
+scatterplot3d(datos1[,1:3], # Datos de R,G y B como X,Y y Z 
+              color = rgb(datos1$R,datos1$G,datos1$B),# Colores acorde a su RGB
+              pch = 16, # Forma rellenita de los puntos
+              angle = 600, #Rotación del gráfico
+              cex.symbols = 2) 
+# Exportarlo
+dev.off()
+### Comprimir el gráfico a JPEG
+sv = rsvg("r2.svg",
+          height = 2000,
+          width = 2000)
+### Exportar en jpeg
+writeJPEG(sv, "r2.jpg", quality = 10)
+```
+
+
+
+
+```{r, echo=F}
+### Script que busca y limpia lo svg
+# SCRIPT QUE LIMPIA LAS IMAGENES
+library(fs)
+library(stringi)
+library(stringr)
+# Que buscar
+extensiones <- c("svg")
+# Buscar en el directorio actual
+archivos <- dir_ls()
+# Filtrar los archivos por extension
+archivos_a_eliminar <- archivos[str_detect(archivos,
+                                           regex(paste0("\\.", paste(extensiones,
+                                                                     collapse = "|")),
+                                                 ignore_case = TRUE))]
+# Elimina los archivos
+for (archivo in archivos_a_eliminar) {
+  file_delete(archivo)
+}
+```
+

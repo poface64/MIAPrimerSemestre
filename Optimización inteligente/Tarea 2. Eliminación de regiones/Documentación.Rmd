@@ -1,0 +1,224 @@
+---
+title: "\\textbf{Optimización inteligente}"
+subtitle: "\\textbf{Tarea 2. Eliminación de regiones}"
+author: "\\textbf{Ángel García Báez}"
+date: "\\textbf{2024-09-22}"
+output: pdf_document
+header-includes:
+   - \usepackage{sectsty}
+   - \allsectionsfont{\bfseries}
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = F,
+                      message = F,
+                      warning = F)
+```
+
+# Breve introducción 
+
+Se planteo un ejercicio en clase donde se pedía encontrar el intervalo (espacio de búsqueda) donde sería factible encontrar el mínimo global de la función $f(x) = x^2 + \frac{54}{x}$ haciendo uso del método conocido como **_eliminación de regiones_**.
+
+A continuación se muestra el pseudocódigo resumido de lo que busca hacer el algoritmo:
+
+
+## Método de eliminación de regiones
+
+Algoritmo
+
+Paso 1: Elegir un límite inferior $a$ y un limite superior $b$
+
+\setlength{\leftskip}{3.7em} 
+Definir la tolerancia $\varepsilon$ \
+$x_m = (a+b)/2$ \
+$Lo = L = b-a$ \
+Calcular $f(x_m)$
+
+\setlength{\leftskip}{0pt}
+
+
+
+Paso 2: $x_1 = a+(L/4);x_2= b-(L/4)$
+
+\setlength{\leftskip}{3.7em} 
+Calcular $f(x_1)$ y $f(x_2)$
+ 
+\setlength{\leftskip}{0pt}
+
+Paso 3: IF $f(x_1)<f(x_m)$ THEN
+
+\setlength{\leftskip}{5em} 
+$b = x_m$ \
+$x_m = x_1$ \
+GO TO PASO 5 
+
+\setlength{\leftskip}{0pt}
+
+Paso 4: IF $f(x_1)<F(x_2)$ THEN 
+
+\setlength{\leftskip}{5em} 
+$a = x_m$ \
+$x_m = x_2$ \
+GO TO PASO 5 
+ 
+\setlength{\leftskip}{0pt}
+
+\setlength{\leftskip}{3.7em} 
+ELSE
+
+\setlength{\leftskip}{0pt}
+
+\setlength{\leftskip}{5em} 
+$a = x_1$\
+$b = x_2$ \
+GO TO PASO 5
+
+\setlength{\leftskip}{0pt}
+
+
+PASO 5: $L = b-a$
+
+\setlength{\leftskip}{5em} 
+IF $|L|<\varepsilon$ TERMINAR\
+ELSE GO TO PASO 2
+
+\setlength{\leftskip}{0pt}
+
+
+Una vez explicado lo que se debe de hacer y visto la estructura del método, se realizo la implementación de dicho algoritmo (Anexo 1) en lenguaje $R$ para ponerlo a prueba contra la función dada en un inicio.
+
+\newpage
+
+# Experimentación con los resultados.
+
+Primero, debido a que la función se puede graficar en un espacio de 2 dimensiones, se recurrió a esto para tener un referente visual del comportamiento de la misma:
+
+```{r}
+# Declarar la función y evaluarla 
+fx = function(x){(x^2) +  (54/x)}
+  # Definir la función de forma rápida
+x = c(seq(-10,-0.1,by = 0.01),seq(0.1,10,by = 0.01))
+y = fx(x)
+# Graficar
+plot(x = x,y = y,type = "l",
+     col = "blue",lwd = 3,
+     main = expression("Gráfica para " ~ x^2 + frac(54, x)),
+     xlim = c(-20, 20), ylim = c(-20, 60))
+abline(h =0 )
+abline(v =0 )
+# Lineal del mínimo
+abline(h =27,col = "red",lwd = 3 )
+
+```
+
+La función presenta ciertos comportamientos interesantes, por ejemplo, a medida de que se acerca al 0 por la izquierda, dicha función tiende al infinito negativo (si buscara ahí el mínimo, nunca lo encontraría) y si se acerca al 0 por la derecha, el valor de la función tiende a ir hacia el infinito positivo (ahí tampoco es factible buscar).
+
+Dado que la mayoría de los problemas que tienen que ver con cosas del mundo real implican que los valores sean positivos, se optara por buscar valores mayores o iguales a 0 de X tal que permitan llegar al mínimo que se ubica cuando $x = 3$ que devuelve un $f(x) = 27$.
+
+\newpage
+
+## Primer acercamiento
+
+Durante la clase, se dieron los parámetros de inicio para la búsqueda: $a=0$, $b=5$ y una tolerancia $\varepsilon = 0.001$, los cuales al ser evaluados en el algoritmo implementado, devuelven los siguientes resultados:
+
+```{r}
+# Librería para hacer las tablas bonitas
+library(flextable)
+# Llamo el código
+source("Tarea 2. Eliminación de regiones MAIN.r")
+
+# Declaro la función que se desea minimizar
+fx = function(x){(x^2) +  (54/x)}
+
+#Aplicar el método con los parámetros mencionados
+res1 = round(ElimReg(a = 0, b = 5,epsilon = 0.001,fx),6)
+
+# Reportar los resultados bonitos
+autofit(align(theme_box(flextable(res1)), align = "center", part = "all"))
+```
+
+El algoritmo logra encontrar una convergencia que satisface el criterio de tolerancia impuesto ($\varepsilon = 0.001$) al cabo de 13 iteraciones y después de realizar unas 39 evaluaciones de la función. El intervalo de búsqueda donde es factible encontrar el valor que minimiza la función es entre: 
+
+$$\left[2.999573, 3.000183\right]$$
+
+Este intervalo encontrado bajo los criterios dados en clase, logra resolver perfectamente el problema sin mayor complicación.
+
+
+\newpage
+
+# Exploración y uso del método
+
+Con la finalidad de explorar el comportamiento del método, se propone volver a correr el algoritmo para el mismo problema pero esta vez en un intervalo determinado por $a = 0$ y $b = 10$ para comprobar a que resultado llega si se dobla el intervalo de búsqueda.
+
+A continuación se muestra el resultado de dicha evaluación:
+
+```{r}
+#Aplicar el método con los parámetros mencionados
+res2 = round(ElimReg(a = 0, b = 10,epsilon = 0.001,fx),6)
+# Reportar los resultados bonitos
+autofit(align(theme_box(flextable(res2)), align = "center", part = "all"))
+```
+
+Los resultados para cuando se aumenta el rango de $\left[0, 5\right]$ a un rango de $\left[0, 10\right]$ muestran que apenas y se necesitaría 1 iteración más para poder encontrar el mismo intervalo que en la corrida pasada.
+
+Como lo indica su nombre, el método lo que hizo fue cortar a la mitad (misma magnitud en la que se aumento el intervalo de 5 a 10).
+
+\newpage
+
+# Propuesta de un intervalo de 2 a 3
+
+A continuación se explora que pasaría al acortar el intervalo de $\left[0, 5\right]$ a uno más pequeño como puede ser el intervalo $\left[2, 3\right]$ que sin que el algoritmo lo sepa, contiene el valor que minimiza la función en la parte superior del intervalo. Los resultados de evaluar el algoritmo así son:
+
+```{r}
+#Aplicar el método con los parámetros mencionados
+res3 = round(ElimReg(a = 2, b = 3,epsilon = 0.001,fx),6)
+# Reportar los resultados bonitos
+autofit(align(theme_box(flextable(res3)), align = "center", part = "all"))
+```
+
+Contrario a lo que pensaba en un primero momento, que el algoritmo llegaría rápidamente en menos de 3 iteraciones a darse cuenta de que su intervalo ya contiene al valor que minimiza la función, el algoritmo se toma hasta 10 iteraciones para llegar a dicha conclusión, resaltando el hecho de que en todas ellas el valor superior del intervalo $B = 3$ se mantiene constante, lo que se va reduciendo por mitad es la parte inferior del intervalo hasta lograr satisfacer el criterio de tolerancia ($\epsilon <0.001$) 
+
+\newpage
+
+### Evaluando en valores negativos
+
+Como experimento adicional, se plantea la idea de ver que ocurre si se explora un intervalo en los números negativos, como lo puede ser para $a = -5$ y $b = 0$:
+
+```{r}
+#Aplicar el método con los parámetros mencionados
+res4 = round(ElimReg(a = -5, b = 0,epsilon = 0.001,fx),6)
+# Reportar los resultados bonitos
+autofit(align(theme_box(flextable(res4)), align = "center", part = "all"))
+```
+
+Se sabia de antemano que la función presenta una asintota en 0, cuando se aproxima por la izquierda tiende a valer $-\infty$, para este caso, con unos parámetros de entrada igual que para el caso visto en clase pero negativos (-5 y 0), se logra una convergencia que satisface el criterio de tolerancia ($\epsilon = 0.001$) en apenas 13 iteraciones, con un intervalo:
+
+$$\left[-0.000610, 0\right]$$
+
+El algoritmo encontró que ese intervalo es suficiente espacio de búsqueda para satisfacer la tolerancia sin la necesidad de irse a buscar más profundo hacia el $-\infty$.
+
+\newpage
+
+# Conclusiones y comentarios finales
+
+El implementar y observar el funcionamiento de este método fue enriquecedor para ampliar el panorama sobre los métodos para buscar intervalos que garanticen la existencia de un optimo.
+
+Sobre el método, resulta impresionante como ir reduciendo por mitad en cada paso que da resulta una estrategia efectiva que cumple su trabajo en pocas iteraciones, debido a su naturaleza implícita en el nombre.
+
+Demostró ser capaz de encontrar un intervalo lo suficientemente fino para buscar en pocas iteraciones tanto para los números positivos como para los números negativos.
+
+Su criterio de tolerancia que de forma interna va disminuyendo por mitad en cada iteración es lo que le permite converger a un intervalo fino sin la necesidad de re-evaluar los parámetros de forma manual hasta dar con una región factible de búsqueda.
+
+
+
+
+\newpage
+
+
+# Anexo 1: Codigo fuente del algotimo de eliminación por regiones.
+
+```{r,eval = T,echo=F}
+# Incluir el código
+cat(readLines("Tarea 2. Eliminación de regiones MAIN.r"), sep = "\n")
+```
+

@@ -1,0 +1,100 @@
+---
+title: "\\textbf{Razonamiento bajo incertidumbre}"
+subtitle: "\\textbf{Tarea 4. Clasificador con distibuciones gaussianas multivariables}"
+author: "\\textbf{Ángel García Báez}"
+date: "\\textbf{2024-09-19}"
+output: 
+  pdf_document:
+    toc: true
+header-includes:
+   - \usepackage{sectsty}
+   - \allsectionsfont{\bfseries}
+---
+
+\newpage
+
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+# Instrucciones:
+
+Dada una imagen digital que va a ser denotada por $\vec{x}$ que contenga "piel", un rostro, o piel de un cuerpo: 
+
+1.-   Definir la distribución de densidad del color de piel tal que: $P(\vec{x}| w= piel) = N_{x}(\vec{\mu}_{piel},\Sigma_{piel})$ a partir de almenos 10 muestras de pixeles de piel.
+
+2.-   Definir la distribución de densidad de los pixeles del fondo tal que: $P(\vec{x}| w=fondo) = N_{x}(\vec{\mu}_{fondo},\Sigma_{fondo})$ a partir de almenos 10 muestras de pixeles de fondo.
+
+3.- Se deja a criterio libre la elección del parámetro $\lambda$ para definir $p(w)$.
+
+4.- Barrer todos los pixeles de la imagen de entrada y clarificarlos con el teorema de Bayes y generar una imagen de salida en donde el pixel tiene el color de la imagen si es piel y negro (o blanco) si es fondo.
+
+
+\newpage
+
+x = Pixeles de la imagen
+w = Lugar al que pertenece (1 = piel, 0 = fondo) (Estado binario)
+
+$p(x|w)$
+
+$$P(w|x) = \frac{P(x|w)P(w)}{ \int{P(x|w)P(w)}}$$
+
+¿Como modelar $P(w|x)$
+
+1.-   Escoge la forma apropiada para P(W) (una bernouli donde elijo el $\lambda$).
+
+2.-   Escoge parametros como una función de x
+
+3.-   La función toma parametros $\theta$ que definen su forma.
+
+   1. Escoge la distribución Bernoulli para $P(w)$
+   2. Haz que los parametros sean una función de x $$Bern_{w} [sig[\phi_0 + \phi_1x]]
+   = Bern_{w}\left[\frac{1}{1 + exp(-\phi_0 + \phi_1x)}\right]$$
+  
+   3. La función toma parametros $\phi_0$ y $\phi_0$. Este modelo es llamado regresión logística.
+
+
+Toma en cuenta que para: en este momento hay 2 parametros para el vector $\theta$
+
+$\theta = \{\phi_0,\phi_1\}$
+
+
+La etapa de aprendizaje se puede realizar mediante Maxima verosimilitud, Maximo a posteriori o por criterio bayesiano.
+
+La etapa de inferencia solo es evaluar $P(w|x)$
+
+
+# Para la parte generativa:
+
+¿Como modelar $P(x|w)$
+
+
+1.-   Escoge la forma apropiada para $P(x)$
+
+2.-   Haz que los farametros sean una función de w
+
+3.- La función toma parametros $\theta$ que definen su forma
+   
+   1.   Escoge la distribución Gaussiana para P(x)
+   2.   Escoge parámetros como una función discreta binaria w $$P(x|w) =
+   Norm_{x}[\mu_{w},\sigma^2_{w}]$$
+   3.   La función toma parámetros $\mu_0,\mu_1,\sigma^2_0,\sigma^2_1$ que definen su forma.
+
+
+De modo que los parámetros a estimar son los neccesarios para cuando la gausiana tiene implícito el valor de $w = 0$ (que sea fondo) y otro par de parámetros para una gaussiana que tiene implícito el valor de $w = 1$ (que es piel).
+
+Inferencia: Define el valor de la apriori P(w) y entonces computa P(w|x) usando 
+el Teorema de Bayes:
+
+$$P(w|x) = \frac{P(x|w)P(w)}{ \int{P(x|w)P(w)}}$$
+
+
+
+
+
+
+
+
+
+
