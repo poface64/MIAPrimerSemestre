@@ -18,7 +18,7 @@ library(factoextra) # Obtener exploraciones para el kmedias
 #### Comprimir y operar los datos: ####
 
 ### Cargando la imagen desde la ruta local
-ruta = "imagenes/IM3.1.jpg" # Ruta local de la imagen
+ruta = "imagenes/IM4.jpg" # Ruta local de la imagen
 imagen = readJPEG(ruta) # Descomponer la imagen en sus canales RGB
 #imagen = readPNG(ruta)
 str(imagen) # EL archivo cargado es un CUBO de información
@@ -47,8 +47,8 @@ pixeles = function(imagen){
 datos = pixeles(imagen)
 
 # Hacer el cluster. con el K sugerido.
-n = 20 #Numero de clusters
-set.seed(2024)
+n = 2 #Numero de clusters
+set.seed(12)
 km_clusters <- kmeans(x = datos[,1:3], centers = n, nstart = 50)
 # Añadir a los datos el cluster
 datos$etiqueta = km_clusters$cluster
