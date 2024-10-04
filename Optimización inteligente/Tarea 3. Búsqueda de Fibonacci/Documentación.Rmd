@@ -1,0 +1,222 @@
+---
+title: "\\textbf{Optimización inteligente}"
+subtitle: "\\textbf{Tarea 3. Búsqueda de Fibonacci.}"
+author: "\\textbf{Ángel García Báez}"
+date: "\\textbf{2024-10-03}"
+output: pdf_document
+header-includes:
+   - \usepackage{sectsty}
+   - \allsectionsfont{\bfseries}
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = F,
+                      eval = T, 
+                      message = F,
+                      warning = F)
+```
+
+# Breve introducción 
+
+Se planteo un ejercicio en clase donde se pedía encontrar el intervalo (espacio de búsqueda) donde sería factible encontrar el mínimo global de la función $f(x) = x^2 + \frac{54}{x}$ haciendo uso del método conocido como **_busqueda de Fibonacci_**.
+
+A continuación se muestra el pseudocódigo resumido de lo que busca hacer el algoritmo:
+
+
+## Método de busqueda de Fibonacci
+
+Algoritmo
+
+Paso 1: Elegir un límite inferior $a$ y un limite superior $b$
+
+\setlength{\leftskip}{3.7em} 
+$L = b-a$\
+Elegir un número deseado de iteraciones $N$\
+$k = 2$ \
+
+\setlength{\leftskip}{0pt}
+
+
+
+Paso 2: $L^*_k = (F_{n-k+1}/F_{n+1})*L$
+
+\setlength{\leftskip}{3.7em} 
+$x_1 = a +L^*_k; x_2 = b-L^*_k$
+ 
+\setlength{\leftskip}{0pt}
+
+Paso 3: Calcular $f(x_1)$ ó $f(x_2)$
+
+\setlength{\leftskip}{3.7em} 
+(el que no se haya evaluado antes)\
+Usar la propiedad de eliminación de regiones.\
+Establecer nuevos valores de a y b.
+
+\setlength{\leftskip}{0pt}
+
+Paso 4: ¿ES $k>N$?
+
+\setlength{\leftskip}{3.7em} 
+Si no, $k = k+1$, GOTO Paso 2
+ELSE TERMINAR
+
+\setlength{\leftskip}{0pt}
+
+\
+
+Una vez explicado lo que se debe de hacer y visto la estructura del método, se realizo la implementación de dicho algoritmo (Anexo 1) en lenguaje $R$ para ponerlo a prueba contra la función dada en un inicio.
+
+\newpage
+
+# Experimentación con los resultados.
+
+Primero, debido a que la función se puede graficar en un espacio de 2 dimensiones, se recurrió a esto para tener un referente visual del comportamiento de la misma:
+
+```{r}
+# Declarar la función y evaluarla 
+fx = function(x){(x^2) +  (54/x)}
+  # Definir la función de forma rápida
+x = c(seq(-10,-0.1,by = 0.01),seq(0.1,10,by = 0.01))
+y = fx(x)
+# Graficar
+plot(x = x,y = y,type = "l",
+     col = "blue",lwd = 3,
+     main = expression("Gráfica para " ~ x^2 + frac(54, x)),
+     xlim = c(-20, 20), ylim = c(-20, 60))
+abline(h =0 )
+abline(v =0 )
+# Lineal del mínimo
+abline(h =27,col = "red",lwd = 3 )
+
+```
+
+La función presenta ciertos comportamientos interesantes, por ejemplo, a medida de que se acerca al 0 por la izquierda, dicha función tiende al infinito negativo (si buscara ahí el mínimo, nunca lo encontraría) y si se acerca al 0 por la derecha, el valor de la función tiende a ir hacia el infinito positivo (ahí tampoco es factible buscar).
+
+Dado que la mayoría de los problemas que tienen que ver con cosas del mundo real implican que los valores sean positivos, se optara por buscar valores mayores o iguales a 0 de X tal que permitan llegar al mínimo que se ubica cuando $x = 3$ que devuelve un $f(x) = 27$.
+
+\newpage
+
+## Primer acercamiento
+
+Durante la clase, se dieron los parámetros de inicio para la búsqueda: $a=0$, $b=5$ y un $N = 3$, los cuales al ser evaluados en el algoritmo implementado, devuelven los siguientes resultados:
+
+```{r}
+# Librería para hacer las tablas bonitas
+library(flextable)
+# Llamo el código
+source("Tarea 3. Busqueda de Fibonacci MAIN.R")
+
+# Declaro la función que se desea minimizar
+fx = function(x){(x^2) +  (54/x)}
+
+#Aplicar el método con los parámetros mencionados
+res1 = round(fibonacci(fx,0,5,3),6)
+
+# Reportar los resultados bonitos
+autofit(align(theme_box(flextable(res1)), align = "center", part = "all"))
+```
+
+El algoritmo con los parámetros dados en clase logra encontrar un intervalo que contiene al valor mínimo de la función, dicho intervalo es relativamente grande PERO logra encontrarlo en apenas 2 iteraciones del método, dicho intervalo es:
+
+
+$$\left[2, 4\right]$$
+
+Este intervalo encontrado bajo los criterios dados en clase logra contener en su interior al valor de $x$ que minimiza la función.
+
+
+\newpage
+
+# Exploración y uso del método
+
+Con la finalidad de explorar el comportamiento del método, se propone volver a correr el algoritmo para el mismo problema pero esta vez en un intervalo determinado por $a = 0$ y $b = 10$ y el uso de $N = 3$ para comprobar a que resultado llega si se dobla el intervalo de búsqueda.
+
+A continuación se muestra el resultado de dicha evaluación:
+
+```{r}
+#Aplicar el método con los parámetros mencionados
+res2 = round(fibonacci(fx,0,10,3),6)
+# Reportar los resultados bonitos
+autofit(align(theme_box(flextable(res2)), align = "center", part = "all"))
+```
+
+Los resultados arrojados resultan interesantes, puesto que en su búsqueda logra hacer apenas 2 iteraciones, moviéndose del intervalo de búsqueda $[0,10]$ al intervalo $[2,6]$ aunque si lo consideramos, el intervalo sigue siendo relativamente grande, por lo que valdria la pena experimentar con una mayor cantidad de interaciones.
+
+\newpage
+
+# Propuesta de un intervalo de 0 a 5 pero con $N = 10$
+
+A continuación se explora que pasaría al explorar el intervalo de $\left[0, 5\right]$ con una $N = 10$ que permite realizar una mayor cantidad de iteraciones en la búsqueda para encontrar un intervalo más finito en el cual realizar la búsqueda.  Los resultados de evaluar el algoritmo así son:
+
+```{r}
+#Aplicar el método con los parámetros mencionados
+res3 = round(fibonacci(fx,0,5,10),6)
+# Reportar los resultados bonitos
+autofit(align(theme_box(flextable(res3)), align = "center", part = "all"))
+```
+
+Los resultados mostrados al mantener un intervalo de  $\left[0, 5\right]$ y aumentar $N = 10$ muestra el como los valores del intervalo se vuelven más finitos, puesto que el ultimo intervalo que logra encontrar ya se encuentra más cerrado alrededor del valor que minimiza la función, dicho intervalo se cierra a  $\left[2.951389, 3.020833\right]$.
+
+
+\newpage
+
+# Propuesta de un intervalo de 0 a 10 pero con $N = 20$
+
+A continuación se explora que pasaría al explorar el intervalo de $\left[0, 10\right]$ con una $N = 20$ que le permita tener aun más iteraciones para lograr encontrar un intervalo aun más pequeño en el cual buscar el valor que minimiza la función. Los resultados de dicha busqueda son:
+
+
+```{r}
+#Aplicar el método con los parámetros mencionados
+res4 = round(fibonacci(fx,0,10,20),6)
+# Reportar los resultados bonitos
+autofit(align(theme_box(flextable(res4)), align = "center", part = "all"))
+```
+
+Los resultados encontrados aumentando el $N = 20$ para el intervalo son sorprendentes, puesto que se observa como los valore del intervalo convergen lentamente a partir de la iteración numero 14, en donde el intervalo es tan finito que apenas cambian unas diez milesimas.
+La mejor solución que logra encontrar esta exploración es el intervalo:
+$\left[2.999266, 3.000395\right]$
+
+\newpage
+
+### Evaluando en valores negativos
+
+Como experimento adicional, se plantea la idea de ver que ocurre si se explora un intervalo en los números negativos, como lo puede ser para $a = -5$, $b = 0$ y un $N = 15$:
+
+```{r}
+#Aplicar el método con los parámetros mencionados
+res5 = round(fibonacci(fx,-5,0,15),6)
+# Reportar los resultados bonitos
+autofit(align(theme_box(flextable(res5)), align = "center", part = "all"))
+```
+
+Se sabia de antemano que la función presenta una asintota en 0, cuando se aproxima por la izquierda tiende a valer $-\infty$, las decisiones que toma para seguir cortando se centran más del lado derecho, pues encuentra que a medida que se acerca al 0, la función disminuye aun más, esto seguirá ocurriendo indefinidamente, pero resulta interesante el intervalo relativamente pequeño que logra encontrar en 14 iteraciones:
+$$\left[-0.006262, 0\right]$$
+
+
+\newpage
+
+# Conclusiones y comentarios finales
+
+El implementar el algoritmo de búsqueda Fibonacci consistió en un reto, porque de base fue necesario implementar primero una función que me diera los números de Fibonacci necesarios para poder usarlos en el método, después de ello, el método como tal fue sencillo de implementar al tener de antecedente lo aprendido al implementar el método de eliminación de regiones.
+
+Los resultados obtenidos por el método de búsqueda de Fibonacci resultaron ser competentes al lograr dar un intervalo relativamente pequeño para realizar la búsqueda, sin embargo se demora una cantidad de iteraciones similar que el método de búsqueda por regiones, ademas de tener el extra de calcular los números de Fibonacci en su ejecución, lo cual le añade un coste computacional extra.
+
+
+\newpage
+
+
+# Anexo 1: Código fuente del algotimo de busqueda de Fibonacci.
+
+```{r}
+# Incluir el código
+cat(readLines("Tarea 3. Busqueda de Fibonacci MAIN.R"), sep = "\n")
+```
+
+\newpage
+
+
+# Anexo 2: Código para hacer las evaluaciones del método.
+
+```{r}
+# Incluir el código
+cat(readLines("Tarea 3. Busqueda de Fibonacci Evaluado.R"), sep = "\n")
+```
