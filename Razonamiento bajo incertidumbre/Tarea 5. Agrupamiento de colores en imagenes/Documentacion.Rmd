@@ -1,0 +1,97 @@
+---
+title: "\\textbf{Razonamiento bajo incertidumbre}"
+subtitle: "\\textbf{Tarea 5. Agrupamiento de colores en imagenes}"
+author: "\\textbf{Ángel García Báez}"
+date: "\\textbf{2024-10-18}"
+output: 
+  pdf_document:
+    toc: TRUE
+    number_sections: true
+header-includes:
+   - \usepackage{sectsty}
+   - \allsectionsfont{\bfseries}
+toc-title: "Índice"
+---
+
+\newpage
+
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE,
+                      eval = F,
+                      message = F,
+                      warning = F)
+library(JuliaCall)
+```
+
+# Instrucciones:
+
+Dada una imagen digital que va a ser denotada por $\vec{x}$ y a partir de un valor $k$ proporcionado por el usuario:: 
+
+1.-   Realizar la segmentación de la imagen en $k$ grupos usando mezclas gaussianas.
+
+2.-   Realizar la segmentación de grupos usando k-medias. 
+
+3.-   Para ambos cosas se debe probar con almenos 3 imagenes y 3 valores distintos de K.
+
+4.-   Proponer una forma en que se pueda proporcionar el numero de k-grupos de manera automatica mediante: el gráfico de codos de Janbu, la estimación por maxima verosimilitud, usando el criterio AIC o alguna otra propuesta.
+
+\newpage
+
+# Definiciones necesarias antes de comenzar
+
+## Vector de medias:
+
+El vector de medias para una matriz sera definido como un vector fila de tamaño $1\times P$ donde P es la cantidad de columnas que tenga la matriz de la que se quiere obtener.
+
+$$\bar{x} = [\bar{x}_1 + \bar{x}_2 + \dots+ \bar{x}_p] $$
+
+## Matriz de Varianzas y Covarianzas
+
+La forma de calcular la matriz de varianzas y covarianzas de la matriz de datos, puede resumirse en la siguiente expresión:
+
+$$\Sigma = \frac{1}{n-1}  (X^TX-n\bar{x}^T\bar{x})$$
+
+Donde:
+
+$$
+\begin{matrix}
+\Sigma = \text{Matriz de varianzas y covarianzas} \\
+X = \text{Matriz de datos} \\
+X^T = \text{Matriz de datos transpuesta} \\
+n = \text{Filas o casos de la matriz}\\
+\bar{x} = \text{Vector fila de las medias}\\
+\bar{x}^T = \text{Vector fila de las medias transpuesto}
+\end{matrix}
+$$
+
+
+## Distribución de probabilidad normal multivariante
+
+$$
+f(\mathbf{x}) = \frac{1}{(2\pi)^{P/2} |\Sigma|^{1/2}} \exp\left(-\frac{1}{2} (x - \bar{x})^T \Sigma^{-1} (x - \bar{x})\right)
+$$
+
+Donde:
+
+$$
+\begin{matrix}
+P = \text{Cantidad de variables.} \\
+X = \text{Vector de datos de tamaño } 1\times P.\\
+\bar{x} = \text{Vector de medias de tamapo } 1\times P.\\
+\Sigma = \text{Matriz de varianzas y covarianzas.}\\
+\Sigma^{-1} = \text{Inversa de la matriz de varianzas y covarianzas.}\\
+|\Sigma| = \text{Determinante de la matriz de varianzas y covarianzas.}\\
+\end{matrix}
+$$
+
+
+\newpage
+
+
+
+
+
+
+
+
