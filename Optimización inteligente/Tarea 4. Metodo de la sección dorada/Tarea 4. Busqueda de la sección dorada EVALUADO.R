@@ -1,6 +1,6 @@
 rm(list=ls())
 
-##Cargar el script con el método de busqueda Fibonacci ####
+##Cargar el script con el método de busqueda de la sección dorada ####
 
 source("Tarea 4. Busqueda la sección dorada MAIN.R")
 
