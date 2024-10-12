@@ -35,10 +35,8 @@ BE = function(fx,a,b,n){
       x2 = x3
       x3 = x2 + Dx
     }
-    
   }
-  return("No existe minimo en (a,b) o un punto extremo es el minimo")
+  return(paste0("No existe mínimo en (",a,",",b,") o un punto extremo es el mínimo."))
 }
-
 
 

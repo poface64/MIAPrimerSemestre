@@ -1,32 +1,22 @@
-rm(list=ls())
+##Cargar el script con el método de búsqueda exhaustiva ####
 
-##Cargar el script con el método de busqueda de la sección dorada ####
+source("Tarea 5. Busqueda exhaustiva MAIN.R")
 
-source("Tarea 4. Busqueda la sección dorada MAIN.R")
-
-#### Declaro la función que se desea minimizar ####
+# Función a evaluar #
 fx = function(x){(x^2) +  (54/x)}
 
 
 #### Evaluación para el ejercicio de clase ####
 # a = 0
 # b = 5 
-# epsilon = 0.01
-res1 = round(Dorado(fx,0,5,0.01),6)
+# n = 10
+res1 = round(BE(fx,0,5,10),6)
 res1
 
-#### Evaluación propuesta de hacer más pequeño el epsilon####
+
+#### Evaluación propuesta de hacer más grande el n##
 # a = 0
 # b = 5 
-# epsilon = 0.001
-res2 = round(Dorado(fx,0,5,0.001),6)
+# n = 50
+res2 = round(BE(fx,0,5,50),6)
 res2
-
-#### Evaluación propuesta de hacer más pequeño el epsilon####
-# a = 0
-# b = 5 
-# epsilon = 0.001
-res3 = round(Dorado(fx,0,5,0.0001),6)
-res3
-
-

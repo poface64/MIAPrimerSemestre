@@ -1,8 +1,8 @@
 ---
 title: "\\textbf{Optimización inteligente}"
-subtitle: "\\textbf{Tarea 4. Búsqueda de la sección dorada.}"
+subtitle: "\\textbf{Tarea 5. Búsqueda exhaustiva.}"
 author: "\\textbf{Ángel García Báez}"
-date: "\\textbf{2024-10-08}"
+date: "\\textbf{2024-10-11}"
 output: pdf_document
 header-includes:
    - \usepackage{sectsty}
@@ -18,43 +18,38 @@ knitr::opts_chunk$set(echo = F,
 
 # Breve introducción 
 
-Se planteo un ejercicio en clase donde se pedía encontrar el intervalo (espacio de búsqueda) donde sería factible encontrar el mínimo global de la función $f(x) = x^2 + \frac{54}{x}$ haciendo uso del método conocido como **_busqueda de la sección dorada_**.
+Se planteo un ejercicio en clase donde se pedía encontrar el intervalo (espacio de búsqueda) donde sería factible encontrar el mínimo global de la función $f(x) = x^2 + \frac{54}{x}$ haciendo uso del método conocido como **_búsqueda exhaustiva_**.
 
 A continuación se muestra el pseudocódigo resumido de lo que busca hacer el algoritmo:
 
 
-## Método de busqueda de la sección dorada
+## Método de busqueda de búsqueda exhaustiva
 
 Algoritmo
 
-Paso 1: Elegir un límite inferior $a$ y un limite superior $b$.
+Paso 1: $x_1 = a; \Delta x = (b-a)/n$
 
 \setlength{\leftskip}{3.7em} 
-Elegir una tolerancia $\epsilon$ \
-Normalizar la variable x cuando: 
+($n$ es el n´umero de puntos intermedios)\
 
-$w = (x-a)/(b-a)$ \
-$a_w = 0, b_w = 1, L_w = b_w-a_w$ \
-$k = 1$
+$x_2 = x_1 + \Delta x; x_3 = x_2 + \Delta x$
 
 \setlength{\leftskip}{0pt}
 
 
-
-Paso 2: $w_1 = a_w + (0.618)L_w$
+Paso 2: IF $f(x_1) \geq f(x_2) \leq f(x_3)$ el mínimo se encuentra en $(x_1,x_3).$ **TERMINAR**
 
 \setlength{\leftskip}{3.7em} 
-$w_2 = b_w - (0.618)L_w$\
-IF $f(w_1) <f(w_2); a_w = w_2$\
-ELSE $b_w = w_1$\
-$L_w = b_w-a_w$
+
+ELSE $x_1 = x_2; x_2 = x_3; x_3 = x_2 + \Delta x$\
+GOTO Paso 3
 
 \setlength{\leftskip}{0pt}
 
-Paso 3: IF $|L_w|< \epsilon$ TERMINAR
+Paso 3: ¿Es $x_3 \leq b$? Si lo es, ir al Paso 2
 
 \setlength{\leftskip}{3.7em} 
-ELSE $k = k+1$; GO TO Paso 2
+ELSE no existe un mínimo en $(a, b)$ o un punto extremo $(a\text{ ó } b)$ es el mínimo.
 
 \setlength{\leftskip}{0pt}
 
@@ -95,13 +90,13 @@ Dado que la mayoría de los problemas que tienen que ver con cosas del mundo rea
 
 ## Resolución de clase
 
-Durante la clase, se dieron los parámetros de inicio para la búsqueda: $a=0$, $b=5$ y un $\epsilon = 0.01$, los cuales al ser evaluados en el algoritmo implementado, devuelven los siguientes resultados:
+Durante la clase, se dieron los parámetros de inicio para la búsqueda: $a=0$, $b=5$ y un $n = 10$, los cuales al ser evaluados en el algoritmo implementado, devuelven los siguientes resultados:
 
 ```{r}
 # Librería para hacer las tablas bonitas
 library(flextable)
 # Llamo el código
-source("Tarea 4. Busqueda la sección dorada MAIN.R")
+source("Tarea 5. Busqueda exhaustiva MAIN.R")
 
 # Declaro la función que se desea minimizar
 fx = function(x){(x^2) +  (54/x)}
@@ -109,70 +104,65 @@ fx = function(x){(x^2) +  (54/x)}
 #### Evaluación para el ejercicio de clase ####
 # a = 0
 # b = 5 
-# epsilon = 0.01
-res1 = round(Dorado(fx,0,5,0.01),6)
+# n = 10
+res1 = round(BE(fx,0,5,10),6)
 
 # Reportar los resultados bonitos
 autofit(align(theme_box(flextable(res1)), align = "center", part = "all"))
 ```
 
-El algoritmo con los parámetros dados en clase logra encontrar un intervalo que contiene al valor mínimo de la función, dicho intervalo es relativamente pequeño y logra satisfacer el criterio de tolerancia en apenas 11 iteraciones, dando como resultado el intervalo:
+El algoritmo con los parámetros dados en clase logra encontrar un intervalo que contiene al valor mínimo de la función en apenas 6 iteraciones, dicho intervalo es el siguiente:
 
 
-$$\left[2.983811, 3.024442\right]$$
+$$\left[2.5, 3.5\right]$$
 
-Este intervalo encontrado bajo los criterios dados en clase logra contener en su interior al valor de $x$ que minimiza la función.
+Dicho intervalo logra contener al mínimo, siendo una relativa buena solución para acortar el espacio de búsqueda.
 
 
 \newpage
 
-## Solución de clase bajando el $\epsilon$ a 0.001
+## Solución de clase aumentando $n = 50$
 
-Con la finalidad de explorar el comportamiento del método al bajar más el criterio de tolerancia, se propone un $\epsilon = 0.001$ manteniendo $a = 0$ y $b = 5$.
-
-A continuación se muestra el resultado de dicha evaluación:
+Con la finalidad de explorar el comportamiento del método al aumentar el parámetro n que regula el tamaño del paso, se propone un $n = 10$ manteniendo $a = 0$ y $b = 5$. A continuación se muestra el resultado:
 
 ```{r}
 #### Evaluación propuesta de hacer más pequeño el epsilon####
 # a = 0
 # b = 5 
-# epsilon = 0.001
-res2 = round(Dorado(fx,0,5,0.001),6)
+# n = 50
+res2 = round(BE(fx,0,5,50),6)
 # Reportar los resultados bonitos
 autofit(align(theme_box(flextable(res2)), align = "center", part = "all"))
 ```
 
-El algoritmo logra encontrar en 16 iteraciones un intervalo más fino que el encontrado por la corrida anterior, dicho intervalo queda en:
-
-$$\left[2.997067, 3.000729\right]$$
+El algoritmo logra encontrar en 30 iteraciones un intervalo más fino que el encontrado por la corrida anterior, dicho intervalo queda en: **$\left[2.9, 3.1\right]$.**
 
 
 \newpage
 
 # Conclusiones y comentarios finales
 
-El método de la búsqueda dorada presenta una mayor versatilidad al no depender de generar los números de Fibonacci, lo cual se traduce en un menor costo computacional para una cantidad de iteraciones elevadas.
+El método de búsqueda exhaustiva (o búsqueda de los 3 puntos) resulta ser algo lento, debido a que por la forma en que está construido, camina dando pequeños pasito de longitud $(b-a)/n$, por lo que requiere de muchas iteraciones para lograr encontrar un intervalo pequeño donde se garantice la existencia de un mínimo.
 
-En los resultados obtenidos se pudo observar como dicha busqueda, al basarse en una cantidad $\epsilon$ de tolerancia, encuentra por si misma la cantidad de iteraciones necesarias hasta satisfacer el criterio establecido.
+Se pudo observar, mediante ambas corridas que con un tamaño $n = 10$ logra llegar al intervalo $\left[2.5, 3.5\right]$ en apenas 6 iteraciones pero al aumentar el tamaño $n = 50$ logra encontrar el intervalo $\left[2.9, 3.1\right]$ en 30 iteraciones.
 
-El algoritmo logra refinar aún más el intervalo para la primera corrida de  $\left[2.983811, 3.024442\right]$ a $\left[2.997067, 3.000729\right]$ en apenas 5 iteraciones más.
+Se concluye que el método logra su cometido, pero requiere de un tamaño de $n$ relativamente grande y eso se traduce en varias iteraciones para lograr encontrar un intervalo que contenga al optimo y además, sea un espacio de búsqueda relativamente pequeño.
 
 \newpage
 
 
-# Anexo 1: Código fuente del algotimo de busqueda de la sección dorada.
+# Anexo 1: Código fuente del algotimo de búsqueda exhaustiva.
 
 ```{r}
 # Incluir el código
-cat(readLines("Tarea 4. Busqueda la sección dorada MAIN.R"), sep = "\n")
+cat(readLines("Tarea 5. Busqueda exhaustiva MAIN.R"), sep = "\n")
 ```
 
 \newpage
-
 
 # Anexo 2: Código para hacer las evaluaciones del método.
 
 ```{r}
 # Incluir el código
-cat(readLines("Tarea 4. Busqueda de la sección dorada EVALUADO.R"), sep = "\n")
+cat(readLines("Tarea 5. Busqueda exhaustiva EVALUADO.R"), sep = "\n")
 ```
