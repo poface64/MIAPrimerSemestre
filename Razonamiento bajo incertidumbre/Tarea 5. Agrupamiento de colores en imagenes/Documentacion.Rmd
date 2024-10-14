@@ -9,6 +9,7 @@ output:
     number_sections: true
 header-includes:
    - \usepackage{sectsty}
+   - \usepackage{float}
    - \allsectionsfont{\bfseries}
 toc-title: "Índice"
 ---
@@ -88,10 +89,59 @@ $$
 
 \newpage
 
+\begin{table}[ht]
+\centering
+\begin{tabular}{ccc}
+\textbf{Imagen 1} & \textbf{Imagen 2} & \textbf{Imagen 3} \\
+\includegraphics[width=0.28\textwidth]{IMAGENES/IM2.jpg} & \includegraphics[width=0.31\textwidth]{IMAGENES/IM4.jpg} & \includegraphics[width=0.35\textwidth]{IMAGENES/IM1.jpg} \\
+\parbox{0.3\textwidth}{\centering 768x1152 = 884,736 px} & 
+\parbox{0.3\textwidth}{\centering 768x1024 = 786,432 px} & 
+\parbox{0.3\textwidth}{\centering 768x1024 = 1,048,576 px} \\
+\end{tabular}
+\caption{Imagenes para el desarrollo del ejercicio.}
+\end{table}
 
 
+## Resultados de K-medias y GMM para la imagen 1 (Denisse Guerrero)
+
+\begin{table}[H] % Fuerza la tabla en la posición exacta
+\centering
+\begin{tabular}{cc}
+\textbf{K-medias} & \textbf{GMM} \\  
+\includegraphics[width=0.4\textwidth]{RESULTADOS/R1.2.png} & \includegraphics[width=0.4\textwidth]{RESULTADOS/R1.5.png} \\  
+\includegraphics[width=0.4\textwidth]{RESULTADOS/R1.3.png} & \includegraphics[width=0.4\textwidth]{RESULTADOS/R1.6.png} \\  
+\includegraphics[width=0.4\textwidth]{RESULTADOS/R1.4.png} & \includegraphics[width=0.4\textwidth]{RESULTADOS/R1.7.png} \\  
+\end{tabular}
+\caption{Comparación de los resultados de K-medias y GMM con K = 3, 5 y 10 respectivamente para la imagen 1.}
+\end{table}
+
+\newpage
 
 
+## Resultados de K-medias y GMM para la imagen 2 (Ana Sofía)
 
+\begin{table}[H] % Fuerza la tabla en la posición exacta
+\centering
+\begin{tabular}{cc}
+\textbf{K-medias} & \textbf{GMM} \\  
+\includegraphics[width=0.4\textwidth]{RESULTADOS/R2.2.png} & \includegraphics[width=0.4\textwidth]{RESULTADOS/R2.5.png} \\  
+\includegraphics[width=0.4\textwidth]{RESULTADOS/R2.3.png} & \includegraphics[width=0.4\textwidth]{RESULTADOS/R2.6.png} \\  
+\includegraphics[width=0.4\textwidth]{RESULTADOS/R2.4.png} & \includegraphics[width=0.4\textwidth]{RESULTADOS/R2.7.png} \\  
+\end{tabular}
+\caption{Comparación de los resultados de K-medias y GMM con K = 3, 5 y 10 respectivamente para la imagen 2.}
+\end{table}
 
+\newpage
 
+## Resultados de K-medias y GMM para la imagen 3 (Selena Quintanilla)
+
+\begin{table}[H] % Fuerza la tabla en la posición exacta
+\centering
+\begin{tabular}{cc}
+\textbf{K-medias} & \textbf{GMM} \\  
+\includegraphics[width=0.4\textwidth]{RESULTADOS/R3.2.png} & \includegraphics[width=0.4\textwidth]{RESULTADOS/R3.5.png} \\  
+\includegraphics[width=0.4\textwidth]{RESULTADOS/R3.3.png} & \includegraphics[width=0.4\textwidth]{RESULTADOS/R3.6.png} \\  
+\includegraphics[width=0.4\textwidth]{RESULTADOS/R3.4.png} & \includegraphics[width=0.4\textwidth]{RESULTADOS/R3.7.png} \\  
+\end{tabular}
+\caption{Comparación de los resultados de K-medias y GMM con K = 3, 5 y 10 respectivamente para la imagen 3.}
+\end{table}

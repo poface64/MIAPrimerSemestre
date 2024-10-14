@@ -69,15 +69,18 @@ dim(imagen1) # La imagen 1 tiene 1152 X 768  = 884,736
 
 #### Definir el criterio de la intra varianza
 set.seed(2024)
+pdf(file="RESULTADOS/R1.pdf")
 INTRA(datos1[,1:3])
+dev.off()
 
-#### Kmedias para la primer imagen con K  = 3 ###
+
+#### Kmedias para la primer imagen con K  = 3 ####
 k = 3
 A = kmeans(datos1[,1:3],k)
 datos1$etiqueta = A$cluster
 # Agregar el color promedio #
 datos1$ecolor =  promcolor(datos1)
-### Proyectar la imagen ####
+### Proyectar la imagen ###
 plot3d(x = datos1$Y,
        y = 1,
        z = datos1$X,
@@ -119,42 +122,45 @@ datos2 = pixeles(imagen2)
 dim(imagen2) # La imagen 1 tiene 1024 X 768  = 786,432
 
 #### Definir el criterio de la intra varianza
+#### Definir el criterio de la intra varianza
 set.seed(2024)
+pdf(file="RESULTADOS/R2.pdf")
 INTRA(datos2[,1:3])
+dev.off()
 
-#### Kmedias para la segunda imagen con K  = 3 ###
+#### Kmedias para la segunda imagen con K  = 3 ####
 k = 3
 A = kmeans(datos2[,1:3],k)
 datos2$etiqueta = A$cluster
 # Agregar el color promedio #
 datos2$ecolor =  promcolor(datos2)
-### Proyectar la imagen ####
+### Proyectar la imagen ###
 plot3d(x = datos2$Y,
        y = 1,
        z = datos2$X,
        col = datos2$ecolor)
 rgl.snapshot("RESULTADOS/R2.2.png", fmt = "png")
 
-#### Kmedias para la segunda imagen con K  = 5 ###
+#### Kmedias para la segunda imagen con K  = 5 ####
 k = 5
 A = kmeans(datos2[,1:3],k)
 datos2$etiqueta = A$cluster
 # Agregar el color promedio #
 datos2$ecolor =  promcolor(datos2)
-### Proyectar la imagen ####
+### Proyectar la imagen ###
 plot3d(x = datos2$Y,
        y = 1,
        z = datos2$X,
        col = datos2$ecolor)
 rgl.snapshot("RESULTADOS/R2.3.png", fmt = "png")
 
-#### Kmedias para la segunda imagen con K  = 10 ###
+#### Kmedias para la segunda imagen con K  = 10 ####
 k = 10
 A = kmeans(datos2[,1:3],k)
 datos2$etiqueta = A$cluster
 # Agregar el color promedio #
 datos2$ecolor =  promcolor(datos2)
-### Proyectar la imagen ####
+### Proyectar la imagen ###
 plot3d(x = datos2$Y,
        y = 1,
        z = datos2$X,
@@ -163,99 +169,204 @@ rgl.snapshot("RESULTADOS/R2.4.png", fmt = "png")
 
 
 #### Sección de K medias para imagen 3####
-ruta3 = "IMAGENES/IM5.jpg"
+ruta3 = "IMAGENES/IM1.jpg"
 imagen3 = readJPEG(ruta3) # Descomponer la imagen en sus canales RGB
 datos3 = pixeles(imagen3)
-dim(imagen3) # La imagen 1 tiene 409 X 715  = 292,435
+dim(imagen3) # La imagen 1 tiene 1024 X 1024  = 1,048,576
 
 #### Definir el criterio de la intra varianza
 set.seed(2024)
+pdf(file="RESULTADOS/R3.pdf")
 INTRA(datos3[,1:3])
+dev.off()
 
-#### Kmedias para la tercera imagen con K  = 3 ###
+#### Kmedias para la tercera imagen con K  = 3 ####
 k = 3
 A = kmeans(datos3[,1:3],k)
 datos3$etiqueta = A$cluster
 # Agregar el color promedio #
 datos3$ecolor =  promcolor(datos3)
-### Proyectar la imagen ####
+### Proyectar la imagen ###
 plot3d(x = datos3$Y,
        y = 1,
        z = datos3$X,
        col = datos3$ecolor)
 rgl.snapshot("RESULTADOS/R3.2.png", fmt = "png")
 
-#### Kmedias para la segunda imagen con K  = 5 ###
+#### Kmedias para la tercera imagen con K  = 5 ####
 k = 5
 A = kmeans(datos3[,1:3],k)
 datos3$etiqueta = A$cluster
 # Agregar el color promedio #
 datos3$ecolor =  promcolor(datos3)
-### Proyectar la imagen ####
+### Proyectar la imagen ###
 plot3d(x = datos3$Y,
        y = 1,
        z = datos3$X,
        col = datos3$ecolor)
 rgl.snapshot("RESULTADOS/R3.3.png", fmt = "png")
 
-#### Kmedias para la segunda imagen con K  = 10 ###
+#### Kmedias para la segunda imagen con K  = 10 ####
 k = 10
 A = kmeans(datos3[,1:3],k)
 datos3$etiqueta = A$cluster
 # Agregar el color promedio #
 datos3$ecolor =  promcolor(datos3)
-### Proyectar la imagen ####
+### Proyectar la imagen ###
 plot3d(x = datos3$Y,
        y = 1,
        z = datos3$X,
        col = datos3$ecolor)
 rgl.snapshot("RESULTADOS/R3.4.png", fmt = "png")
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+#### Mezcla de Gaussianas para la primer imagen ####
 ### Función para llamar el codigo fuente de Julia ###
-#julia_source("Kmedias Angel Julia.jl")
 julia_source("GMM en julia.jl")
-#### Imagen 1: Denisse Guerrero ####
-### Cargando la imagen desde la ruta local
-ruta1 = "IMAGENES/IM6.jpg" # Ruta local de la imagen
+
+### Cargar la imagen 1 ###
 imagen1 = readJPEG(ruta1) # Descomponer la imagen en sus canales RGB
 datos1 = pixeles(imagen1)
-dim(datos1)
-### Cargar las cosas de Julia
-k = 8
+
+#### GMM con K = 3 para la primer imagen ####
+k = 3
+set.seed(2024)
 re = proc.time()
 prueba1 = julia_call("gausiano",k,datos1[,1:3]) 
 proc.time()-re
-
+### Proyectar la imagen ###
 datos1$etiqueta = prueba1$Etiqueta
-datos1$ecolor = ""
-#### Hacer el vector de medias
-for(i in 1:length(unique(datos1$etiqueta)) ){
-  ### Calcular la media
-  media = colMeans(datos1[datos1$etiqueta==i ,1:3])
-  ### Calcular y agregar el nuevo color
-  datos1$ecolor[datos1$etiqueta==i] = rgb(media[1],media[2],media[3])
-}
-
+datos1$ecolor =  promcolor(datos1)
 plot3d(x = datos1$Y,
        y = 1,
        z = datos1$X,
        col = datos1$ecolor)
+rgl.snapshot("RESULTADOS/R1.5.png", fmt = "png")
+
+#### GMM con K = 5 para la primer imagen ####
+k = 5
+set.seed(2024)
+re = proc.time()
+prueba1 = julia_call("gausiano",k,datos1[,1:3]) 
+proc.time()-re
+### Proyectar la imagen ###
+datos1$etiqueta = prueba1$Etiqueta
+datos1$ecolor =  promcolor(datos1)
+plot3d(x = datos1$Y,
+       y = 1,
+       z = datos1$X,
+       col = datos1$ecolor)
+rgl.snapshot("RESULTADOS/R1.6.png", fmt = "png")
+
+#### GMM con K = 10 para la primer imagen ####
+k = 10
+set.seed(2024)
+re = proc.time()
+prueba1 = julia_call("gausiano",k,datos1[,1:3]) 
+proc.time()-re
+### Proyectar la imagen ###
+datos1$etiqueta = prueba1$Etiqueta
+datos1$ecolor =  promcolor(datos1)
+plot3d(x = datos1$Y,
+       y = 1,
+       z = datos1$X,
+       col = datos1$ecolor)
+rgl.snapshot("RESULTADOS/R1.7.png", fmt = "png")
+
+#### Mezcla de Gaussianas para la segunda imagen ####
+imagen2 = readJPEG(ruta2) # Descomponer la imagen en sus canales RGB
+datos2 = pixeles(imagen2)
+
+#### GMM con K = 3 para la segunda imagen ####
+k = 3
+set.seed(2024)
+re = proc.time()
+prueba2 = julia_call("gausiano",k,datos2[,1:3]) 
+proc.time()-re
+### Proyectar la imagen ###
+datos2$etiqueta = prueba2$Etiqueta
+datos2$ecolor =  promcolor(datos2)
+plot3d(x = datos2$Y,
+       y = 1,
+       z = datos2$X,
+       col = datos2$ecolor)
+rgl.snapshot("RESULTADOS/R2.5.png", fmt = "png")
+
+#### GMM con K = 5 para la segunda imagen ####
+k = 5
+set.seed(2024)
+re = proc.time()
+prueba2 = julia_call("gausiano",k,datos2[,1:3]) 
+proc.time()-re
+### Proyectar la imagen ###
+datos2$etiqueta = prueba2$Etiqueta
+datos2$ecolor =  promcolor(datos2)
+plot3d(x = datos2$Y,
+       y = 1,
+       z = datos2$X,
+       col = datos2$ecolor)
+rgl.snapshot("RESULTADOS/R2.6.png", fmt = "png")
+
+#### GMM con K = 10 para la segunda imagen ####
+k = 10
+set.seed(2024)
+re = proc.time()
+prueba2 = julia_call("gausiano",k,datos2[,1:3]) 
+proc.time()-re
+### Proyectar la imagen ###
+datos2$etiqueta = prueba2$Etiqueta
+datos2$ecolor =  promcolor(datos2)
+plot3d(x = datos2$Y,
+       y = 1,
+       z = datos2$X,
+       col = datos2$ecolor)
+rgl.snapshot("RESULTADOS/R2.7.png", fmt = "png")
 
 
+#### Mezcla de Gaussianas para la tercera imagen ####
+imagen3 = readJPEG(ruta3) # Descomponer la imagen en sus canales RGB
+datos3 = pixeles(imagen3)
 
+#### GMM con K = 3 para la tercera imagen ####
+k = 3
+set.seed(2024)
+re = proc.time()
+prueba3 = julia_call("gausiano",k,datos3[,1:3]) 
+proc.time()-re
+### Proyectar la imagen ###
+datos3$etiqueta = prueba3$Etiqueta
+datos3$ecolor =  promcolor(datos3)
+plot3d(x = datos3$Y,
+       y = 1,
+       z = datos3$X,
+       col = datos3$ecolor)
+rgl.snapshot("RESULTADOS/R3.5.png", fmt = "png")
+
+#### GMM con K = 5 para la tercera imagen ####
+k = 5
+set.seed(2024)
+re = proc.time()
+prueba3 = julia_call("gausiano",k,datos3[,1:3]) 
+proc.time()-re
+### Proyectar la imagen ###
+datos3$etiqueta = prueba3$Etiqueta
+datos3$ecolor =  promcolor(datos3)
+plot3d(x = datos3$Y,
+       y = 1,
+       z = datos3$X,
+       col = datos3$ecolor)
+rgl.snapshot("RESULTADOS/R3.6.png", fmt = "png")
+
+#### GMM con K = 10 para la tercera imagen ####
+k = 10
+set.seed(2024)
+re = proc.time()
+prueba3 = julia_call("gausiano",k,datos3[,1:3]) 
+proc.time()-re
+### Proyectar la imagen ###
+datos3$etiqueta = prueba3$Etiqueta
+datos3$ecolor =  promcolor(datos3)
+plot3d(x = datos3$Y,
+       y = 1,
+       z = datos3$X,
+       col = datos3$ecolor)
+rgl.snapshot("RESULTADOS/R3.7.png", fmt = "png")
