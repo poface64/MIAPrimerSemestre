@@ -6,8 +6,6 @@ using DataFrames
 using GaussianMixtures
 using RDatasets
 using Statistics
-
-
 function gausiano(K,X)
     ### indicarle que K es un entero
     K = Int(K)
