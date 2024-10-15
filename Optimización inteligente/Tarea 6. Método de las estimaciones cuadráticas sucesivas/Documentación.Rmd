@@ -1,0 +1,168 @@
+---
+title: "\\textbf{Optimización inteligente}"
+subtitle: "\\textbf{Tarea 5. Búsqueda exhaustiva.}"
+author: "\\textbf{Ángel García Báez}"
+date: "\\textbf{2024-10-11}"
+output: pdf_document
+header-includes:
+   - \usepackage{sectsty}
+   - \allsectionsfont{\bfseries}
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = F,
+                      eval = T, 
+                      message = F,
+                      warning = F)
+```
+
+# Breve introducción 
+
+Se planteo un ejercicio en clase donde se pedía encontrar el intervalo (espacio de búsqueda) donde sería factible encontrar el mínimo global de la función $f(x) = x^2 + \frac{54}{x}$ haciendo uso del método conocido como **_búsqueda exhaustiva_**.
+
+A continuación se muestra el pseudocódigo resumido de lo que busca hacer el algoritmo:
+
+
+## Método de busqueda de búsqueda exhaustiva
+
+Algoritmo
+
+Paso 1: $x_1 = a; \Delta x = (b-a)/n$
+
+\setlength{\leftskip}{3.7em} 
+($n$ es el n´umero de puntos intermedios)\
+
+$x_2 = x_1 + \Delta x; x_3 = x_2 + \Delta x$
+
+\setlength{\leftskip}{0pt}
+
+
+Paso 2: IF $f(x_1) \geq f(x_2) \leq f(x_3)$ el mínimo se encuentra en $(x_1,x_3).$ **TERMINAR**
+
+\setlength{\leftskip}{3.7em} 
+
+ELSE $x_1 = x_2; x_2 = x_3; x_3 = x_2 + \Delta x$\
+GOTO Paso 3
+
+\setlength{\leftskip}{0pt}
+
+Paso 3: ¿Es $x_3 \leq b$? Si lo es, ir al Paso 2
+
+\setlength{\leftskip}{3.7em} 
+ELSE no existe un mínimo en $(a, b)$ o un punto extremo $(a\text{ ó } b)$ es el mínimo.
+
+\setlength{\leftskip}{0pt}
+
+
+\
+
+Una vez explicado lo que se debe de hacer y visto la estructura del método, se realizo la implementación de dicho algoritmo (Anexo 1) en lenguaje $R$ para ponerlo a prueba contra la función dada en un inicio.
+
+\newpage
+
+# Experimentación con los resultados.
+
+Primero, debido a que la función se puede graficar en un espacio de 2 dimensiones, se recurrió a esto para tener un referente visual del comportamiento de la misma:
+
+```{r}
+# Declarar la función y evaluarla 
+fx = function(x){(x^2) +  (54/x)}
+  # Definir la función de forma rápida
+x = c(seq(-10,-0.1,by = 0.01),seq(0.1,10,by = 0.01))
+y = fx(x)
+# Graficar
+plot(x = x,y = y,type = "l",
+     col = "blue",lwd = 3,
+     main = expression("Gráfica para " ~ x^2 + frac(54, x)),
+     xlim = c(-20, 20), ylim = c(-20, 60))
+abline(h =0 )
+abline(v =0 )
+# Lineal del mínimo
+abline(h =27,col = "red",lwd = 3 )
+
+```
+
+La función presenta ciertos comportamientos interesantes, por ejemplo, a medida de que se acerca al 0 por la izquierda, dicha función tiende al infinito negativo (si buscara ahí el mínimo, nunca lo encontraría) y si se acerca al 0 por la derecha, el valor de la función tiende a ir hacia el infinito positivo (ahí tampoco es factible buscar).
+
+Dado que la mayoría de los problemas que tienen que ver con cosas del mundo real implican que los valores sean positivos, se optara por buscar valores mayores o iguales a 0 de X tal que permitan llegar al mínimo que se ubica cuando $x = 3$ que devuelve un $f(x) = 27$.
+
+\newpage
+
+## Resolución de clase
+
+Durante la clase, se dieron los parámetros de inicio para la búsqueda: $a=0$, $b=5$ y un $n = 10$, los cuales al ser evaluados en el algoritmo implementado, devuelven los siguientes resultados:
+
+```{r}
+# Librería para hacer las tablas bonitas
+library(flextable)
+# Llamo el código
+source("Tarea 5. Busqueda exhaustiva MAIN.R")
+
+# Declaro la función que se desea minimizar
+fx = function(x){(x^2) +  (54/x)}
+
+#### Evaluación para el ejercicio de clase ####
+# a = 0
+# b = 5 
+# n = 10
+res1 = round(BE(fx,0,5,10),6)
+
+# Reportar los resultados bonitos
+autofit(align(theme_box(flextable(res1)), align = "center", part = "all"))
+```
+
+El algoritmo con los parámetros dados en clase logra encontrar un intervalo que contiene al valor mínimo de la función en apenas 6 iteraciones, dicho intervalo es el siguiente:
+
+
+$$\left[2.5, 3.5\right]$$
+
+Dicho intervalo logra contener al mínimo, siendo una relativa buena solución para acortar el espacio de búsqueda.
+
+
+\newpage
+
+## Solución de clase aumentando $n = 50$
+
+Con la finalidad de explorar el comportamiento del método al aumentar el parámetro n que regula el tamaño del paso, se propone un $n = 10$ manteniendo $a = 0$ y $b = 5$. A continuación se muestra el resultado:
+
+```{r}
+#### Evaluación propuesta de hacer más pequeño el epsilon####
+# a = 0
+# b = 5 
+# n = 50
+res2 = round(BE(fx,0,5,50),6)
+# Reportar los resultados bonitos
+autofit(align(theme_box(flextable(res2)), align = "center", part = "all"))
+```
+
+El algoritmo logra encontrar en 30 iteraciones un intervalo más fino que el encontrado por la corrida anterior, dicho intervalo queda en: **$\left[2.9, 3.1\right]$.**
+
+
+\newpage
+
+# Conclusiones y comentarios finales
+
+El método de búsqueda exhaustiva (o búsqueda de los 3 puntos) resulta ser algo lento, debido a que por la forma en que está construido, camina dando pequeños pasito de longitud $(b-a)/n$, por lo que requiere de muchas iteraciones para lograr encontrar un intervalo pequeño donde se garantice la existencia de un mínimo.
+
+Se pudo observar, mediante ambas corridas que con un tamaño $n = 10$ logra llegar al intervalo $\left[2.5, 3.5\right]$ en apenas 6 iteraciones pero al aumentar el tamaño $n = 50$ logra encontrar el intervalo $\left[2.9, 3.1\right]$ en 30 iteraciones.
+
+Se concluye que el método logra su cometido, pero requiere de un tamaño de $n$ relativamente grande y eso se traduce en varias iteraciones para lograr encontrar un intervalo que contenga al optimo y además, sea un espacio de búsqueda relativamente pequeño.
+
+\newpage
+
+
+# Anexo 1: Código fuente del algotimo de búsqueda exhaustiva.
+
+```{r}
+# Incluir el código
+cat(readLines("Tarea 5. Busqueda exhaustiva MAIN.R"), sep = "\n")
+```
+
+\newpage
+
+# Anexo 2: Código para hacer las evaluaciones del método.
+
+```{r}
+# Incluir el código
+cat(readLines("Tarea 5. Busqueda exhaustiva EVALUADO.R"), sep = "\n")
+```
