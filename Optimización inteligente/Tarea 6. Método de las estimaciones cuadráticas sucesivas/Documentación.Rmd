@@ -1,9 +1,12 @@
 ---
 title: "\\textbf{Optimización inteligente}"
-subtitle: "\\textbf{Tarea 5. Búsqueda exhaustiva.}"
+subtitle: "\\textbf{Tarea 6. Estimaciones Cuadráticas Sucesivas.}"
 author: "\\textbf{Ángel García Báez}"
-date: "\\textbf{2024-10-11}"
-output: pdf_document
+date: "\\textbf{2024-10-18}"
+output: 
+  pdf_document:
+    toc: true
+    number_sections: true
 header-includes:
    - \usepackage{sectsty}
    - \allsectionsfont{\bfseries}
@@ -16,45 +19,75 @@ knitr::opts_chunk$set(echo = F,
                       warning = F)
 ```
 
+\newpage
+
 # Breve introducción 
 
-Se planteo un ejercicio en clase donde se pedía encontrar el intervalo (espacio de búsqueda) donde sería factible encontrar el mínimo global de la función $f(x) = x^2 + \frac{54}{x}$ haciendo uso del método conocido como **_búsqueda exhaustiva_**.
+Se planteo un ejercicio en clase donde se pedía encontrar el valor de $x$  que lograra encontrar el mínimo global de la función $f(x) = x^2 + \frac{54}{x}$ haciendo uso del método conocido como **_estimaciones cuadráticas sucesivas_**.
 
 A continuación se muestra el pseudocódigo resumido de lo que busca hacer el algoritmo:
 
 
-## Método de busqueda de búsqueda exhaustiva
+## Método de busqueda de estimaciones cuadráticas sucesivas
 
 Algoritmo
 
-Paso 1: $x_1 = a; \Delta x = (b-a)/n$
+Paso 1: Hacer que $x_1$ sea un punto inicial y $\Delta$ sea el tamaño del paso (o incremento). Pedir $TOL1$ y $TOL2$ 
 
 \setlength{\leftskip}{3.7em} 
-($n$ es el n´umero de puntos intermedios)\
-
-$x_2 = x_1 + \Delta x; x_3 = x_2 + \Delta x$
+Calcular $x_2 = x_2 + \Delta$
 
 \setlength{\leftskip}{0pt}
 
 
-Paso 2: IF $f(x_1) \geq f(x_2) \leq f(x_3)$ el mínimo se encuentra en $(x_1,x_3).$ **TERMINAR**
+Paso 2: Evaluar $f(x_1)$ y $f(x_2)$
+
+Paso 3: IF $f(x_1) > f(x_2)$ THEN $x_3 = x_1 + 2\Delta$
 
 \setlength{\leftskip}{3.7em} 
 
-ELSE $x_1 = x_2; x_2 = x_3; x_3 = x_2 + \Delta x$\
-GOTO Paso 3
+ELSE $x_3 = x_1 -\Delta$.\
+Evaluar $f(x_3)$.
 
 \setlength{\leftskip}{0pt}
 
-Paso 3: ¿Es $x_3 \leq b$? Si lo es, ir al Paso 2
+Paso 4: Determinar $F_{min} = min(f_1,f_2,f_3)$ y $X_{min}$ es el punto $x_i$ que corresponde a $F_{min}$.
+
+Paso 5: Calcular $\bar{x}$ usando $x_1,x_2,x_3$.
+
+Paso 6: ¿Es $|F_{min}-f(\bar{x})|\leq TOL1$ AND $|X_{min}-\bar{x}|\leq TOL2$?
 
 \setlength{\leftskip}{3.7em} 
-ELSE no existe un mínimo en $(a, b)$ o un punto extremo $(a\text{ ó } b)$ es el mínimo.
+
+Si no se cumple, GOTO paso 7
+
+ELSE el óptimo es el mejor de los 4 puntos.
+
+TERMINAR
 
 \setlength{\leftskip}{0pt}
 
+Paso 7: Almacenar el mejor punto ($X_{min}$ o $\bar{x}$) y dos puntos que lo rodeen, si esto es posible.
 
-\
+\setlength{\leftskip}{3.7em} 
+
+Si no, almacena los 3 mejores puntos. \
+Re-etiquetarlos deacuerdo a: $x_1 <x_2<x_3$. \
+GOTO paso 4
+
+\setlength{\leftskip}{0pt}
+
+Nota: Para estimar $\bar{x}$ se hace la aproximación del valor a una función cuadrática con interpolación de la siguiente forma:
+
+$$q(x) = a_0 + a_1(x-x_1) + a_2(x-x_1)(x-x_2)$$
+
+donde si $(x_1,f_1), (x_2,f_2)$ y $(x_3,f_3)$ son tres puntos de esta función, pueden estimarse los coeficientes de la siguiente forma:
+
+
+$$a_0 = f_1, \quad a_1 = \frac{f_2-f_1}{x_2-x_1}, \quad a_2 = \frac{1}{x_3-x_2} \left(\frac{f_3-f_1}{x_3-x_1} -a_1\right)$$
+Puede demostrarse que el óptimo $x^*$ de $q(x)$ se encuentra en:
+
+$$x^* = \frac{x1+x2}{2}-\frac{a_1}{2a_2}$$
 
 Una vez explicado lo que se debe de hacer y visto la estructura del método, se realizo la implementación de dicho algoritmo (Anexo 1) en lenguaje $R$ para ponerlo a prueba contra la función dada en un inicio.
 
@@ -90,72 +123,157 @@ Dado que la mayoría de los problemas que tienen que ver con cosas del mundo rea
 
 ## Resolución de clase
 
-Durante la clase, se dieron los parámetros de inicio para la búsqueda: $a=0$, $b=5$ y un $n = 10$, los cuales al ser evaluados en el algoritmo implementado, devuelven los siguientes resultados:
+Durante la clase, se dieron los parámetros de inicio para la búsqueda: $x_1 = 1$, $\Delta = 1$, $Tol_1 = Tol_2 = 0.001$, los cuales al ser evaluados en el algoritmo implementado, devuelven los siguientes resultados:
 
 ```{r}
 # Librería para hacer las tablas bonitas
 library(flextable)
 # Llamo el código
-source("Tarea 5. Busqueda exhaustiva MAIN.R")
+source("Tarea 6. Estimaciones cuadráticas sucesivas MAIN.R")
 
 # Declaro la función que se desea minimizar
 fx = function(x){(x^2) +  (54/x)}
 
 #### Evaluación para el ejercicio de clase ####
-# a = 0
-# b = 5 
-# n = 10
-res1 = round(BE(fx,0,5,10),6)
+# x1 = 1
+# Delta = 1
+# Tol1=Tol2= 0.001 
+res1 = round(MSC(fx,1,1,0.001,0.001),6)
 
 # Reportar los resultados bonitos
 autofit(align(theme_box(flextable(res1)), align = "center", part = "all"))
 ```
 
-El algoritmo con los parámetros dados en clase logra encontrar un intervalo que contiene al valor mínimo de la función en apenas 6 iteraciones, dicho intervalo es el siguiente:
+El algoritmo logra encontrar una buena solución para $x = 3$ (la cual coincide con el óptimo) pero la aproximación que  encuentra para $x^* = 2.999994$ es una muy buena aproximación y lo consigue en apenas 4 iteraciones.
 
-
-$$\left[2.5, 3.5\right]$$
-
-Dicho intervalo logra contener al mínimo, siendo una relativa buena solución para acortar el espacio de búsqueda.
 
 
 \newpage
 
-## Solución de clase aumentando $n = 50$
+## Solución de clase cambiando el valor de $\Delta = 0.1$
 
-Con la finalidad de explorar el comportamiento del método al aumentar el parámetro n que regula el tamaño del paso, se propone un $n = 10$ manteniendo $a = 0$ y $b = 5$. A continuación se muestra el resultado:
+Con la finalidad de explorar el comportamiento del método al cambiar el valor de $\Delta = 0.1$ y manteniendo constante $x_1 = 1$ y las tolerancias de $Tol1 = Tol2 = 0.001$ se obtuvo el siguiente resultado:
 
 ```{r}
-#### Evaluación propuesta de hacer más pequeño el epsilon####
-# a = 0
-# b = 5 
-# n = 50
-res2 = round(BE(fx,0,5,50),6)
+#### Evaluación para el ejercicio de clase disminuyendo el delta= 0.1 ####
+# x1 = 1
+# Delta = 0.1
+# Tol1=Tol2= 0.00001 
+res2 = round(MSC(fx,1,0.1,0.001,0.001),6)
 # Reportar los resultados bonitos
 autofit(align(theme_box(flextable(res2)), align = "center", part = "all"))
 ```
 
-El algoritmo logra encontrar en 30 iteraciones un intervalo más fino que el encontrado por la corrida anterior, dicho intervalo queda en: **$\left[2.9, 3.1\right]$.**
+Al variar el valor de $\Delta$, el algoritmo logra encontrar una buena solución para $x = 2.999783$ pero la aproximación que encuentra para $x^* = 2.999993$ es mejor aproximación y lo consigue en apenas 10 iteraciones.
 
+\newpage
+
+## Solución de clase cambiando el valor de $\Delta = 0.5$
+
+Con la finalidad de explorar el comportamiento del método al cambiar el valor de $\Delta = 0.5$ y manteniendo constante $x_1 = 1$ y las tolerancias de $Tol1 = Tol2 = 0.001$ se obtuvo el siguiente resultado:
+
+```{r}
+#### Evaluación para el ejercicio de clase cambiando el delta= 0.5 ####
+# x1 = 1
+# Delta = 0.5
+# Tol1=Tol2= 0.001 
+res3 = round(MSC(fx,1,0.5,0.001,0.001),6)
+# Reportar los resultados bonitos
+autofit(align(theme_box(flextable(res3)), align = "center", part = "all"))
+```
+
+Al variar el valor de $\Delta$, el algoritmo logra encontrar una buena solución para $x = 2.999751$ pero la aproximación que encuentra para $x^* = 2.999992$ es mejor aproximación y lo consigue en apenas 8 iteraciones.
+
+\newpage
+
+## Solución de clase cambiando el valor de inicio a $x_1 = 5$
+
+Con la finalidad de explorar el comportamiento del método al cambiar el valor de $x_1 = 5$ y manteniendo constante  $\Delta = 1$ y las tolerancias de $Tol1 = Tol2 = 0.001$ se obtuvo el siguiente resultado:
+
+```{r}
+#### Evaluación para el ejercicio de clase cambiando el punto de inicio en 5 ####
+# x1 = 5
+# Delta = 1
+# Tol1=Tol2= 0.001 
+res4 = round(MSC(fx,5,1,0.001,0.001),6)
+# Reportar los resultados bonitos
+autofit(align(theme_box(flextable(res4)), align = "center", part = "all"))
+```
+
+Al variar el valor de $x_1$, el algoritmo logra encontrar una buena solución para $x = 2.999554$ pero la aproximación que encuentra para $x^* = 2.999962$ es mejor aproximación y lo consigue en apenas 6 iteraciones.
+
+
+\newpage
+
+## Solución de clase cambiando el valor de inicio a $x_1 = 0.1$
+
+Con la finalidad de explorar el comportamiento del método al cambiar el valor de $x_1 = 0.1$ y manteniendo constante  $\Delta = 1$ y las tolerancias de $Tol1 = Tol2 = 0.001$ se obtuvo el siguiente resultado:
+
+```{r}
+#### Evaluación para el ejercicio de clase cambiando el punto de inicio en 0.1 ####
+# x1 = 0.1
+# Delta = 1
+# Tol1=Tol2= 0.001 
+res5 = round(MSC(fx,0.1,1,0.001,0.001),6)
+# Reportar los resultados bonitos
+autofit(align(theme_box(flextable(res5)), align = "center", part = "all"))
+```
+
+Al variar el valor de $x_1$, el algoritmo logra encontrar una buena solución para $x = 2.999923$ pero la aproximación que encuentra para $x^* = 2.999998$ es mejor aproximación y lo consigue en apenas 9 iteraciones.
+
+\newpage
+
+## Solución de clase cambiando el valor de $\Delta = -0.5$
+
+Con la finalidad de explorar el comportamiento del método al cambiar el valor de $\Delta = -0.5$ y manteniendo constante $x_1 = 1$ y las tolerancias de $Tol1 = Tol2 = 0.001$ se obtuvo el siguiente resultado:
+
+```{r}
+#### Evaluación para el ejercicio de clase cambiando el delta a uno negativo ####
+# x1 = 1
+# Delta = -0.5
+# Tol1=Tol2= 0.001 
+res6 = round(MSC(fx,1,-0.5,0.001,0.001),6)
+# Reportar los resultados bonitos
+autofit(align(theme_box(flextable(res6)), align = "center", part = "all"))
+```
+
+Al variar el valor de $\Delta$, el algoritmo logra encontrar una buena solución para $x = 2.999832$ pero la aproximación que encuentra para $x^* = 2.999995$ es mejor aproximación y lo consigue en apenas 10 iteraciones.
+
+\newpage
+
+## Solución de clase cambiando el valor inicial de $x_1 = -1$ y el valor $\Delta = 0.5$
+
+Con la finalidad de explorar el comportamiento del método al cambiar el valor de $\Delta = 0.5$ con un punto de inicio en los valores negativos para $x_1 = -1$ y las tolerancias de $Tol1 = Tol2 = 0.001$ se obtuvo el siguiente resultado:
+
+```{r}
+#### Evaluación para el ejercicio de clase cambiando el punto de inicio en los negativos ####
+# x1 = -2
+# Delta = 1
+# Tol1=Tol2= 0.001 
+res7 = round(MSC(fx,-1,0.5,0.001,0.001),6)
+# Reportar los resultados bonitos
+autofit(align(theme_box(flextable(res7[1:10,])), align = "center", part = "all"))
+```
+
+Al iniciar el algoritmo en valores negativos, puesto que la función tiene al infinito negativo cuando se acerca a 0, esta de alguna forma se atora y ya no avanza más de forma que no logra encontrar el mínimo que si encuentran las otras corridas en 50 iteraciones. Los resultados solo muestran las primeras 10 iteraciones, pero el algoritmo converge a un resultado donde ya no se mueven los valores prácticamente para nada.
 
 \newpage
 
 # Conclusiones y comentarios finales
 
-El método de búsqueda exhaustiva (o búsqueda de los 3 puntos) resulta ser algo lento, debido a que por la forma en que está construido, camina dando pequeños pasito de longitud $(b-a)/n$, por lo que requiere de muchas iteraciones para lograr encontrar un intervalo pequeño donde se garantice la existencia de un mínimo.
+Tras implementar el método y hacer varias pruebas, el algoritmo resulta que encuentra buenos resultados en los positivos, donde se alberga el mínimo óptimo, no importa si se cambia el tamaño del $\Delta$, o la inicialización de $x_1$ siempre y cuando se encuentre en los positivos. Por otro lado, al inicializar el $x_1$ en valores negativos, donde se encuentra la asintota al infinito negativo, empieza a comportarse extraño, porque los valores de $x$ no se mueven por más que se hagan iteraciones.
 
-Se pudo observar, mediante ambas corridas que con un tamaño $n = 10$ logra llegar al intervalo $\left[2.5, 3.5\right]$ en apenas 6 iteraciones pero al aumentar el tamaño $n = 50$ logra encontrar el intervalo $\left[2.9, 3.1\right]$ en 30 iteraciones.
 
-Se concluye que el método logra su cometido, pero requiere de un tamaño de $n$ relativamente grande y eso se traduce en varias iteraciones para lograr encontrar un intervalo que contenga al optimo y además, sea un espacio de búsqueda relativamente pequeño.
+
 
 \newpage
 
 
-# Anexo 1: Código fuente del algotimo de búsqueda exhaustiva.
+# Anexo 1: Código fuente del algotimo de estimaciones cuadráticas sucesivas
 
 ```{r}
 # Incluir el código
-cat(readLines("Tarea 5. Busqueda exhaustiva MAIN.R"), sep = "\n")
+cat(readLines("Tarea 6. Estimaciones cuadráticas sucesivas MAIN.R"), sep = "\n")
 ```
 
 \newpage
@@ -164,5 +282,5 @@ cat(readLines("Tarea 5. Busqueda exhaustiva MAIN.R"), sep = "\n")
 
 ```{r}
 # Incluir el código
-cat(readLines("Tarea 5. Busqueda exhaustiva EVALUADO.R"), sep = "\n")
+cat(readLines("Tarea 6. Estimaciones cuadráticas sucesivas EVALUADO.R"), sep = "\n")
 ```

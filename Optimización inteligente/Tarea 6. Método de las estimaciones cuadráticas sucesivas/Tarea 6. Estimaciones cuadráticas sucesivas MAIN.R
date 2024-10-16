@@ -1,19 +1,9 @@
-rm(list=ls())
-
 #### Método de las Estimaciones Cuadráticas Sucesivas ####
 #fx = función que se desea minímizar
-#a = Punto de inicio
+#a = x1 = Punto de inicio
 #Dx = Tamaño del paso
 #T1 y T2 = Tolerancia para la convergencia
-rm(list=ls())
 
-fx = function(x){x^2 + 54/x}
-x1 = 1
-Dx = 0.5
-T1 = 0.001
-T2 = 0.001
-x2 = x1 + Dx
-a = 1
 MSC = function(fx,a,Dx,T1,T2){
   #### Paso 1 ####
   # Contador para llevar el control de esto
@@ -38,8 +28,8 @@ MSC = function(fx,a,Dx,T1,T2){
   }
   
   # Objeto para guardar los resultados
-  resultados = data.frame(Xmin = 0,Xestrella = 0 ,Fmin = 0,Festrella = 0,
-                          iteración = 0, Tol1 = 0, Tol2 = 0)
+  resultados = data.frame(iteración = 0, Xmin = 0,Xestrella = 0 ,Fmin = 0,
+                          Festrella = 0, Tol1 = 0, Tol2 = 0)
   ### Condición de paro para iterar del punto 4 al 7##
   while(contador<=50){
     #### Paso 4 ####
@@ -65,7 +55,7 @@ MSC = function(fx,a,Dx,T1,T2){
     fxe = fx(xe)
     
     ### Agregarlo al selector del optimo
-    resultados[contador,]  = c(Xmin,Xestrella = xe ,Fmin,fxe,contador,
+    resultados[contador,]  = c(contador,Xmin,Xestrella = xe ,Fmin,fxe,
                                Tol1 = abs(Fmin-(fxe)), Tol2 = abs(Xmin-(xe)))
     
     #### Paso 6 ####
@@ -93,13 +83,6 @@ MSC = function(fx,a,Dx,T1,T2){
   print("No se logro encontrar un buen optimo, este fue el recorrido en 50 iters:")
   return(resultados)
 }
-
-
-fx = function(x){-x^2 + 54/x}
-#fx = function(x){(x+10)^2}
-
-MSC(fx,-100,0.1,T1 = 0.001,T2 = 0.001) |> round(digits = 4)
-
 
 
 

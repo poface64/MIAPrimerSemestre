@@ -2,7 +2,7 @@
 title: "\\textbf{Razonamiento bajo incertidumbre}"
 subtitle: "\\textbf{Tarea 5. Agrupamiento de colores en imagenes}"
 author: "\\textbf{Ángel García Báez}"
-date: "\\textbf{2024-10-15}"
+date: "\\textbf{2024-10-16}"
 output: 
   pdf_document:
     toc: TRUE
@@ -285,6 +285,7 @@ A medida que aumenta el $K$ para las imágenes, se van pareciendo más entre sí
 
 _Bishop, C. M., & Nasrabadi, N. M. (2006). Pattern recognition and machine learning (Vol. 4, No. 4, p. 738). New York: springer_
 
+\newpage
 
 # Anexos
 
@@ -369,7 +370,7 @@ INTRA = function(X){
   plot(IV,type = "o",
        pch = 16, xlab = "K",ylab = "Suma de errores al cuadrado")
 }
-### FUnción para sacar colores promedio 
+### Función para sacar colores promedio 
 promcolor = function(X){
   for(i in 1:length(unique(X[,7]))){
     # Calcular el vector media
@@ -379,22 +380,16 @@ promcolor = function(X){
   }
   return(colores = X[,8])
 }
-
-
-
 #### Sección de K medias para imagen 1####
 ruta1 = "IMAGENES/IM2.jpg"
 imagen1 = readJPEG(ruta1) # Descomponer la imagen en sus canales RGB
 datos1 = pixeles(imagen1)
 dim(imagen1) # La imagen 1 tiene 1152 X 768  = 884,736
-
 #### Definir el criterio de la intra varianza
 set.seed(2024)
 pdf(file="RESULTADOS/R1.pdf")
 INTRA(datos1[,1:3])
 dev.off()
-
-
 #### Kmedias para la primer imagen con K  = 3 ####
 k = 3
 A = kmeans(datos1[,1:3],k)
@@ -407,8 +402,6 @@ plot3d(x = datos1$Y,
        z = datos1$X,
        col = datos1$ecolor)
 rgl.snapshot("RESULTADOS/R1.2.png", fmt = "png")
-
-
 #### Kmedias para la primer imagen con K  = 5 ####
 k = 5
 A = kmeans(datos1[,1:3],k)
@@ -421,7 +414,6 @@ plot3d(x = datos1$Y,
        z = datos1$X,
        col = datos1$ecolor)
 rgl.snapshot("RESULTADOS/R1.3.png", fmt = "png")
-
 #### Kmedias para la primer imagen con K  = 10 ####
 k = 10
 A = kmeans(datos1[,1:3],k)
@@ -434,8 +426,6 @@ plot3d(x = datos1$Y,
        z = datos1$X,
        col = datos1$ecolor)
 rgl.snapshot("RESULTADOS/R1.4.png", fmt = "png")
-
-
 #### Sección de K medias para imagen 2####
 ruta2 = "IMAGENES/IM4.jpg"
 imagen2 = readJPEG(ruta2) # Descomponer la imagen en sus canales RGB
@@ -448,7 +438,6 @@ set.seed(2024)
 pdf(file="RESULTADOS/R2.pdf")
 INTRA(datos2[,1:3])
 dev.off()
-
 #### Kmedias para la segunda imagen con K  = 3 ####
 k = 3
 A = kmeans(datos2[,1:3],k)
@@ -461,7 +450,6 @@ plot3d(x = datos2$Y,
        z = datos2$X,
        col = datos2$ecolor)
 rgl.snapshot("RESULTADOS/R2.2.png", fmt = "png")
-
 #### Kmedias para la segunda imagen con K  = 5 ####
 k = 5
 A = kmeans(datos2[,1:3],k)
@@ -474,7 +462,6 @@ plot3d(x = datos2$Y,
        z = datos2$X,
        col = datos2$ecolor)
 rgl.snapshot("RESULTADOS/R2.3.png", fmt = "png")
-
 #### Kmedias para la segunda imagen con K  = 10 ####
 k = 10
 A = kmeans(datos2[,1:3],k)
@@ -487,20 +474,16 @@ plot3d(x = datos2$Y,
        z = datos2$X,
        col = datos2$ecolor)
 rgl.snapshot("RESULTADOS/R2.4.png", fmt = "png")
-
-
 #### Sección de K medias para imagen 3####
 ruta3 = "IMAGENES/IM1.jpg"
 imagen3 = readJPEG(ruta3) # Descomponer la imagen en sus canales RGB
 datos3 = pixeles(imagen3)
 dim(imagen3) # La imagen 1 tiene 1024 X 1024  = 1,048,576
-
 #### Definir el criterio de la intra varianza
 set.seed(2024)
 pdf(file="RESULTADOS/R3.pdf")
 INTRA(datos3[,1:3])
 dev.off()
-
 #### Kmedias para la tercera imagen con K  = 3 ####
 k = 3
 A = kmeans(datos3[,1:3],k)
@@ -513,7 +496,6 @@ plot3d(x = datos3$Y,
        z = datos3$X,
        col = datos3$ecolor)
 rgl.snapshot("RESULTADOS/R3.2.png", fmt = "png")
-
 #### Kmedias para la tercera imagen con K  = 5 ####
 k = 5
 A = kmeans(datos3[,1:3],k)
@@ -526,7 +508,6 @@ plot3d(x = datos3$Y,
        z = datos3$X,
        col = datos3$ecolor)
 rgl.snapshot("RESULTADOS/R3.3.png", fmt = "png")
-
 #### Kmedias para la segunda imagen con K  = 10 ####
 k = 10
 A = kmeans(datos3[,1:3],k)
@@ -543,11 +524,9 @@ rgl.snapshot("RESULTADOS/R3.4.png", fmt = "png")
 #### Mezcla de Gaussianas para la primer imagen ####
 ### Función para llamar el codigo fuente de Julia ###
 julia_source("GMM en julia.jl")
-
 ### Cargar la imagen 1 ###
 imagen1 = readJPEG(ruta1) # Descomponer la imagen en sus canales RGB
 datos1 = pixeles(imagen1)
-
 #### GMM con K = 3 para la primer imagen ####
 k = 3
 set.seed(2024)
@@ -562,7 +541,6 @@ plot3d(x = datos1$Y,
        z = datos1$X,
        col = datos1$ecolor)
 rgl.snapshot("RESULTADOS/R1.5.png", fmt = "png")
-
 #### GMM con K = 5 para la primer imagen ####
 k = 5
 set.seed(2024)
@@ -577,7 +555,6 @@ plot3d(x = datos1$Y,
        z = datos1$X,
        col = datos1$ecolor)
 rgl.snapshot("RESULTADOS/R1.6.png", fmt = "png")
-
 #### GMM con K = 10 para la primer imagen ####
 k = 10
 set.seed(2024)
@@ -592,11 +569,9 @@ plot3d(x = datos1$Y,
        z = datos1$X,
        col = datos1$ecolor)
 rgl.snapshot("RESULTADOS/R1.7.png", fmt = "png")
-
 #### Mezcla de Gaussianas para la segunda imagen ####
 imagen2 = readJPEG(ruta2) # Descomponer la imagen en sus canales RGB
 datos2 = pixeles(imagen2)
-
 #### GMM con K = 3 para la segunda imagen ####
 k = 3
 set.seed(2024)
@@ -611,7 +586,6 @@ plot3d(x = datos2$Y,
        z = datos2$X,
        col = datos2$ecolor)
 rgl.snapshot("RESULTADOS/R2.5.png", fmt = "png")
-
 #### GMM con K = 5 para la segunda imagen ####
 k = 5
 set.seed(2024)
@@ -626,7 +600,6 @@ plot3d(x = datos2$Y,
        z = datos2$X,
        col = datos2$ecolor)
 rgl.snapshot("RESULTADOS/R2.6.png", fmt = "png")
-
 #### GMM con K = 10 para la segunda imagen ####
 k = 10
 set.seed(2024)
@@ -641,12 +614,9 @@ plot3d(x = datos2$Y,
        z = datos2$X,
        col = datos2$ecolor)
 rgl.snapshot("RESULTADOS/R2.7.png", fmt = "png")
-
-
 #### Mezcla de Gaussianas para la tercera imagen ####
 imagen3 = readJPEG(ruta3) # Descomponer la imagen en sus canales RGB
 datos3 = pixeles(imagen3)
-
 #### GMM con K = 3 para la tercera imagen ####
 k = 3
 set.seed(2024)
@@ -661,7 +631,6 @@ plot3d(x = datos3$Y,
        z = datos3$X,
        col = datos3$ecolor)
 rgl.snapshot("RESULTADOS/R3.5.png", fmt = "png")
-
 #### GMM con K = 5 para la tercera imagen ####
 k = 5
 set.seed(2024)
@@ -676,7 +645,6 @@ plot3d(x = datos3$Y,
        z = datos3$X,
        col = datos3$ecolor)
 rgl.snapshot("RESULTADOS/R3.6.png", fmt = "png")
-
 #### GMM con K = 10 para la tercera imagen ####
 k = 10
 set.seed(2024)
