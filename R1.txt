@@ -1,0 +1,16 @@
+¿Qué onda, brother? Es que mire este, las veces que te comenté que cambié proyecto
+que estaba con tu diosa muy señor Ojeda y que al final tuve que cambiar de proyecto
+porque pues ya nada más de con él, bueno el caso es que este, cambié de proyecto,
+estoy con el profe Emanuel y estoy haciendo un proyecto sobre redes neuronales convivionales
+y a lo mejor ya he escuchado hablar de eso, seguramente. Es para la identificación de
+imágenes, en este caso pues pretendo identificar estas imágenes de delfines para ayudar a biólogos
+a estudiar los delfines, ¿no? El caso es que ahorita, por ejemplo, ya implementé las técnicas,
+la de Hawk, que es un como histograma de gradientes, histograma gradients, este,
+a lo mejor también ya he escuchado hablar de eso, también implementamos con el profe Emanuel
+una técnica que se llama Kani, que es también para detectar bordes de la imagen y bueno,
+ya hice modelos, ya hice como tal las redes neuronales convivionales, ya hice los modelos
+y todo eso. Ya hice la validación cruzada incluso, que en algunas partes me encontré un sobreajuste,
+pero bueno, eso ya está hecho, ya está todo bien. Ahora lo que me falta por hacer,
+el profe Emanuel me pidió que hiciera un PCA clustering de las imágenes que tengo.
+Y pues encontrar como que hacer ese clustering, ese gráfico de cluster,
+para encontrar como que si hay relación entre imágenes, o sea, que tengo nueve clases de animales.
