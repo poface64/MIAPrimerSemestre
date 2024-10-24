@@ -1,0 +1,252 @@
+\documentclass[11pt, letterpaper]{article}
+
+\usepackage[cache=false,outputdir=build]{minted}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{lmodern}
+\usepackage{graphicx}
+\usepackage{longtable}
+\usepackage{wrapfig}
+\usepackage{rotating}
+\usepackage{amsmath}
+\usepackage{textcomp}
+\usepackage{amssymb}
+\usepackage{hyperref}
+\usepackage[spanish]{babel}
+\usepackage[round]{natbib}
+\usepackage{listings} % Paquete para incluir y resaltar código
+%%% Prueba de configuración
+\usepackage{xcolor}   % Paquete para definir colores
+% Definir un color verde menos intenso
+\definecolor{mygreen}{rgb}{0.0, 0.5, 0.0}  % Un verde oscuro
+% Definir las propiedades del codigo
+\lstset{
+    language=Prolog,
+    basicstyle=\ttfamily,  % Estilo básico (monoespaciado)
+    keywordstyle=\color{blue},  % Color de las palabras clave
+    commentstyle=\color{mygreen},  % Color de los comentarios
+    stringstyle=\color{red},  % Color de las cadenas de texto
+    numbers=left,  % Mostrar números de línea a la izquierda
+    numberstyle=\tiny\color{gray},  % Estilo de los números de línea
+    stepnumber=1,  % Cada línea numerada
+    frame=single,  % Añadir marco alrededor del código
+    breaklines=true,  % Romper líneas largas automáticamente
+    showstringspaces=false  % No mostrar espacios en las cadenas
+}
+
+\title{\textsc{Programación Lógica y Funcional} \\
+  Presentación del Curso}
+
+\author{Angel García Báez \\ \emph{ZS24019400@estudiantes.uv.mx} \\ \\
+  Maestría en Inteligencia Artificial \\ \\ \textbf{IIIA}
+  Instituto de Investigaciones en Inteligencia Artificial \\
+  Universidad Veracruzana \\ \emph{Campus Sur, Calle Paseo Lote II,
+    Sección 2a, No 112} \\ \emph{Nuevo Xalapa, Xalapa, Ver., México 91097}}
+
+\date{\today}
+
+\begin{document}
+
+\maketitle
+
+\section{Cuestionario de Socrative.}
+
+\textbf{Regístrese como estudiante en \url{https://www.socrative.com} para unirse a la sala (room) 2024PLF. Resuelva el cuestionario que ahí se presenta. Las preguntas pueden tener varias respuestas (30 puntos).} \\
+
+El cuestionario fue completado exitosamente en la plataforma de socrative bajo el nombre de Angel García Báez.
+
+
+\newpage
+
+\maketitle
+
+\section{Extensión del programa de la familia.}
+
+\textbf{Extienda el programa de la familia en Prolog para incluir las relaciones tío/2
+y tía/2. Pruébelas con las metas:}
+
+\textbf{
+\begin{enumerate}
+\item tio(X,Y).
+\item tia(ann,Y).
+\end{enumerate}
+}
+
+\textbf{Defina una meta para computar quienes son sobrinos en esa familia (10 puntos).} \\
+
+%%% Agregar el programa %%%
+
+Para llevar a cabo esta actividad, se utilizó el código de la familia facilitado por el Dr. Alejandro Guerra y se hizo una breve modificación en la definición de hermana, donde la clausula \textbf{mujer(Y)} fue sustituida por \textbf{mujer(X)}. \\
+
+Posteriormente, para definir la relación tio(X,Y) el razonamiento fue encontrar al progenitor Z de Y y además si X es hermano del progenitor Z.\\
+
+La misma lógica se aplico a tia(X,Y), donde  el razonamiento fue encontrar al progenitor Z de Y y además si X es hermana del progenitor Z.
+
+Bajo estas definiciones que se muestran en el código más adelante, al computar la meta tio(X,Y). se obtiene un false de regreso, porque para esta familia no hay nadie que sea tío de nadie.
+Por otro lado, para la meta tia(ann,Y) , al computar dicha meta se obtuvo que ann es tía de jim y nada más.
+
+Finalmente, bajo estas nuevas clausulas que agregue al programa de la familia, para poder computar quienes son sobrinos de dicha familia se propuso computar:
+\begin{lstlisting}
+tia(_, Y).
+\end{lstlisting} dado que las metas anteriores revelaron que únicamente hay tías en esta familia, nadie cumple la condición de tío, aunque si se quisiera ser más amplio, se puede computar la siguiente meta para incluir a los tíos en caso de que alguien cumpliera la condición:
+
+\begin{lstlisting}
+tia(_,Y), tio(_,Y).
+\end{lstlisting}
+
+Los resultados se observan en la documentación del código a continuación:
+
+\begin{lstlisting}
+%%% Universidad Veracruzana
+%%% Instituto de Investigaciones en Inteligencia Artificial
+%%% Maestria en Inteligencia Artificial
+%%% Alejandro Guerra-Hernandez
+% progenitor(X,Y).
+% Verdadero si X es progenitor de Y.
+% Estos predicados estan adaptados de Bratko(2012), cap1.
+progenitor(pam,bob).
+progenitor(tom,bob).
+progenitor(tom,liz).
+%progenitor(liz,rog). YO agregue un caso para probar tio, rog hijo de liz
+progenitor(bob,ann).
+progenitor(bob,pat).
+progenitor(pat,jim).
+
+
+%%%% mujer(X). %%%% 
+% Verdadero si X es mujer.
+mujer(pam).
+mujer(liz).
+mujer(pat).
+mujer(ann).
+
+%%%% hombre(X). %%%% 
+% Verdadero si X es hombre.
+hombre(tom).
+hombre(bob).
+hombre(jim).
+%hombre(rog). rog es hombre
+
+%%%%  vastago(X,Y). %%%% 
+% Verdadero si X es vastago de la persona Y.
+%
+% ?- vastago(bob,X).
+% X = pam ;
+% X = tom.
+vastago(X,Y) :- progenitor(Y,X).
+
+%%%% madre(X,Y). %%%%
+% Verdadero si X es madre de Y.
+%
+%% ?- madre(X,bob).
+%% X = pam ;
+%% false.
+madre(X,Y) :-
+    progenitor(X,Y),
+    mujer(X).
+
+%%%% abuela(X,Y). %%%%
+% Verdadero si X es abuela de Y.
+%% ?- abuela(X, ann).
+%% X = pam ;
+%% false.
+abuela(X,Y) :-
+    progenitor(X,Z),
+    progenitor(Z,Y),
+    mujer(X).
+
+%%%% hermana(X,Y). %%%%
+% Verdadero si X es hermana de Y.
+%% ?- hermana(ann,X).
+%% X = pat.
+hermana(X,Y) :-
+    progenitor(Z,X),
+    progenitor(Z,Y),
+    mujer(X), % Se modifico la condicion de mujer(y) a mujer(x)
+    dif(X,Y).
+
+%%%% ancestro(X,Z). %%%%
+% Verdadero si X es ancestro/a de Z.
+%
+%% ?- ancestro(pam,X).
+%% X = bob ;
+%% X = ann ;
+%% X = pat ;
+%% X = jim ;
+%% false.
+ancestro(X,Z) :-
+    progenitor(X,Z).
+ancestro(X,Z) :-
+    progenitor(X,Y),
+    ancestro(Y,Z).
+
+%%%% APORTACIONES DE ANGEL AL PROGRAMA %%%%
+%%%% AGREGAR AL HERMANO %%%%
+hermano(X,Y) :-
+    progenitor(Z,X),
+    progenitor(Z,Y),
+    hombre(X), % Se modifico la condicion de que sea hombre(X)
+    dif(X,Y). % que no sea el mismo, no puede ser hermano de el mismo.
+%%%% AGREGAR A LA TIA %%%%
+tia(X,Y):- %% X es tia de Y
+    progenitor(Z,Y), % Encontrar el progenitor Z de Y
+    hermana(X,Z). % Comprobar si X es hermana del progenitor Z
+% tia(ann,Y). Computar la siguiente meta da como resultado:
+% Ann es tia de Jim y nada mas
+% tia(X,Y). Computar la siguiente meta da como resultado:
+% Liz es tia de Ann
+% Liz es tia de Pat
+% Ann es tia de Jim y nada mas
+%%%% AGREGAR AL LA TiO %%%%
+tio(X,Y):- %% X es tio de Y
+    progenitor(Z,Y), % Encontrar el progenitor Z de Y
+    hermano(X,Z). % Comprobar si X es hermano del progenitor Z
+% tio(X,Y). Computar la siguiente meta da como resultado:
+%false
+% Cabe mencionar que en la familia de este ejemplo no hay tios, solo tias,
+% Por ello es que prolog da false, porque no hay ninguna clausula en el programa
+% que satisfaga el requisito para que un miembro se considere tio de otro.
+%%%% Defina una meta para computar quienes son sobrinos en esa familia %%%%
+% Asumiendo que se sabe que no hay tios, bastaria con ejecutar:
+% tia(_,X). dicha meta devuelve:
+% X = ann; X = pat; X = jim, false.
+% Suponiendo que hay tias y tios, se puede computar la siguiente meta:
+% tia(_,X);tia(_,X). dicha meta devuelve:
+% X = ann; X = pat; X = jim, false.
+\end{lstlisting}
+
+
+\newpage
+
+\section{Ejercicio de unificación.}
+
+\textbf{Aplique el algoritmo de unificación visto en clase a los términos $f(a,g(Z),Z)$
+y $f(X,g(X),b)$ (10 puntos).} \\
+
+Para aplicar el algoritmo de la unificación sobre dichos terminos, se tomaron de bases las laminas de \cite{guerra2024} como apoyo para resolver paso a paso la unificación de la siguiente manera:
+
+
+$$f\{X, g(X), b\} = f\{a, g(Z), Z\}$$
+
+A continuación se expresa paso a paso la forma en que se lleva a cabo la unificación:
+
+$$
+\begin{aligned}
+    &\{X = a, g(X) = g(Z), b = Z\} \\
+    &\{X = a, g(a) = g(Z), b = Z\} \\
+    &\{X = a, a = Z, b = Z\} \\
+    &\{X = a, Z = a, b = Z\} \\
+    &\{X = a, Z = a, b = a\} \\
+    &\text{fallo}
+\end{aligned}
+$$
+
+Dicha unificación no puede ser concretada puesto que, al momento de unificar los términos, se llega a una contradicción en donde hay 2 constantes diferentes (a y b) pero el desglose del proceso termina llevando a que b = a, lo cual en sí mismo no puede ser dado que b es una constante distinta de a, por lo que la unificación falla y no se puede concretar para estos términos.
+
+\newpage
+
+
+\bibliographystyle{apalike}
+\bibliography{Bibliográfia}
+
+\end{document}
