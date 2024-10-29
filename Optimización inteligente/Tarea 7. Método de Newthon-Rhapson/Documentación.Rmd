@@ -1,0 +1,218 @@
+---
+title: "\\textbf{Optimización inteligente}"
+subtitle: "\\textbf{Tarea 7. Método de Newthon-Rhapson con derivadas aproximadas}"
+author: "\\textbf{Ángel García Báez}"
+date: "\\textbf{2024-10-21}"
+output: 
+  pdf_document:
+    toc: true
+    number_sections: true
+header-includes:
+   - \usepackage{sectsty}
+   - \allsectionsfont{\bfseries}
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = F,
+                      eval = T, 
+                      message = F,
+                      warning = F)
+```
+
+\newpage
+
+# Breve introducción 
+
+Se planteo un ejercicio en clase donde se pedía encontrar el valor de $x$  que lograra encontrar el mínimo global de la función $f(x) = x^2 + \frac{54}{x}$ haciendo uso del método conocido como **_Newtho-Rhapson_**.
+
+A continuación se muestra el pseudocódigo resumido de lo que busca hacer el algoritmo:
+
+
+## Método de busqueda de estimaciones cuadráticas sucesivas
+
+Algoritmo
+
+Paso 1: Proporcionar el punto inicial $x_1$ y elegir una tolerancia $\epsilon$.
+
+\setlength{\leftskip}{3.7em} 
+k = 1
+Calcular $f'(x_1)$
+
+\setlength{\leftskip}{0pt}
+
+
+Paso 2: Calcular $f''(x_1)$
+
+Paso 3: Calcular $x_{k+1} = x_k - \frac{f'(x_k)}{f''(x_k)}$
+
+\setlength{\leftskip}{3.7em} 
+Calcular $f'(x_1)$
+
+\setlength{\leftskip}{0pt}
+
+Paso 4: IF $|f'(x_{k+1})|\leq\epsilon$ THEN TERMINAR
+
+\setlength{\leftskip}{3.7em} 
+ELSE $k = k+1$. GOTO Paso 2
+
+\setlength{\leftskip}{0pt}
+
+Nota: 
+
+Para estimar las derivadas cuando por alguna razón no se conoce su forma analítica, se pueden hacer de la siguiente forma:
+
+
+$$f'(x_k) = \frac{f(x_k + \Delta x) - f(x_k - \Delta x)}{2 \Delta x}$$
+
+$$f''(x_k) = \frac{f(x_k + \Delta x) - 2 f(x_k) + f(x_k - \Delta x)}{(\Delta x)^2}$$
+
+donde $\Delta x$ es un valor pequeño. 
+
+Nótese que se requiere evaluar la función en 3 puntos: $x_k$, $x_k + \Delta x$ y $x_k - \Delta x$.
+
+
+Una vez explicado lo que se debe de hacer y visto la estructura del método, se realizo la implementación de dicho algoritmo (Anexo 1) en lenguaje $R$ para ponerlo a prueba contra la función dada en un inicio.
+
+\newpage
+
+# Experimentación con los resultados.
+
+Primero, debido a que la función se puede graficar en un espacio de 2 dimensiones, se recurrió a esto para tener un referente visual del comportamiento de la misma:
+
+```{r}
+# Declarar la función y evaluarla 
+fx = function(x){(x^2) +  (54/x)}
+  # Definir la función de forma rápida
+x = c(seq(-10,-0.1,by = 0.01),seq(0.1,10,by = 0.01))
+y = fx(x)
+# Graficar
+plot(x = x,y = y,type = "l",
+     col = "blue",lwd = 3,
+     main = expression("Gráfica para " ~ x^2 + frac(54, x)),
+     xlim = c(-20, 20), ylim = c(-20, 60))
+abline(h =0 )
+abline(v =0 )
+# Lineal del mínimo
+abline(h =27,col = "red",lwd = 3 )
+
+```
+
+La función presenta ciertos comportamientos interesantes, por ejemplo, a medida de que se acerca al 0 por la izquierda, dicha función tiende al infinito negativo (si buscara ahí el mínimo, nunca lo encontraría) y si se acerca al 0 por la derecha, el valor de la función tiende a ir hacia el infinito positivo (ahí tampoco es factible buscar).
+
+Dado que la mayoría de los problemas que tienen que ver con cosas del mundo real implican que los valores sean positivos, se optara por buscar valores mayores o iguales a 0 de X tal que permitan llegar al mínimo que se ubica cuando $x = 3$ que devuelve un $f(x) = 27$.
+
+\newpage
+
+## Resolución de clase
+
+Durante la clase, se dieron los parámetros de inicio para la búsqueda: $x = 1$, $\Delta = 0.001$, $Tol_1 = 0.001$, los cuales al ser evaluados en el algoritmo implementado, devuelven los siguientes resultados:
+
+```{r}
+# Librería para hacer las tablas bonitas
+library(flextable)
+# Llamo el código
+source("Tarea 7. Newthon Rhapson MAIN.R")
+
+# Declaro la función que se desea minimizar
+fx = function(x){(x^2) +  (54/x)}
+
+#### Evaluación para el ejercicio de clase ####
+# x = 1
+# Delta = 0.001
+# Tol= 0.001 
+# Fijo = FALSE
+res1 = NS(fx,1,0.001,0.001,F)
+
+# Reportar los resultados bonitos
+autofit(align(theme_box(flextable(res1)), align = "center", part = "all"))
+```
+
+El algoritmo encuentra en 7 iteraciones y 21 evaluaciones 1 valor de X que cumplen con la restricción de tolerancia, dicho valor es $x = 3.0001$, dicho valor es una solución muy buena considerando el hecho de que el mínimo es 3 cerrado.
+
+
+\newpage
+
+## Solución de clase cambiando el $\Delta$ para que sea fijo.
+
+Con la finalidad de explorar el comportamiento del método al cambiar el $\Delta$ para que sea constante y mantiene los demás parámetros de inicio constantes, se obtuvo el siguiente resultado:
+
+```{r}
+#### Evaluación para el ejercicio de clase ####
+# x = 1
+# Delta = 0.001
+# Tol= 0.001 
+# Fijo = TRUE
+res2 = NS(fx,1,0.001,0.001,T)
+# Reportar los resultados bonitos
+autofit(align(theme_box(flextable(res2)), align = "center", part = "all"))
+```
+
+Al mantener constante el valor de $\Delta$, el algoritmo nuevamente encuentra una buena solución en apenas 7 iteraciones, pero el valor de Delta al no variar, logra encontrar una solución aun más precisa respecto a la primera solución encontrada en la evaluacion anterior.
+
+\newpage
+
+## Solución de clase cambiando el valor de inicio en 50$
+
+Para explorar como se comporta el algoritmo si se le inicia en un valor por mucho muy lejano de donde se encuentra el optimo, se decidio poner el punto de inicio en 50, manteniendo todos los demas valores constantes y haciendo uso del delta dinamico:
+
+
+```{r}
+#### Evaluación para el ejercicio de clase ####
+# x = 50
+# Delta = 0.001
+# Tol= 0.001 
+# Fijo = FALSE
+res3 = NS(fx,50,0.001,0.001,F)
+# Reportar los resultados bonitos
+autofit(align(theme_box(flextable(res3)), align = "center", part = "all"))
+```
+
+Al variar el valor de de inicio en $x = 50$ y manteniendo constantes los demás parámetros, el algoritmo se tarda 16 iteraciones pero consigue encontrar una solución factible que cumple con el criterio de tolerancia. La solución a la que llega es de $x = 3.00009$.
+
+\newpage
+
+## Solución de clase cambiando el valor de inicio a $x_1 = -10$
+
+Para explorar como se comporta el algoritmo si se le inicia en un valor por mucho muy lejano de donde se encuentra el optimo, se decidió poner el punto de inicio en -10, manteniendo todos los demas valores constantes y haciendo uso del delta dinamico:
+
+```{r}
+#### Evaluación para el ejercicio de clase ####
+# x = -10
+# Delta = 0.001
+# Tol= 0.001 
+# Fijo = FALSE
+res4 = NS(fx,-10,0.001,0.001,F)
+# Reportar los resultados bonitos
+autofit(align(theme_box(flextable(res4)), align = "center", part = "all"))
+```
+
+Al iniciar el algoritmo en -10, resulta sorprende como logra llegar en apenas 8 iteraciones a una solución muy bien aproximada de $x = 3.00009$ considerando el hecho de que presenta una asintota al infinito negativo alrededor del 0, es muy impresionante como logra brincarse esta limitante.
+
+
+\newpage
+
+# Conclusiones y comentarios finales
+
+Después de programar el algoritmo con sus variantes para que sea dinámico y tenga forma de calcular las derivadas de forma numérica, se puso a prueba bajo distintos escenarios al variar su punto de inicio, desde valores muy cercanos al optimo conocido, así como valores que se alejan por mucho de este.
+
+Los resultados obtenidos muestran que es muy importante la correcta inicialización del algoritmo para encontrar resultados adecuados y en una pequeña cantidad de iteraciones, pues como se pudo observar, al iniciarse en un valor muy alejado de donde se encuentra el optimo, llega a tardarse casi 20 iteraciones, mientras que al iniciarlo cerca de dicho valor, tarda apenas 7 u 8 iteraciones en lograrlo. Lo más sorprendente fue observar que dicho algoritmo podia sortear el problema de la asintota al ser iniciado en valores negativos.
+
+
+\newpage
+
+
+# Anexo 1: Código fuente del algotimo de Newthon-Rhapson
+
+```{r}
+# Incluir el código
+cat(readLines("Tarea 7. Newthon Rhapson MAIN.R"), sep = "\n")
+```
+
+\newpage
+
+# Anexo 2: Código para hacer las evaluaciones del método.
+
+```{r}
+# Incluir el código
+cat(readLines("Tarea 7. Newthon Rhapson EVAL.R"), sep = "\n")
+```
