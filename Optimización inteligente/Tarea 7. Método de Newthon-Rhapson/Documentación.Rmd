@@ -28,7 +28,7 @@ Se planteo un ejercicio en clase donde se pedía encontrar el valor de $x$  que 
 A continuación se muestra el pseudocódigo resumido de lo que busca hacer el algoritmo:
 
 
-## Método de busqueda de estimaciones cuadráticas sucesivas
+## Método de busqueda de Newthon-Rhapson
 
 Algoritmo
 

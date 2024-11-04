@@ -1,0 +1,134 @@
+---
+output: pdf_document
+header-includes:
+   - \usepackage{sectsty}
+   - \allsectionsfont{\bfseries}
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = F,
+                      message = F,
+                      warning = F)
+```
+
+\begin{table}[h!]
+\centering
+\begin{tabular}{|l|p{12cm}|}
+\hline
+\textbf{Paso} & \textbf{Descripción} \\
+\hline
+\multicolumn{2}{|c|}{\textbf{1.- Método de búsqueda exhaustiva}} \\
+\hline
+Paso 1 & Inicializar $x_1 = a$ y $\Delta x = \frac{b - a}{n}$, con $n$ como el número de puntos intermedios. Calcular $x_2 = x_1 + \Delta x$ y $x_3 = x_2 + \Delta x$. \\
+\hline
+Paso 2 & IF $f(x_1) \geq f(x_2) \leq f(x_3)$, entonces el mínimo está en $(x_1, x_3)$. TERMINAR. \\
+\hline
+Paso 3 & IF $x_3 \leq b$, actualizar $x_1 = x_2$, $x_2 = x_3$, $x_3 = x_2 + \Delta x$ y volver al Paso 2. ELSE no existe un mínimo en $(a, b)$. \\
+\hline
+\multicolumn{2}{|c|}{\textbf{2.- Método de la fase de acotamiento}} \\
+\hline
+Paso 1 & Elegir un punto inicial $x^{(0)}$ y un incremento $\Delta$. Hacer $k = 0$. \\
+\hline
+Paso 2 & IF $f(x^{(0)}-|\Delta|) > f(x^{(0)}+|\Delta|)$, THEN $\Delta$ es positivo. ELSE IF $f(x^{(0)}-|\Delta|) < f(x^{(0)}+|\Delta|)$, $\Delta$ es negativo. ELSE GOTO Paso 1. \\
+\hline
+Paso 3 & $x^{(k+1)} = x^{(k)} + 2^k \Delta$. \\
+\hline
+Paso 4 & IF $f(x^{(k+1)}) < f(x^{(k)})$ THEN $k = k+1$ y vuelve al paso 3. ELSE el mínimo se encuentra en el intervalo $(x^{(k-1)}, x^{(k+1)})$. TERMINAR. \\
+\hline
+\multicolumn{2}{|c|}{\textbf{3.- Método de eliminación de regiones: Intervalos por la mitad.}} \\
+\hline
+Paso 1 & Elegir un límite inferior $a$ y un límite superior $b$. Definir la tolerancia $\varepsilon$. Calcular $x_m = \frac{a + b}{2}$, $L = b - a$, y $f(x_m)$. \\
+\hline
+Paso 2 & Calcular $x_1 = a + \frac{L}{4}$ y $x_2 = b - \frac{L}{4}$. Calcular $f(x_1)$ y $f(x_2)$. \\
+\hline
+Paso 3 & IF $f(x_1) < f(x_m)$ THEN actualizar $b = x_m$, $x_m = x_1$, y continuar al Paso 5. \\
+\hline
+Paso 4 & IF $f(x_1) < f(x_2)$ THEN actualizar $a = x_m$, $x_m = x_2$, y continuar al Paso 5. ELSE actualizar $a = x_1$, $b = x_2$. \\
+\hline
+Paso 5 & Calcular $L = b - a$. IF $|L| < \varepsilon$, TERMINAR. ELSE volver al Paso 2. \\
+\hline
+\multicolumn{2}{|c|}{\textbf{4.- Método de búsqueda de Fibonacci}} \\
+\hline
+Paso 1 & Elegir un límite inferior $a$ y un límite superior $b$, con $L = b - a$. Definir el número de iteraciones $N$. Iniciar $k = 2$. \\
+\hline
+Paso 2 & Calcular $L^*_k = \frac{F_{n-k+1}}{F_{n+1}} \cdot L$, luego $x_1 = a + L^*_k$ y $x_2 = b - L^*_k$. \\
+\hline
+Paso 3 & Calcular $f(x_1)$ o $f(x_2)$ (el que no se haya evaluado antes). Usar eliminación de regiones para ajustar $a$ y $b$. \\
+\hline
+Paso 4 & ¿Es $k > N$? Si no, incrementar $k$ y volver al Paso 2. Si sí, TERMINAR. \\
+\hline
+\multicolumn{2}{|c|}{\textbf{5.- Método de búsqueda de la sección dorada}} \\
+\hline
+Paso 1 & Elegir un límite inferior $a$ y un límite superior $b$, y una tolerancia $\epsilon$. Normalizar $w = \frac{x - a}{b - a}$. Definir $a_w = 0$, $b_w = 1$, $L_w = b_w - a_w$, y $k = 1$. \\
+\hline
+Paso 2 & Calcular $w_1 = a_w + 0.618 \cdot L_w$ y $w_2 = b_w - 0.618 \cdot L_w$. IF $f(w_1) < f(w_2)$ THEN $a_w = w_2$. ELSE $b_w = w_1$. Actualizar $L_w = b_w-a_w.$ \\
+\hline
+Paso 3 & IF $|L_w| < \epsilon$ THEN TERMINAR. ELSE incrementar $k$ y volver al Paso 2. \\
+\hline
+\multicolumn{2}{|c|}{\textbf{6.- Método de estimaciones cuadráticas sucesivas}} \\
+\hline
+Paso 1 & Elegir punto inicial $x_1$ y paso $\Delta$, además de las tolerancias $TOL1$ y $TOL2$. Calcular $x_2 = x_1 + \Delta$. \\
+\hline
+Paso 2 & Evaluar $f(x_1)$ y $f(x_2)$. \\
+\hline
+Paso 3 & IF $f(x_1) > f(x_2)$ THEN $x_3 = x_1 + 2\Delta$. ELSE $x_3 = x_1 - \Delta$. Evaluar $f(x_3)$. \\
+\hline
+Paso 4 & Determinar $F_{min} = \min(f(x_1), f(x_2), f(x_3))$ y $X_{min}$ asociado a $F_{min}$. \\
+\hline
+Paso 5 & Calcular $\bar{x}$ con interpolación cuadrática. \\
+\hline
+Paso 6 & IF $|F_{min} - f(\bar{x})| \leq TOL1$ AND $|X_{min} - \bar{x}| \leq TOL2$, TERMINAR. ELSE continuar al Paso 7. \\
+\hline
+Paso 7 & Almacenar el mejor punto ($X_{min}$ o $\bar{x}$) y re-etiquetar puntos. tomando en cuenta: $x_1<x_2<x_3$. GOTO Paso 4. \\
+\hline
+\multicolumn{2}{|c|}{\textbf{7.- Método de búsqueda de Newton-Raphson}} \\
+\hline
+Paso 1 & Proporcionar el punto inicial $x_1$, una tolerancia $\epsilon$ e iniciar k = 1. Calcular $f'(x_1)$. \\
+\hline
+Paso 2 & Calcular $f''(x_k)$. \\
+\hline
+Paso 3 & Calcular $x_{k+1} = x_k - \frac{f'(x_k)}{f''(x_k)}$. Recalcular $f'(x_{k+1})$ \\
+\hline
+Paso 4 & IF $|f'(x_{k+1})| \leq \epsilon$ THEN TERMINAR. ELSE incrementar $k=k+1$ y volver al Paso 2. \\
+\hline
+\end{tabular}
+\caption{Pasos de los métodos de optimización}
+\end{table}
+
+
+
+Notas:
+
+Para las búsquedas de Fibbonacci se define:
+
+$$F(0) = 0, F(1) = 1, F(2) =  F(1) + F(0),\dots,F(n) = F(n-1) + F(n-2)$$
+
+Para las estimaciones cuadraticas sucesivas se define $\bar{x}$ o $x^*$ como:
+
+$$q(x) = a_0 + a_1(x-x_1) + a_2(x-x_1)(x-x_2)$$
+
+$$a_0 = f_1, \quad a_1 = \frac{f_2-f_1}{x_2-x_1}, \quad a_2 = \frac{1}{x_3-x_2} \left(\frac{f_3-f_1}{x_3-x_1} -a_1\right)$$
+
+$$x^* = \frac{x_1+x_2}{2}-\frac{a_1}{2a_2}$$
+
+Calcular la efectividad 
+
+\[
+\begin{array}{|c|c|}
+\hline
+\text{Método} & \text{Fórmula} \\
+\hline
+\text{Método de Fibonacci} & \frac{2}{N} \\
+\hline
+\text{Método de Sección Dorada} & 0.5^{N/2} \\
+\hline
+\text{Búsqueda Exhaustiva} & \frac{2}{F_{N+1}} \\
+\hline
+\text{Método de Newton-Raphson} & (0.618)^{N-1} \\
+\hline
+\end{array}
+\]
+
+
+
+
