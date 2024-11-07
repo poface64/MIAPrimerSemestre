@@ -42,6 +42,7 @@ Se pone cursiva utilizando el guion bajo. *Asi se ve un texto en cursiva*
 Vamos a cargar la base de datos incluida en software R que contiene la información de flores de iris.
 
 -   Especie: Especie de la flor.
+    1.- Flores
 -   Longitud del sepalo.
 -   Ancho del sepalo.
 -   Longitud del petalo.
