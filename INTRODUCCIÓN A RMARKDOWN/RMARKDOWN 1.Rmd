@@ -1,0 +1,156 @@
+---
+title: ""
+author: ""
+date: ""
+output: 
+  word_document:
+    toc: TRUE
+    reference: "BASE.docx"
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE,
+                      warning = FALSE)
+```
+
+\newpage
+
+# Titulo 1
+
+## Titulo 2
+
+### Titulo 3
+
+#### Titulo 4
+
+#Titulo 1
+
+# Pequeñas reglas sobre el texto
+
+## Como poner negritas
+
+Para negritas solo es necesario usar los asteriscos **Esto es un texto resaltado en negritas**
+
+## Como poner cursiva
+
+Se pone cursiva utilizando el guion bajo. *Asi se ve un texto en cursiva*
+
+\newpage
+
+# Iniciando con la programación
+
+Vamos a cargar la base de datos incluida en software R que contiene la información de flores de iris.
+
+-   Especie: Especie de la flor.
+-   Longitud del sepalo.
+-   Ancho del sepalo.
+-   Longitud del petalo.
+-   Ancho del petalo.
+
+\
+
+```{r}
+### Cargando la base de datos de iris
+datos = iris
+head(datos)
+```
+
+## Obteniendo estadísticas descriptivas generales
+
+Se obtuvieron la media, mediana, varianza y desviación de todo el conjunto de datos.
+
+```{r}
+### Obtener las estadísticas descriptivas generales 
+medias = apply(datos[ ,-5],2,mean)
+medianas = apply(datos[ ,-5],2, median)
+varianza = apply(datos[ ,-5],2, var )
+desviacion = apply(datos[ ,-5],2, sd)
+### Creando un dataframe con los descriptivos
+descriptivos = cbind.data.frame(medias,medianas,
+                 varianza,desviacion)
+descriptivos = round(descriptivos,2)
+descriptivos
+```
+
+\newpage
+
+## Mostrando los descriptivos pero más bonitos
+
+Aqui vamos a utilizar la paqueteria de flextable para convertir las salidas de tipo data frame en una tabla que el documento word interprete como tabla en lugar de codigo.
+
+```{r}
+# Cargo la paqueteria flextable
+# install.packages("flextable")
+library(flextable)
+### Añadiendo la columna de los nombres de las variables
+variables = names(datos)[-5]
+descriptivos = cbind.data.frame(variables,descriptivos)
+#Mostrando la tabla de descriptivos mas bonita
+autofit(flextable(descriptivos)) 
+```
+
+\newpage
+
+# Haciendo gráficos exploratorios.
+
+A continuación se realizara un diagrama de puntos entre las variables y un histograma por cada una de ellas.
+
+## Diagrama de dispersión entre todas las variables
+
+```{r}
+# Generando el diagrama de dispersión.
+plot(datos[ ,-5] , 
+     pch = 16 ,
+     main = "Gráfico de dispersión entre variables",
+     col = datos$Species)
+```
+
+\newpage
+
+# Haciendo un gráfico con ggplot
+
+A continuación hice un gráfico mas bonito usando la libreria de ggplot en la cual usea tale...
+
+```{r}
+# Cargar ggplot2
+library(ggplot2)
+# Generando el gráfico de dispersión en ggplot2
+ggplot(datos, aes(x = Sepal.Length,
+                  y = Sepal.Width,
+                  color = Species )) +
+  # Hacer un gráfico de dispersión
+  geom_point() +
+  # Quitando el fondo gris por uno más simple
+  theme_classic() + 
+  # Moviendo la leyenda hacia otro lugar
+  theme(legend.position = "bottom") + 
+  # Cambiando los nombres de los ejes.
+  labs(x = "Longitud del sepalo",
+       y = "Ancho del sepalo",
+       color = "Especies") + 
+  # Añadiendo un titulo principal
+  ggtitle("Gráfico de dispersión entre la longitud y el ancho del sepalo por especies")
+```
+
+\newpage
+
+# Como insertar ecuaciones en el documento
+
+Esto es una ecuación simple $y = a + bx$.  
+
+Esto es una ecuación resaltada:
+
+$$y = a + bx$$\
+
+$$(a+b)^{2} = a^2 + 2ab + b^2$$\
+
+$$y = \beta_0  + \beta_1X_1 + \varepsilon$$\
+
+$$\mu = \frac{ \sum_{i = 1}^n {x_i} }{n} \qq $$\
+
+![Indice de moran obtenido](images/LITICA%20DISTRIBUCION.JPG)
+
+![_Encuesta sobre partidos_ Hola xd](images/C4.jpg)
+
+
+
