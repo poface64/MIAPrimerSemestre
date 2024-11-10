@@ -1,3 +1,9 @@
+#Libros de referencia
+#R Markdown Cookbook
+#https://bookdown.org/yihui/rmarkdown-cookbook/
+#R Markdown: The Definitive Guide
+#https://bookdown.org/yihui/rmarkdown/
+
 rm(list=ls())
 
 # Cargar los datos de los pinguinos
