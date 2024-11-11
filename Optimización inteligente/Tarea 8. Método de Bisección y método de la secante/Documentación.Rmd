@@ -1,0 +1,352 @@
+---
+title: "\\textbf{Optimización inteligente}"
+subtitle: "\\textbf{Tarea 8. Método de bisección y método de la secante}"
+author: "\\textbf{Ángel García Báez}"
+date: "\\textbf{2024-11-10}"
+output: 
+  pdf_document:
+    toc: true
+    number_sections: true
+header-includes:
+   - \usepackage{sectsty}
+   - \allsectionsfont{\bfseries}
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = F,
+                      eval = T, 
+                      message = F,
+                      warning = F)
+```
+
+\newpage
+
+# Breve introducción 
+
+Se planteo un ejercicio en clase donde se pedía encontrar el valor de $x$  que lograra encontrar el mínimo global de la función $f(x) = x^2 + \frac{54}{x}$ haciendo uso de los métodos conocidos como **_método de bisección_**  y **_método de la secante_**.
+
+A continuación se muestran los pseudocódigos resumidos de lo que busca hacer cada uno de los métodos.
+
+
+## Método de la bisección
+
+Algoritmo
+
+Paso 1: Elegir dos puntos $a$ y $b$, tales que $f'(a)<0$ y $f'(b)>0$
+
+\setlength{\leftskip}{3.7em} 
+Elegir una tolerancia $\epsilon$
+
+\setlength{\leftskip}{0pt}
+
+
+Paso 2: Calcular $z = \frac{a+b}{2}$. Evaluar $f'(z)$
+
+Paso 3: IF $|f'(z)|\leq \epsilon$ THEN TERMINAR
+
+Paso 4: IF $f'(z)< 0$ THEN $a = z$. GOTO Paso 2
+
+\setlength{\leftskip}{3.7em} 
+IF $f'(z)>0$ THEN $b = z$. GOTO Paso 2
+
+\setlength{\leftskip}{0pt}
+
+## Método de la secante
+
+Algoritmo
+
+Paso 1: Elegir 2 puntos $L$ y $R$, tales que $f'(L)*f'(R)<0$
+
+\setlength{\leftskip}{3.7em} 
+Proporcionar una tolerancia $\epsilon$
+
+\setlength{\leftskip}{0pt}
+
+
+Paso 2: Calcular $z =R- \frac{(f'(R))*(R-L)   }{(f'(R) - f'(L))}$. Evaluar $f'(z)$
+
+Paso 3: IF $|f'(z)|\leq \epsilon$ THEN TERMINAR
+
+Paso 4: IF $f'(z)< 0$ THEN $L = z$. GOTO Paso 2
+
+\setlength{\leftskip}{3.7em} 
+IF $f'(z)>0$ THEN $R = z$. GOTO Paso 2
+
+\setlength{\leftskip}{0pt}
+
+Nota: 
+
+Para estimar las derivadas cuando por alguna razón no se conoce su forma analítica, se pueden hacer de la siguiente forma:
+
+$$f'(x_k) = \frac{f(x_k + \Delta x) - f(x_k - \Delta x)}{2 \Delta x}$$
+
+$$f''(x_k) = \frac{f(x_k + \Delta x) - 2 f(x_k) + f(x_k - \Delta x)}{(\Delta x)^2}$$
+
+donde $\Delta x$ es un valor pequeño. 
+
+Nótese que se requiere evaluar la función en 3 puntos: $x_k$, $x_k + \Delta x$ y $x_k - \Delta x$.
+
+
+Una vez explicado lo que se debe de hacer y visto la estructura del método, se realizo la implementación de dicho algoritmo (Anexo 1) en lenguaje $R$ para ponerlo a prueba contra la función dada en un inicio.
+
+\newpage
+
+# Experimentación con los resultados.
+
+Primero, debido a que la función se puede graficar en un espacio de 2 dimensiones, se recurrió a esto para tener un referente visual del comportamiento de la misma:
+
+```{r}
+# Declarar la función y evaluarla 
+fx = function(x){(x^2) +  (54/x)}
+  # Definir la función de forma rápida
+x = c(seq(-10,-0.1,by = 0.01),seq(0.1,10,by = 0.01))
+y = fx(x)
+# Graficar
+plot(x = x,y = y,type = "l",
+     col = "blue",lwd = 3,
+     main = expression("Gráfica para " ~ x^2 + frac(54, x)),
+     xlim = c(-20, 20), ylim = c(-20, 60))
+abline(h =0 )
+abline(v =0 )
+# Lineal del mínimo
+abline(h =27,col = "red",lwd = 3 )
+
+```
+
+La función presenta ciertos comportamientos interesantes, por ejemplo, a medida de que se acerca al 0 por la izquierda, dicha función tiende al infinito negativo (si buscara ahí el mínimo, nunca lo encontraría) y si se acerca al 0 por la derecha, el valor de la función tiende a ir hacia el infinito positivo (ahí tampoco es factible buscar).
+
+Dado que la mayoría de los problemas que tienen que ver con cosas del mundo real implican que los valores sean positivos, se optara por buscar valores mayores o iguales a 0 de X tal que permitan llegar al mínimo que se ubica cuando $x = 3$ que devuelve un $f(x) = 27$.
+
+\newpage
+
+# Experimentación para el método de la bisección
+
+## Resolución de clase
+
+Durante la clase, se dieron los parámetros de inicio para la búsqueda: $a = 2$, $b = 5$ y $tol = 0.001$, adicionalmente dado que se empleo la versión que calcula la derivada con un método numérico, se agrega el parámetro $\Delta = 0.001$ para el cambio en esa derivada. Los valores proporcionados al algoritmo implementado, devuelven los siguientes resultados:
+
+```{r}
+# Librería para hacer las tablas bonitas
+library(flextable)
+# Llamo el código
+source("Tarea 8. Método de Bisección y método de la secante MAIN.R")
+
+# Declaro la función que se desea minimizar
+fx = function(x){(x^2) +  (54/x)}
+#### Evaluación para el ejercicio de clase ####
+# a = 2
+# b = 5
+# Tol= 0.001 
+# Delta = 0.001
+res1 = biseccion(fx,2,5,0.001,0.001)
+# Reportar los resultados bonitos
+autofit(align(theme_box(flextable(res1)), align = "center", part = "all"))
+```
+
+El algoritmo logra llevar a un intervalo lo suficientemente pequeño para satisfacer el criterio de tolerancia establecido en apenas 13 iteraciones del método y con 26 evaluaciones de la función objetivo (2 evaluaciones para realizar el calculo de la derivada por método numérico). El intervalo al que llega donde garantiza la existencia el optimo, es en el intervalo $[2.999756,3.000488]$ y la mejor solución a la que llega el algoritmo tal que satisface el criterio de tolerancia es: $x = 3.000122$.
+
+\newpage
+
+## Solución de clase cambiando el valor de inicio en $a = 0, b = 5$
+
+Para explorar como se comporta el algoritmo si se le inicia 0, que es un valor donde presenta una discontinuidad, se propone este cambio, con la finalidad de observar su comportamiento y que tanto repercute en el número de iteraciones o sí es que siquiera llega a converger el algoritmo.
+
+```{r}
+#### Evaluación para a = 0 y b = 5####
+# a = 0
+# b = 5
+# tol= 0.001 
+# Delta = 0.001
+res2 = biseccion(fx,0,5,0.001,0.001)
+# Reportar los resultados bonitos
+autofit(align(theme_box(flextable(res2)), align = "center", part = "all"))
+```
+
+Se observa que pese a que el valor de 0 se sabe que genera problemas, el método se mantiene consistente logrando sortear este problema y alcanzando así la convergencia en apenas 13 iteraciones, presentando un intervalo donde se encuentra el optimo de $[2.999268,3.000488]$ y logrando encontrar un valor de $x$ tal que satisface el criterio de tolerancia, por lo que la mejor solución a la que llega con estos parámetros es $x = 2.999878$.
+
+\newpage
+
+## Solución de clase cambiando el valor de inicio en $a = 2, b = 50$
+
+Para explorar como se comporta el algoritmo si se le da un intervalo de búsqueda muy amplio, se propone hacer el cambio de $b = 50$ para contrastar su desempeño contra las corridas anteriores en donde el intervalo era más estrecho.
+
+```{r}
+#### Evaluación para a = 2 y b = 50####
+# a = 2
+# b = 5
+# tol= 0.001 
+# Delta = 0.001
+res3 = biseccion(fx,2,50,0.001,0.001)
+# Reportar los resultados bonitos
+autofit(align(theme_box(flextable(res3)), align = "center", part = "all"))
+
+```
+
+Al aumentar considerablemente el intervalo de búsqueda para que oscile entre $[2,50]$, el método prueba que esto no supone un mayor problema para el algoritmo, puesto que apenas en 17 iteraciones logra llegar al mismo lugar que la primer evaluación con el intervalo inicial $[2,5]$, tardando apenas 4 iteraciones más para llegar a la misma solución que la primer corrida. Un intervalo de $[2.999756,3.000488]$ con un valor de $x = 3.000122$ que satisface el criterio de tolerancia y minimiza la función.
+
+\newpage
+
+## Solución de clase cambiando el valor de inicio en $a = -5, b = 10$
+
+Como ultimo experimento, se propone poner a prueba al método en un escenario donde esta de por medio la discontinuidad, para ello se inicializa el valor inferior del intervalo en $a = -5$ y se amplia el valor superior del intervalo a $b = 5$p ara probar si es que el algoritmo logra converger dado que comienza desde los negativos.
+
+```{r}
+#### Evaluación para a = -5 y b = 10####
+# a = -5
+# b = 10
+# tol= 0.001 
+# Delta = 0.001
+res4 = biseccion(fx,-5,10,0.001,0.001)
+# Reportar los resultados bonitos
+autofit(align(theme_box(flextable(res4)), align = "center", part = "all"))
+```
+
+Sorprendentemente, el algoritmo logra cruzar la discontinuidad en 0 y converger a una solución factible. Apenas con 13 iteraciones es que el algoritmo pasa del intervalo $[-10,5]$ a el intervalo $[2.998047, 3.001709]$ en donde encuentra un valor que satisface el criterio de tolerancia y minimiza la función, el cual es $x = 2.999878$.
+
+\newpage
+
+
+# Experimentación para el método de la secante
+
+## Resolución de clase
+
+Durante la clase, se dieron los parámetros de inicio para la búsqueda: $L = 2$, $R = 5$ y $tol = 0.001$, adicionalmente dado que se empleo la versión que calcula la derivada con un método numérico, se agrega el parámetro $\Delta = 0.001$ para el cambio en esa derivada. Los valores proporcionados al algoritmo implementado, devuelven los siguientes resultados:
+
+```{r}
+# Librería para hacer las tablas bonitas
+library(flextable)
+# Llamo el código
+source("Tarea 8. Método de Bisección y método de la secante MAIN.R")
+# Declaro la función que se desea minimizar
+fx = function(x){(x^2) +  (54/x)}
+#### Evaluación para el ejercicio de clase ####
+# L = 2
+# R = 5
+# tol= 0.001 
+# Delta = 0.001
+res1 = secante(fx,2,5,0.001,0.001)
+# Reportar los resultados bonitos
+autofit(align(theme_box(flextable(res1)), align = "center", part = "all"))
+```
+
+De forma complementaria y únicamente para esta corrida, se realizo el gráfico del como se comportan los puntos para ir aproximando la secante hasta que se encuentra con el optimo, o un valor muy cercano al optimo.
+
+```{r}
+library(ggplot2)
+# Crear el gráfico
+ggplot(res1) +
+  # Puntos para (L, f(L))
+  geom_point(aes(x = L, y = `f'(L)`), color = "blue", size = 3) +
+  # Puntos para (R, f(R))
+  geom_point(aes(x = R, y = `f'(R)`), color = "red", size = 3) +
+  # Líneas que conectan cada par (L, f(L)) y (R, f(R)) en cada iteración
+  geom_segment(aes(x = L, y = `f'(L)`, xend = R, yend = `f'(R)`), color = "black") +
+  geom_vline(xintercept = 3, linetype = "dashed", color = "black") +
+  geom_hline(yintercept = 0, linetype = "dashed", color = "black")+
+  labs(title = "Gráfico de puntos y líneas entre (L, f'(L)) y (R, f'(R)) por iteración",
+       x = "X",
+       y = "f'(X)") + 
+  theme_bw()
+```
+
+Resulta curioso el comportamiento del algoritmo, puesto que no mueve el valor de $L = 2$ para nada en todo su recorrido, el que si va moviendo lentamente para aproximar el optimo es el valor de R hasta que en apenas 10 iteraciones logra encontrar un valor de $x = 3.000076$ que satisface el criterio de tolerancia como un valor que logra minimizar la función.
+
+\newpage
+
+## Solución de clase cambiando el valor de inicio en $L = 1, R = 5$
+
+Para explorar como se comporta el algoritmo si se le inicia en 1, que es un valor muy cercano a la discontinuidad que se produce en 0, se propone este cambio, con la finalidad de observar su comportamiento y que tanto repercute en el número de iteraciones o sí es que siquiera llega a converger el algoritmo.
+
+```{r}
+#### Evaluación para L= 1 y R = 5####
+# L = 1
+# R = 5
+# tol= 0.001 
+# Delta = 0.001
+res2 = secante(fx,1,5,0.001,0.001)
+# Reportar los resultados bonitos
+autofit(align(theme_box(flextable(round(res2,8))),align="center",part="all"))
+```
+
+Persiste el comportamiento donde el valor de $L$ no se modifica para nada mientras que el cambio en el limite del intervalo se produce sobre el valor de $R$. 
+Resulta llamativo como el acercar el valor de $L$ cerca de la discontinuidad produce que aumenten considerablemente el numero de iteraciones, puesto que ahora se requieren hasta 36 iteraciones para llegar a un valor de $x = 3.000177$  que satisface el criterio de tolerancia, cuando en la primer corrida eran necesarias apenas 10 iteraciones para hacer converger al algoritmo.
+
+
+## Solución de clase cambiando el valor de inicio en $L = 2, R = 50$
+
+Para explorar como se comporta el algoritmo si se le da un intervalo de búsqueda muy amplio, se propone hacer el cambio de $R = 50$ para contrastar su desempeño contra las corridas anteriores en donde el intervalo era más estrecho.
+
+```{r}
+#### Evaluación para a = 2 y b = 50####
+# a = 2
+# b = 50
+# tol= 0.001 
+# Delta = 0.001
+res3 =secante(fx,2,50,0.001,0.001)
+# Reportar los resultados bonitos
+autofit(align(theme_box(flextable(round(res3,8))),align="center",part="all"))
+
+```
+
+Al aumentar considerablemente el intervalo de búsqueda para que oscile entre $[2,50]$, el método prueba que esto no supone un mayor problema para el, puesto que apenas y requiere de 11 iteraciones para converger, una más que la primer corrida del algoritmo. Logra encontrar una solución factible que satisface el criterio de tolerancia en $x = 3.000107$
+
+\newpage
+
+## Solución de clase cambiando el valor de inicio en $L = -5, R = 10$
+
+Como ultimo experimento, se propone poner a prueba al método en un escenario donde esta de por medio la discontinuidad, para ello se inicializa el valor inferior del intervalo en $L = -5$ y se amplia el valor superior del intervalo a $R = 5$p ara probar si es que el algoritmo logra converger dado que comienza desde los negativos.
+
+```{r}
+#### Evaluación para a = -5 y b = 10####
+# a = -5
+# b = 10
+# tol= 0.001 
+# Delta = 0.001
+res4 = secante(fx,-5,10,0.001,0.001)
+# Reportar los resultados bonitos
+autofit(align(theme_box(flextable(round(res4,6))),align="center",part="all"))
+```
+
+Los resultados muestran que el algoritmo es capaz de brincar la discontinuidad y posicionarse en un valor por encima del 0 hasta converger, lo llamativo del caso, es que el valor en el que se queda apalancado $L = 0.768501$ al estar tan cerca de la discontinuidad produce que el algoritmo vaya convergiendo muy lentamente, haciendo que se tome hasta 65 iteraciones para lograr una solución factible en $x = 3.000143$.
+
+
+
+\newpage
+
+# Conclusiones y comentarios finales
+
+Tras implementar ambos métodos y de ponerlos a prueba bajo condiciones muy similares, ocurre que el algoritmo de la bisección es consistente con los resultados a los que llega sin que le afecte demasiado la presencia de la discontinuidad, puesto que opera promediando el valor de los extremos del intervalo. Dicho algoritmo tiene la particularidad de requerir más iteraciones que el método de la secante en el escenario inicial.
+
+El método de la secante requiere menos iteraciones en el escenario inicial que el método de la bisección, pero dicho método presenta complicaciones graves cuando alguno de sus valores se encuentra cerca del punto de discontinuidad, pues esto hace que el algoritmo converja más lento y se disparen el número de iteraciones, ademas que al evaluar la derivada de los extremos del intervalo, no es posible posicionar un intervalo donde alguno de los extremos sea un valor que produzca una discontinuidad debido a que esto produciría que el algoritmo nunca converja.
+
+
+
+\newpage
+
+
+# Anexo 1: Código fuente del algotimo de Bisección
+
+```{r}
+# Incluir el código de bisección
+cat(readLines("Tarea 8.1 Método de Bisección.R"), sep = "\n")
+```
+
+\newpage
+
+# Anexo 2: Código fuente del algoritmo de la secante
+
+```{r}
+# Incluir el código
+cat(readLines("Tarea 8.2 Método de la secante.R"), sep = "\n")
+```
+
+\newpage
+
+# Anexo 3: Código para hacer las evaluaciones de ambos métodos
+
+```{r}
+# Incluir el código
+cat(readLines("Tarea 8. Método de Bisección y método de la secante EVAL.R"), 
+    sep = "\n")
+```
+
