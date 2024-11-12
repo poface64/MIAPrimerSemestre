@@ -7,8 +7,9 @@
 % primeroMejor(Inicio, Sol): Sol es un camino de Inicio a la meta
 % Asumimos 9999 > que todo f-valor
 
+%%% Primero mejor modificado para encontrar solo la primera solución
 primeroMejor(Inicio, Sol) :-
-  expandir([], l(Inicio,0/0),  9999, _, si, Sol).
+  expandir([], l(Inicio,0/0), 9999, _, si, Sol).
 
 % expandir(Camino, Arbol, Umbral, Arbol1, Resuelto, Sol):
 %   Camino entre Inicio y Arbol,
@@ -106,37 +107,66 @@ min(X,Y,X)  :-
 
 min(_,Y,Y).
 
-%%% Reset para llamar un nuevo problema
 
+%%% Sucesor, heurística y meta son predicados dinámicos.
+:- dynamic
+       s/3,
+       h/2,
+       meta/1.
+
+%%% Representación del estado inicial
+estado_inicial([]).
+
+%%% Meta: la meta es tener 8 reinas en el tablero sin conflictos.
+meta(Tablero) :-
+    length(Tablero, 8), 
+    \+ en_conflicto(Tablero).
+
+%%% Sucesores: coloca una reina en la siguiente fila
+s(Tablero, [Fila/Columna | Tablero], 1) :-
+    length(Tablero, N),                % Determina cuántas reinas están ya en el tablero
+    Fila is N + 1,                     % Calcula la fila actual (siguiente vacía)
+    between(1, 8, Columna),            % Intenta ubicar la reina en una columna válida
+    \+ en_conflicto([Fila/Columna | Tablero]).
+
+%%% Heurística: calcula el número de conflictos en el tablero
+h(Tablero, Conflictos) :-
+    findall(1, (member(F1/C1, Tablero), member(F2/C2, Tablero), F1 < F2, conflicto(F1, C1, F2, C2)), ConflictosList),
+    length(ConflictosList, Conflictos).
+
+%%% Reglas de conflicto: dos reinas están en conflicto si están en la misma columna o diagonal
+conflicto(F1, C1, F2, C2) :-
+    C1 =:= C2;                         % Mismo columna
+    abs(F1 - F2) =:= abs(C1 - C2).     % Misma diagonal
+
+%%% Verifica si hay conflictos en un tablero
+en_conflicto(Tablero) :-
+    member(F1/C1, Tablero),
+    member(F2/C2, Tablero),
+    F1 < F2,
+    conflicto(F1, C1, F2, C2).
+
+%%% Resetea el problema antes de una nueva ejecución
 reset :-
     retractall(s/3),
     retractall(h/2),
     retractall(meta/1).
 
+%%% Definir el problema de 8 reinas
+iniciar :-
+    reset,
+    assert(estado_inicial([])),
+    assert((s(Tablero, [Fila/Columna | Tablero], 1) :-
+            length(Tablero, N), 
+            Fila is N + 1, 
+            between(1, 8, Columna),
+            \+ en_conflicto([Fila/Columna | Tablero]))),
+    assert((h(Tablero, Conflictos) :-
+            findall(1, (member(F1/C1, Tablero), member(F2/C2, Tablero), F1 < F2, conflicto(F1, C1, F2, C2)), ConflictosList),
+            length(ConflictosList, Conflictos))),
+    assert((meta(Tablero) :-
+            length(Tablero, 8), 
+            \+ en_conflicto(Tablero))).
 
-%%% sucesor incluye costos
-
-s(s,a,2).
-s(e,f,5).
-s(f,g,2).
-s(g,t,2).
-s(d,t,3).
-s(s,e,2).
-s(a,b,2).
-s(b,c,2).
-s(c,d,3).
-
-%%% heurística
-
-h(a,5).
-h(b,4).
-h(c,4).
-h(d,3).
-h(e,7).
-h(f,4).
-h(g,2).
-h(t,0).
-
-%%% meta
 
 
