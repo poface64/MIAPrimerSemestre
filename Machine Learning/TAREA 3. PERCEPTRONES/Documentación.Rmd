@@ -1,0 +1,78 @@
+---
+title: "\\textbf{Aprendizaje automático}"
+subtitle: "\\textbf{Tarea 3. Perceptron simple y perceptron multicapa.}"
+author: "\\textbf{Ángel García Báez}"
+date: "\\textbf{2024-11-11}"
+output: 
+  pdf_document:
+    toc: true
+    number_sections: true
+header-includes:
+   - \usepackage{sectsty}
+   - \allsectionsfont{\bfseries}
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = F,
+                      eval = T, 
+                      message = F,
+                      warning = F)
+```
+
+\newpage
+
+
+\newpage
+
+# Corrida del perceptron simple
+
+```{python}
+import pandas as pd
+```
+
+
+```{python}
+# Librerias necesarias
+import numpy as np # Para manipular arreglos
+import pandas as pd # Para manipular arreglos
+from sklearn.model_selection import train_test_split # Para dividir en prueba y entrenamiento
+from sklearn.preprocessing import StandardScaler # Escalador de las variables
+import csv # Para importar datos CSV
+import sys # Funciones del sistema para fijar la ruta
+import PerceptronS as ps  # Ahora intenta importar el módulo
+```
+
+
+```{python}
+#Cargar los datos 
+ruta1 =  "BASES/irisvv.csv"
+datos = pd.read_csv(ruta1)
+datos.head()
+```
+
+```{python}
+
+```
+
+
+
+
+\newpage
+
+
+# Anexo 1: Código fuente del algotimo del perceptron simple
+
+```{r}
+# Incluir el código de bisección
+cat(readLines("PerceptronS.py"), sep = "\n")
+```
+
+\newpage
+
+# Anexo 2: Código fuente del algotimo del perceptron multicapa
+
+```{r}
+# Incluir el código
+cat(readLines("PerceptronM.py"), sep = "\n")
+```
+
