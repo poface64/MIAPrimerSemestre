@@ -169,4 +169,3 @@ iniciar :-
             \+ en_conflicto(Tablero))).
 
 
-
