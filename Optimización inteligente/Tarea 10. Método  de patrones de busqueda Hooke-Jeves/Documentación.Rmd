@@ -1,0 +1,186 @@
+---
+title: "\\textbf{Optimización inteligente}"
+subtitle: "\\textbf{Tarea 9. Método de busqueda SIMPLEX Nelder y Mead}"
+author: "\\textbf{Ángel García Báez}"
+date: "\\textbf{2024-15-10}"
+output: 
+  pdf_document:
+    toc: true
+    number_sections: true
+header-includes:
+   - \usepackage{sectsty}
+   - \allsectionsfont{\bfseries}
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = F,
+                      eval = T, 
+                      message = F,
+                      warning = F)
+```
+
+\newpage
+
+# Breve introducción 
+
+Se planteo un ejercicio en clase donde se pedía encontrar el valor de $x$  que lograra encontrar el mínimo global de la función $f(x_1,x_2) = (x^2_1 + x_2-11) + (x_1 + x^2_2-7)$ haciendo uso de el método SIMPLEX o $S^2$
+
+A continuación se muestra el pseudocodigo para implementar dicho método
+
+
+## Método SIMPLEX de Nelder y Mead
+
+Algoritmo
+
+Paso 1: Elegir $\gamma > 1, \beta \in (0,1)$ y una tolerancia $\epsilon$.
+
+Paso 2: Encontrar $\mathbf{x}_h$ (el peor punto), 
+
+\setlength{\leftskip}{3.7em} 
+$\mathbf{x}_l$ (el mejor punto), y $\mathbf{x}_g$ (el segundo peor punto). 
+Calcular:
+$\mathbf{x}_c = \frac{1}{N}\sum_{i=1,i\neq h} ^{N+1}\mathbf{x}_i$ (centroide).
+
+\setlength{\leftskip}{0pt}
+
+Paso 3: Calcular el punto reflejado $\mathbf{x}_r =2\mathbf{x}_c - \mathbf{x}h$
+
+\setlength{\leftskip}{3.7em} 
+Hacer $\mathbf{x}_{new} = \mathbf{x}_r$
+
+IF $f(\mathbf{x}_r) < f(\mathbf{x}_l)$ THEN $\mathbf{x}_{new} = (1 + \gamma)\mathbf{x}_c - \gamma\mathbf{x}_h$ (expansión)\
+
+ELSE IF $f(\mathbf{x}_r) \geq f(\mathbf{x}_h)$ THEN $\mathbf{x}_{new} = (1 - \beta)\mathbf{x}_c + \beta\mathbf{x}_h$ (contracción)
+
+ELSE IF $f(\mathbf{x}_g) < f(\mathbf{x}_r) < f(\mathbf{x}_h)$
+
+THEN $\mathbf{x}_{new} = (1 + \beta)\mathbf{x}_c - \beta\mathbf{x}_h$ (contracción)
+
+Calcular $f(\mathbf{x}_{new})$ y reemplazar $\mathbf{x}_h$ por $\mathbf{x}_{new}$
+
+Calcular  $Q = \left[\sum_{i=1}^{N+1} \frac{(f(\mathbf{x}_i) - f(\mathbf{x}_c))^2}{N+1}\right]^{1/2}$
+
+\setlength{\leftskip}{0pt}
+
+Paso 4: IF $Q \leq \epsilon$ THEN Terminar
+
+\setlength{\leftskip}{3.7em} 
+ELSE GOTO Paso 2.
+
+\setlength{\leftskip}{0pt}
+
+
+\newpage
+
+# Experimentación con los resultados.
+
+Primero, debido a que la función se puede graficar en un espacio de 3 dimensiones, se recurrió a esto para tener un referente visual del comportamiento de la misma:
+
+```{python,eval = F}
+# Cargar librerias
+import numpy as np
+import matplotlib.pyplot as plt
+# Definir la función
+def f(x, y):
+    return (x**2 + y - 11)**2 + (x + y**2 - 7)**2
+# Crear el grid
+x = np.linspace(-6, 6, 500)
+y = np.linspace(-6, 6, 500)
+X, Y = np.meshgrid(x, y)
+Z = f(X, Y)
+# Graficar la superficie
+fig = plt.figure(figsize=(10, 7))
+ax = fig.add_subplot(111, projection='3d')
+ax.plot_surface(X, Y, Z, cmap='viridis', alpha=0.9)
+# Etiquetas
+ax.set_title("Gráfica 3D de la función")
+ax.set_xlabel('X1')
+ax.set_ylabel('X2')
+ax.set_zlabel('f(X1, X2)')
+plt.show()
+```
+
+
+![](G1.png)
+
+La función ya no es tan facil de visualizar o seguir, debido al aumento de una dimensión extra. Dicha función se ocmporta como una sabana arrugada, la cual parece tener un minimo muy en el centro de la función con posibles minimos locales a las orillas.
+
+\newpage
+
+# Experimentación 
+
+## Resolución de clase
+
+Durante la clase se abordo la forma de iniciaizar el método con los siguientes parámetros:
+
+$$
+\begin{matrix}
+x_1 = (0,0) & x_2 = (2,0) & x_3 = (1,1) \\
+f(x_1) = 170 & f(x_2) = 74 & f(x_3)= 106 \\
+\gamma = 1.5 &  \beta = 0.5 & \varepsilon = 0.001
+\end{matrix}
+$$
+
+con el objetivo de encontrar el minimo de la función planteada.
+
+Una vez inicializado el algoritmo con dichos valores de $x_1,x_2,x_3, \gamma, \beta$ y $\varepsilon$ como tolerancia fue que se probo el método.
+
+A continuación se muestran unicamente los resultados del mejor punto en cada iteración, así como su valor de $Q$ y su valor $f(x)$ tras su evaluación, todos los valores redondeados a 4 decimales.
+
+```{r}
+# Librería para hacer las tablas bonitas
+library(flextable)
+# Llamo el código
+source("Tarea 9. SIMPLEX MAIN.R")
+# Declaro la función que se desea minimizar
+fx = function(X){(X[1]^2+X[2]-11)^2 + (X[1] + X[2]^2-7)^2}
+#### Evaluación para el ejercicio de clase ####
+# x1 = c(0,0)
+# x2 = c(2,0)
+# x3 = c(1,1)
+# tol = 0.001
+# gamma = 1.5
+# beta = 0.5
+x1 = c(0,0)
+x2 = c(2,0)
+x3 = c(1,1)
+tol = 0.001
+gamma = 1.5
+beta = 0.5
+# Evaluar la función con la corrida de clase
+res1 = SIMPLEX(fx,x1,x2,x3,gamma,beta,tol)
+
+# Reportar los resultados bonitos
+autofit(align(theme_box(flextable(round(res1,4))), align = "center", part = "all"))
+```
+
+El algoritmo logra llegar a una posible solución situada en el punto $(3.0031,1.9948)$ que tiene un valor de $f(x,y) \approx 0.0005$ que logra satisfacer el criterio de tolerancia de 0.001 en 24 iteraciones.
+
+
+\newpage
+
+# Conclusiones y comentarios finales
+
+El método logra encontrar una muy buena aproximación del mínimo sin perderse tanto en el espacio de busqueda, aunque depende de los puntos iniciales y de los parametros datos de $\beta$ y $\gamma$.
+
+
+\newpage
+
+
+# Anexo 1: Código fuente del algoritmo SIMPLEX
+
+```{r}
+# Incluir el código de bisección
+cat(readLines("Tarea 9. SIMPLEX MAIN.R"), sep = "\n")
+```
+
+\newpage
+
+# Anexo 2: Código para hacer las evaluaciones del método
+
+```{r}
+# Incluir el código
+cat(readLines("Tarea 9. Método SIMPLEX EVAL .R"), 
+    sep = "\n")
+```
+
