@@ -8,7 +8,7 @@ detector = function(datos,VarClas){
   indices = 1:ncol(datos)
   nombres = names(datos)
   # Identificar del conjunto el indice de la variable
-  idClass = which(names(datos)==VarClas,nombres)
+  idClass =   which(nombres==VarClas)
   # Regresar el conjunto de indices de los atributos F_i
   atributos = setdiff(indices,idClass)
   atributos1 = atributos
@@ -53,7 +53,7 @@ CAIM = function(datos,VarClas){
   # de los atributos y quitar las variables NO numéricas
   detecta = detector(datos,VarClas)
   # Separa la clase
-  ClaseS = detecta[length(detecta)]
+  ClaseS = detecta["Clase"]
   # Separa los atributos considerados numéricos
   atributos = setdiff(detecta,ClaseS)
   # Ya tengo separativos los atributos y la variable clase

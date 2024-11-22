@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.22 (TeX Live 2022/dev/Debian) (preloaded format=pdflatex 2024.10.22)  15 NOV 2024 11:52
+This is pdfTeX, Version 3.141592653-2.6-1.40.22 (TeX Live 2022/dev/Debian) (preloaded format=pdflatex 2024.10.22)  22 NOV 2024 11:53
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -629,48 +629,59 @@ LaTeX Font Info:    External font `lmex10' loaded for size
 
 [1
 
-{/var/lib/texmf/fonts/map/pdftex/updmap/pdftex.map}]
-Underfull \hbox (badness 10000) in paragraph at lines 135--138
- 
- []
-
-[2]
-<G1.png, id=44, 493.0922pt x 345.54094pt>
+{/var/lib/texmf/fonts/map/pdftex/updmap/pdftex.map}] [2]
+<G1.png, id=42, 493.0922pt x 345.54094pt>
 File: G1.png Graphic file (type png)
 <use G1.png>
-Package pdftex.def Info: G1.png  used on input line 173.
+Package pdftex.def Info: G1.png  used on input line 166.
 (pdftex.def)             Requested size: 469.78172pt x 329.2058pt.
-[3 <./G1.png (PNG copy)>] [4] [5] [6]
-LaTeX Font Info:    Trying to load font information for T1+lmtt on input line 4
-11.
+[3 <./G1.png (PNG copy)>] [4] [5]
+LaTeX Font Info:    Trying to load font information for T1+lmtt on input line 2
+91.
 (/usr/share/texmf/tex/latex/lm/t1lmtt.fd
 File: t1lmtt.fd 2009/10/30 v1.6 Font defs for Latin Modern
-) [7] [8] [9] (./Documentaci贸n.aux) ) 
+)
+Overfull \hbox (55.24345pt too wide) in paragraph at lines 390--390
+[]\T1/lmtt/m/n/10 ##                                soluciones[2,cont1]+delta[c
+ont1], # CASO DONDE SE AUMENTA EL DELTA[] 
+ []
+
+
+Overfull \hbox (49.99347pt too wide) in paragraph at lines 390--390
+[]\T1/lmtt/m/n/10 ##                                soluciones[3,cont1]-delta[c
+ont1]) # Caso donde disminuye el delta[] 
+ []
+
+
+Overfull \hbox (28.99353pt too wide) in paragraph at lines 390--390
+[]\T1/lmtt/m/n/10 ##     soluciones[,D+1] = apply(soluciones[,1:D],1,fx) # Aqui
+ hubo 3 evaluaciones de la funci髇[] 
+ []
+
+[6] [7] [8] (./Documentaci贸n.aux) ) 
 Here is how much of TeX's memory you used:
- 13985 strings out of 478287
- 221042 string characters out of 5849288
- 588701 words of memory out of 5000000
- 31834 multiletter control sequences out of 15000+600000
- 537023 words of font info for 115 fonts, out of 8000000 for 9000
+ 13980 strings out of 478287
+ 220997 string characters out of 5849288
+ 560765 words of memory out of 5000000
+ 31830 multiletter control sequences out of 15000+600000
+ 528283 words of font info for 113 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
- 60i,7n,63p,1011b,586s stack positions out of 5000i,500n,10000p,200000b,80000s
-{/usr/share/texmf/fonts/enc/dvips/lm/lm-e
-c.enc}{/usr/share/texmf/fonts/enc/dvips/lm/lm-rm.enc}{/usr/share/texmf/fonts/en
-c/dvips/lm/lm-mathit.enc}{/usr/share/texmf/fonts/enc/dvips/lm/lm-mathsy.enc}{/u
-sr/share/texmf/fonts/enc/dvips/lm/lm-mathex.enc}</usr/share/texmf/fonts/type1/p
-ublic/lm/lmbx10.pfb></usr/share/texmf/fonts/type1/public/lm/lmbx12.pfb></usr/sh
-are/texmf/fonts/type1/public/lm/lmbx7.pfb></usr/share/texmf/fonts/type1/public/
-lm/lmex10.pfb></usr/share/texmf/fonts/type1/public/lm/lmmi10.pfb></usr/share/te
-xmf/fonts/type1/public/lm/lmmi5.pfb></usr/share/texmf/fonts/type1/public/lm/lmm
-i7.pfb></usr/share/texmf/fonts/type1/public/lm/lmr10.pfb></usr/share/texmf/font
-s/type1/public/lm/lmr12.pfb></usr/share/texmf/fonts/type1/public/lm/lmr5.pfb></
-usr/share/texmf/fonts/type1/public/lm/lmr7.pfb></usr/share/texmf/fonts/type1/pu
-blic/lm/lmsy10.pfb></usr/share/texmf/fonts/type1/public/lm/lmsy7.pfb></usr/shar
-e/texmf/fonts/type1/public/lm/lmtt10.pfb>
-Output written on Documentaci贸n.pdf (9 pages, 356350 bytes).
+ 60i,7n,63p,1011b,584s stack positions out of 5000i,500n,10000p,200000b,80000s
+{/usr/share/texmf/fonts/enc/dvips/lm/lm-ec.
+enc}{/usr/share/texmf/fonts/enc/dvips/lm/lm-mathex.enc}{/usr/share/texmf/fonts/
+enc/dvips/lm/lm-mathsy.enc}{/usr/share/texmf/fonts/enc/dvips/lm/lm-mathit.enc}{
+/usr/share/texmf/fonts/enc/dvips/lm/lm-rm.enc}</usr/share/texmf/fonts/type1/pub
+lic/lm/lmbx10.pfb></usr/share/texmf/fonts/type1/public/lm/lmbx12.pfb></usr/shar
+e/texmf/fonts/type1/public/lm/lmex10.pfb></usr/share/texmf/fonts/type1/public/l
+m/lmmi10.pfb></usr/share/texmf/fonts/type1/public/lm/lmmi7.pfb></usr/share/texm
+f/fonts/type1/public/lm/lmr10.pfb></usr/share/texmf/fonts/type1/public/lm/lmr12
+.pfb></usr/share/texmf/fonts/type1/public/lm/lmr7.pfb></usr/share/texmf/fonts/t
+ype1/public/lm/lmsy10.pfb></usr/share/texmf/fonts/type1/public/lm/lmsy7.pfb></u
+sr/share/texmf/fonts/type1/public/lm/lmtt10.pfb>
+Output written on Documentaci贸n.pdf (8 pages, 328300 bytes).
 PDF statistics:
- 177 PDF objects out of 1000 (max. 8388607)
- 133 compressed objects within 2 object streams
+ 160 PDF objects out of 1000 (max. 8388607)
+ 124 compressed objects within 2 object streams
  20 named destinations out of 1000 (max. 500000)
- 38982 words of extra memory for PDF output out of 42996 (max. 10000000)
+ 32846 words of extra memory for PDF output out of 35830 (max. 10000000)
 
