@@ -1,6 +1,6 @@
 ---
 title: "\\textbf{Optimización inteligente}"
-subtitle: "\\textbf{Tarea 11. Método de direcciones conjugadas de Powel}"
+subtitle: "\\textbf{Tarea 11. Método de direcciones conjugadas de Powell}"
 author: "\\textbf{Ángel García Báez}"
 date: "\\textbf{2024-29-11}"
 output: 
