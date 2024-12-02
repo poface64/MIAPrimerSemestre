@@ -241,25 +241,6 @@ Adicionalmente y para este unico caso, se decidio verificar el comportamiento de
 
 
 
-
-
-
-
-
-
-
-
-A continuación se muestran los resultados de aplicar el algoritmo solo con los datos de la imagen 1:
-
-\begin{table}[ht]
-\centering
-\begin{tabular}{cc}
-\includegraphics[width=0.5\textwidth]{R1.3.png} & \includegraphics[width=0.5\textwidth]{R1.4.png} \\
-\end{tabular}
-\caption{Resultados de la imagen 1 para detección de piel y fondo.}
-\end{table}
-
-
 \newpage
 
 ## Imagen 2: Selena Quintanilla

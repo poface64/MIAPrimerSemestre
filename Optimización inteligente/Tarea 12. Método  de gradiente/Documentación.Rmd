@@ -1,0 +1,177 @@
+---
+title: "\\textbf{Optimización inteligente}"
+subtitle: "\\textbf{Tarea 10. Método de búsqueda de patrones de Hooke-Jeeves}"
+author: "\\textbf{Ángel García Báez}"
+date: "\\textbf{2024-22-11}"
+output: 
+  pdf_document:
+    toc: true
+    number_sections: true
+header-includes:
+   - \usepackage{sectsty}
+   - \allsectionsfont{\bfseries}
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = F,
+                      eval = T, 
+                      message = F,
+                      warning = F)
+```
+
+\newpage
+
+# Breve introducción 
+
+Se planteo un ejercicio en clase donde se pedía encontrar el valor de $x$  que lograra encontrar el mínimo global de la función $f(x_1,x_2) = (x^2_1 + x_2-11) + (x_1 + x^2_2-7)$ haciendo uso de el método de busqeuda de patrones de Hooke-Jeeves.
+
+A continuación se muestra el pseudocodigo para implementar dicho método que esta dividió en 2 partes, el algoritmo que genera la exploración de patrones y el algoritmo principal que hace uso de esa exploración.
+
+## Movimiento exploratorio
+
+Supongamos que la solución actual (el punto base) se denota por $x^c$. 
+Supongamos también que la variable $x_i^c$ es perturbada por $\Delta_i$. 
+Hacer $i = 1$ y $x = x^c$.
+
+Paso 1: Encontrar $f = f(x)$, $f^+ = f(x_i + \Delta_i)$ y $f^- = f(x_i -\Delta_i)$, $f_{\min} = \min(f, f^+, f^-)$. Hacer que $x$ corresponda a $f_{\min}$.
+
+Paso 2: Encontrar $f_{\min} = \min(f, f^+, f^-)$. Hacer que $x$ corresponda a $f_{\min}$.
+
+Paso 3: ¿Es $i = N$? Si no, hacer $i = i + 1$. Ir al Paso 1}.
+ELSE $x$ es el resultado. Ir al Paso 4}.
+
+Paso 4: IF $x \neq x^c$ THEN reportar ÉXITO}
+ELSE reportar FRACASO}.
+
+## Método de busqueda de patrones de Hooke-Jeeves
+
+Algoritmo
+
+Paso 1: Elegir un punto inicial $x^{(0)}$, incrementos de las variables $\Delta_i \ (i = 1, 2, \ldots, N)$, un factor de reducción de paso $\alpha > 1$ y un parámetro de terminación $\epsilon$. Hacer $k = 0$.
+
+Paso 2: Realizar un movimiento exploratorio con $x^{(k)}$ como el punto base. Hacer que $x$ sea la salida del movimiento exploratorio. Si el movimiento exploratorio es exitoso, hacer $x^{(k+1)} = x$. GOTO Paso 4. ELSE GOTO Paso 3.
+
+Paso 3: ¿Es $\|\Delta\| < \epsilon$? Si es CIERTO}, THEN} Terminar. 
+ELSE hacer $\Delta_i = \Delta_i/\alpha$ para $i = 1, 2, \ldots, N$. GOTO Paso 2.
+
+Paso 4: Hacer $k = k + 1$ y efectuar el movimiento de patrones: 
+$$x_p^{(k+1)} = x^{(k)} + \left( x^{(k)} - x^{(k-1)} \right)$$
+
+Paso 5: Realizar otro movimiento exploratorio usando $x_p^{(k+1)}$ como el punto base. Hacer que el resultado sea $x^{(k+1)}$.
+
+Paso 6: ¿Es $f(x^{(k+1)}) < f(x^{(k)})$? Si es CIERTO}, GOTO Paso 4. ELSE GOTO Paso 3.
+
+\newpage
+
+# Experimentación con los resultados.
+
+Primero, debido a que la función se puede graficar en un espacio de 3 dimensiones, se recurrió a esto para tener un referente visual del comportamiento de la misma:
+
+```{python,eval = F}
+# Cargar librerias
+import numpy as np
+import matplotlib.pyplot as plt
+# Definir la función
+def f(x, y):
+    return (x**2 + y - 11)**2 + (x + y**2 - 7)**2
+# Crear el grid
+x = np.linspace(-6, 6, 500)
+y = np.linspace(-6, 6, 500)
+X, Y = np.meshgrid(x, y)
+Z = f(X, Y)
+# Graficar la superficie
+fig = plt.figure(figsize=(10, 7))
+ax = fig.add_subplot(111, projection='3d')
+ax.plot_surface(X, Y, Z, cmap='viridis', alpha=0.9)
+# Etiquetas
+ax.set_title("Gráfica 3D de la función")
+ax.set_xlabel('X1')
+ax.set_ylabel('X2')
+ax.set_zlabel('f(X1, X2)')
+plt.show()
+```
+
+
+![](G1.png)
+
+La función ya no es tan fácil de visualizar o seguir, debido al aumento de una dimensión extra. Dicha función se comporta como una sabana arrugada, la cual parece tener un mínimo muy en el centro de la función con posibles mínimos locales a las orillas.
+
+\newpage
+
+# Experimentación 
+
+## Resolución de clase
+
+Durante la clase se abordo la forma de iniciaizar el método con los siguientes parámetros:
+
+$$
+\begin{matrix}
+x_0 = (0,0) & f(x_0) = 170 & \Delta  =(0.5,0.5)& \alpha = 2 & \varepsilon = 0.001
+\end{matrix}
+$$
+
+con el objetivo de encontrar el mínimo de la función planteada.
+
+Una vez inicializado el algoritmo con dichos valores de $x_0, \alpha, \beta$ y $\varepsilon$ como tolerancia, se hizo la prueba de correr el algoritmo.
+
+A continuación se muestran los resultados de las evaluaciones que hizo el algoritmo:
+
+```{r}
+# Librería para hacer las tablas bonitas
+library(flextable)
+# Declaro la función que se desea minimizar
+fx = function(X){(X[1]^2+X[2]-11)^2 + (X[1] + X[2]^2-7)^2}
+#### Evaluación para el ejercicio de clase ####
+# Busqueda de patrones de Hooke-Jeeves
+# Librería para hacer las tablas bonitas
+library(flextable)
+# Llamo el código
+source("Tarea 10. Hooke-Jevees MAIN.R")
+# Declaro la función que se desea minimizar
+#### Evaluación para el ejercicio de clase ####
+# x0 = (0,0)
+# delta = (0.5,0.5)
+# alfa = 2
+# tol = 0.001
+# Declaro la función que se desea minimizar
+fx = function(X){(X[1]^2+X[2]-11)^2 + (X[1] + X[2]^2-7)^2}
+#### Evaluación para el ejercicio de clase ####
+x0 = c(0,0)
+delta = c(0.5,0.5)
+alfa = 2
+tol = 0.001
+res1 = patroneshj(fx,x0,delta,alfa,tol)
+# Reporta bonito los resultados
+autofit(theme_box(flextable(res1)))
+```
+
+Para esta evaluación de clase, con los parámetros iniciales dados, ocurre que el método encuentra el valor mínimo de la función en $(3,2)$ que devuelve un valor de 0 en apenas 5 iteraciones.
+
+
+\newpage
+
+# Conclusiones y comentarios finales
+
+Este método presento un reto considerable puesto que la descripción de su implementación me resulto particularmente enredosa, por lo que trate de darle forma lógica a modo que llegara a la solución del mínimo aproximado encontrado en el método anterior, sin embargo sospecho que podría no estar funcionando al 100% bien pese a que se hizo un extenso trabajo de debugging pero únicamente con la función dada y los parámetros iniciales.
+
+
+
+\newpage
+
+
+# Anexo 1: Codigo principal del método de busqueda de Hooke-Jeeves.
+
+```{r}
+# Incluir el código de bisección
+cat(readLines("Tarea 10. Hooke-Jevees MAIN.R"), sep = "\n")
+```
+
+\newpage
+
+# Anexo 2: Código para hacer las evaluaciones del método.
+
+```{r}
+# Incluir el código de bisección
+cat(readLines("Tarea 10. Hooke Jevees EVAL .R"), sep = "\n")
+```
+

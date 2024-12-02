@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.22 (TeX Live 2022/dev/Debian) (preloaded format=pdflatex 2024.10.22)  27 NOV 2024 10:43
+This is pdfTeX, Version 3.141592653-2.6-1.40.22 (TeX Live 2022/dev/Debian) (preloaded format=pdflatex 2024.10.22)  27 NOV 2024 13:08
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -625,234 +625,218 @@ Overfull \hbox (24.00508pt too wide) in paragraph at lines 416--422
  [][] 
  []
 
-<R1.3.png, id=106, 320.19624pt x 296.10625pt>
-File: R1.3.png Graphic file (type png)
-<use R1.3.png>
-Package pdftex.def Info: R1.3.png  used on input line 431.
-(pdftex.def)             Requested size: 234.8797pt x 217.2085pt.
-<R1.4.png, id=107, 320.19624pt x 296.10625pt>
-File: R1.4.png Graphic file (type png)
-<use R1.4.png>
-Package pdftex.def Info: R1.4.png  used on input line 431.
-(pdftex.def)             Requested size: 234.8797pt x 217.2085pt.
-
-Overfull \hbox (24.00441pt too wide) in paragraph at lines 430--433
- [][] 
- []
-
 [10 <./RESULTADOS/R1.8.png> <./RESULTADOS/R1.9.png> <./RESULTADOS/R1.10.png> <.
 /RESULTADOS/R1.11.png>]
-<RESULTADOS/R2.1.png, id=117, 320.19624pt x 296.10625pt>
+<RESULTADOS/R2.1.png, id=115, 320.19624pt x 296.10625pt>
 File: RESULTADOS/R2.1.png Graphic file (type png)
 <use RESULTADOS/R2.1.png>
-Package pdftex.def Info: RESULTADOS/R2.1.png  used on input line 449.
+Package pdftex.def Info: RESULTADOS/R2.1.png  used on input line 438.
 (pdftex.def)             Requested size: 234.8797pt x 217.2085pt.
-<RESULTADOS/R2.2.png, id=118, 773.89125pt x 755.82375pt>
+<RESULTADOS/R2.2.png, id=116, 773.89125pt x 755.82375pt>
 File: RESULTADOS/R2.2.png Graphic file (type png)
 <use RESULTADOS/R2.2.png>
-Package pdftex.def Info: RESULTADOS/R2.2.png  used on input line 450.
+Package pdftex.def Info: RESULTADOS/R2.2.png  used on input line 439.
 (pdftex.def)             Requested size: 234.87334pt x 229.38991pt.
 
-Overfull \hbox (23.99805pt too wide) in paragraph at lines 448--452
+Overfull \hbox (23.99805pt too wide) in paragraph at lines 437--441
  [][] 
  []
 
-[11 <./R1.3.png (PNG copy)> <./R1.4.png (PNG copy)>]
-<RESULTADOS/R2.3.png, id=124, 773.89125pt x 755.82375pt>
+[11 <./RESULTADOS/R2.1.png (PNG copy)> <./RESULTADOS/R2.2.png (PNG copy)>]
+<RESULTADOS/R2.3.png, id=122, 773.89125pt x 755.82375pt>
 File: RESULTADOS/R2.3.png Graphic file (type png)
 <use RESULTADOS/R2.3.png>
-Package pdftex.def Info: RESULTADOS/R2.3.png  used on input line 484.
+Package pdftex.def Info: RESULTADOS/R2.3.png  used on input line 473.
 (pdftex.def)             Requested size: 234.87334pt x 229.38991pt.
-<RESULTADOS/R2.4.png, id=125, 773.89125pt x 755.82375pt>
+<RESULTADOS/R2.4.png, id=123, 773.89125pt x 755.82375pt>
 File: RESULTADOS/R2.4.png Graphic file (type png)
 <use RESULTADOS/R2.4.png>
-Package pdftex.def Info: RESULTADOS/R2.4.png  used on input line 485.
+Package pdftex.def Info: RESULTADOS/R2.4.png  used on input line 474.
 (pdftex.def)             Requested size: 234.87334pt x 229.38991pt.
-<RESULTADOS/R2.5.png, id=126, 773.89125pt x 755.82375pt>
+<RESULTADOS/R2.5.png, id=124, 773.89125pt x 755.82375pt>
 File: RESULTADOS/R2.5.png Graphic file (type png)
 <use RESULTADOS/R2.5.png>
-Package pdftex.def Info: RESULTADOS/R2.5.png  used on input line 486.
+Package pdftex.def Info: RESULTADOS/R2.5.png  used on input line 475.
 (pdftex.def)             Requested size: 234.87334pt x 229.38991pt.
 
-Overfull \hbox (23.99168pt too wide) in paragraph at lines 483--488
+Overfull \hbox (23.99168pt too wide) in paragraph at lines 472--477
  [][] 
  []
 
-[12 <./RESULTADOS/R2.1.png (PNG copy)> <./RESULTADOS/R2.2.png (PNG copy)>] [13 
-<./RESULTADOS/R2.3.png (PNG copy)> <./RESULTADOS/R2.4.png (PNG copy)> <./RESULT
-ADOS/R2.5.png (PNG copy)>]
-<RESULTADOS/R2.6.png, id=138, 773.89125pt x 755.82375pt>
+[12 <./RESULTADOS/R2.3.png (PNG copy)> <./RESULTADOS/R2.4.png (PNG copy)> <./RE
+SULTADOS/R2.5.png (PNG copy)>]
+<RESULTADOS/R2.6.png, id=130, 773.89125pt x 755.82375pt>
 File: RESULTADOS/R2.6.png Graphic file (type png)
 <use RESULTADOS/R2.6.png>
-Package pdftex.def Info: RESULTADOS/R2.6.png  used on input line 503.
+Package pdftex.def Info: RESULTADOS/R2.6.png  used on input line 492.
 (pdftex.def)             Requested size: 234.87334pt x 229.38991pt.
-<RESULTADOS/R2.7.png, id=139, 773.89125pt x 755.82375pt>
+<RESULTADOS/R2.7.png, id=131, 773.89125pt x 755.82375pt>
 File: RESULTADOS/R2.7.png Graphic file (type png)
 <use RESULTADOS/R2.7.png>
-Package pdftex.def Info: RESULTADOS/R2.7.png  used on input line 504.
+Package pdftex.def Info: RESULTADOS/R2.7.png  used on input line 493.
 (pdftex.def)             Requested size: 234.87334pt x 229.38991pt.
 
-Overfull \hbox (23.99168pt too wide) in paragraph at lines 502--506
+Overfull \hbox (23.99168pt too wide) in paragraph at lines 491--495
  [][] 
  []
 
-[14 <./RESULTADOS/R2.6.png (PNG copy)> <./RESULTADOS/R2.7.png (PNG copy)>]
-<RESULTADOS/R3.1.png, id=145, 320.19624pt x 296.10625pt>
+[13 <./RESULTADOS/R2.6.png (PNG copy)> <./RESULTADOS/R2.7.png (PNG copy)>]
+<RESULTADOS/R3.1.png, id=138, 320.19624pt x 296.10625pt>
 File: RESULTADOS/R3.1.png Graphic file (type png)
 <use RESULTADOS/R3.1.png>
-Package pdftex.def Info: RESULTADOS/R3.1.png  used on input line 521.
+Package pdftex.def Info: RESULTADOS/R3.1.png  used on input line 510.
 (pdftex.def)             Requested size: 234.8797pt x 217.2085pt.
-<RESULTADOS/R3.2.png, id=146, 695.59875pt x 666.49pt>
+<RESULTADOS/R3.2.png, id=139, 695.59875pt x 666.49pt>
 File: RESULTADOS/R3.2.png Graphic file (type png)
 <use RESULTADOS/R3.2.png>
-Package pdftex.def Info: RESULTADOS/R3.2.png  used on input line 522.
+Package pdftex.def Info: RESULTADOS/R3.2.png  used on input line 511.
 (pdftex.def)             Requested size: 234.87651pt x 225.04762pt.
 
-Overfull \hbox (24.00122pt too wide) in paragraph at lines 520--524
+Overfull \hbox (24.00122pt too wide) in paragraph at lines 509--513
  [][] 
  []
 
-[15 <./RESULTADOS/R3.1.png (PNG copy)> <./RESULTADOS/R3.2.png (PNG copy)>]
-<RESULTADOS/R3.3.png, id=152, 695.59875pt x 666.49pt>
+[14 <./RESULTADOS/R3.1.png (PNG copy)> <./RESULTADOS/R3.2.png (PNG copy)>]
+<RESULTADOS/R3.3.png, id=145, 695.59875pt x 666.49pt>
 File: RESULTADOS/R3.3.png Graphic file (type png)
 <use RESULTADOS/R3.3.png>
-Package pdftex.def Info: RESULTADOS/R3.3.png  used on input line 556.
+Package pdftex.def Info: RESULTADOS/R3.3.png  used on input line 545.
 (pdftex.def)             Requested size: 234.87651pt x 225.04762pt.
-<RESULTADOS/R3.4.png, id=153, 695.59875pt x 666.49pt>
+<RESULTADOS/R3.4.png, id=146, 695.59875pt x 666.49pt>
 File: RESULTADOS/R3.4.png Graphic file (type png)
 <use RESULTADOS/R3.4.png>
-Package pdftex.def Info: RESULTADOS/R3.4.png  used on input line 557.
+Package pdftex.def Info: RESULTADOS/R3.4.png  used on input line 546.
 (pdftex.def)             Requested size: 234.87651pt x 225.04762pt.
-<RESULTADOS/R3.5.png, id=154, 695.59875pt x 666.49pt>
+<RESULTADOS/R3.5.png, id=147, 695.59875pt x 666.49pt>
 File: RESULTADOS/R3.5.png Graphic file (type png)
 <use RESULTADOS/R3.5.png>
-Package pdftex.def Info: RESULTADOS/R3.5.png  used on input line 558.
+Package pdftex.def Info: RESULTADOS/R3.5.png  used on input line 547.
 (pdftex.def)             Requested size: 234.87651pt x 225.04762pt.
 
-Overfull \hbox (23.99803pt too wide) in paragraph at lines 555--560
+Overfull \hbox (23.99803pt too wide) in paragraph at lines 544--549
  [][] 
  []
 
-[16 <./RESULTADOS/R3.3.png (PNG copy)> <./RESULTADOS/R3.4.png (PNG copy)> <./RE
+[15 <./RESULTADOS/R3.3.png (PNG copy)> <./RESULTADOS/R3.4.png (PNG copy)> <./RE
 SULTADOS/R3.5.png (PNG copy)>]
-<RESULTADOS/R3.6.png, id=160, 695.59875pt x 666.49pt>
+<RESULTADOS/R3.6.png, id=153, 695.59875pt x 666.49pt>
 File: RESULTADOS/R3.6.png Graphic file (type png)
 <use RESULTADOS/R3.6.png>
-Package pdftex.def Info: RESULTADOS/R3.6.png  used on input line 575.
+Package pdftex.def Info: RESULTADOS/R3.6.png  used on input line 564.
 (pdftex.def)             Requested size: 234.87651pt x 225.04762pt.
-<RESULTADOS/R3.7.png, id=161, 695.59875pt x 666.49pt>
+<RESULTADOS/R3.7.png, id=154, 695.59875pt x 666.49pt>
 File: RESULTADOS/R3.7.png Graphic file (type png)
 <use RESULTADOS/R3.7.png>
-Package pdftex.def Info: RESULTADOS/R3.7.png  used on input line 576.
+Package pdftex.def Info: RESULTADOS/R3.7.png  used on input line 565.
 (pdftex.def)             Requested size: 234.87651pt x 225.04762pt.
 
-Overfull \hbox (23.99803pt too wide) in paragraph at lines 574--578
+Overfull \hbox (23.99803pt too wide) in paragraph at lines 563--567
  [][] 
  []
 
-[17 <./RESULTADOS/R3.6.png (PNG copy)> <./RESULTADOS/R3.7.png (PNG copy)>] [18]
+[16 <./RESULTADOS/R3.6.png (PNG copy)> <./RESULTADOS/R3.7.png (PNG copy)>] [17]
 LaTeX Font Info:    Trying to load font information for T1+lmtt on input line 5
-96.
+85.
 (/usr/share/texmf/tex/latex/lm/t1lmtt.fd
 File: t1lmtt.fd 2009/10/30 v1.6 Font defs for Latin Modern
 )
 LaTeX Font Info:    Font shape `T1/lmtt/bx/n' in size <10> not available
-(Font)              Font shape `T1/lmtt/b/n' tried instead on input line 599.
+(Font)              Font shape `T1/lmtt/b/n' tried instead on input line 588.
 
-Underfull \vbox (badness 1325) detected at line 657
+Underfull \vbox (badness 1325) detected at line 646
  []
 
-[19] [20]
+[18] [19]
 
 LaTeX Font Warning: Font shape `T1/lmtt/bx/it' in size <10> not available
-(Font)              Font shape `T1/lmtt/b/sl' tried instead on input line 669.
+(Font)              Font shape `T1/lmtt/b/sl' tried instead on input line 658.
 
 LaTeX Font Info:    Trying to load font information for TS1+lmtt on input line 
-670.
+659.
 (/usr/share/texmf/tex/latex/lm/ts1lmtt.fd
 File: ts1lmtt.fd 2009/10/30 v1.6 Font defs for Latin Modern
 )
-Underfull \vbox (badness 4341) detected at line 1217
+Underfull \vbox (badness 4341) detected at line 1206
+ []
+
+[20]
+Underfull \vbox (badness 10000) detected at line 1206
+ []
+
+
+Underfull \vbox (badness 10000) detected at line 1206
  []
 
 [21]
-Underfull \vbox (badness 10000) detected at line 1217
+Underfull \vbox (badness 10000) detected at line 1206
  []
 
 
-Underfull \vbox (badness 10000) detected at line 1217
+Underfull \vbox (badness 10000) detected at line 1206
  []
 
 [22]
-Underfull \vbox (badness 10000) detected at line 1217
+Underfull \vbox (badness 10000) detected at line 1206
  []
 
 
-Underfull \vbox (badness 10000) detected at line 1217
+Underfull \vbox (badness 10000) detected at line 1206
  []
 
 [23]
-Underfull \vbox (badness 10000) detected at line 1217
+Underfull \vbox (badness 10000) detected at line 1206
  []
 
 
-Underfull \vbox (badness 10000) detected at line 1217
+Underfull \vbox (badness 10000) detected at line 1206
  []
 
 [24]
-Underfull \vbox (badness 10000) detected at line 1217
+Underfull \vbox (badness 10000) detected at line 1206
  []
 
 
-Underfull \vbox (badness 10000) detected at line 1217
+Underfull \vbox (badness 10000) detected at line 1206
  []
 
 [25]
-Underfull \vbox (badness 10000) detected at line 1217
+Underfull \vbox (badness 10000) detected at line 1206
  []
 
 
-Underfull \vbox (badness 10000) detected at line 1217
+Underfull \vbox (badness 10000) detected at line 1206
  []
 
 [26]
-Underfull \vbox (badness 10000) detected at line 1217
+Underfull \vbox (badness 10000) detected at line 1206
  []
 
 
-Underfull \vbox (badness 10000) detected at line 1217
+Underfull \vbox (badness 10000) detected at line 1206
  []
 
 [27]
-Underfull \vbox (badness 10000) detected at line 1217
+Underfull \vbox (badness 10000) detected at line 1206
  []
 
 
-Underfull \vbox (badness 10000) detected at line 1217
+Underfull \vbox (badness 10000) detected at line 1206
  []
 
 [28]
-Underfull \vbox (badness 10000) detected at line 1217
+Underfull \vbox (badness 10000) detected at line 1206
  []
 
 
-Underfull \vbox (badness 10000) detected at line 1217
+Underfull \vbox (badness 10000) detected at line 1206
  []
 
-[29]
-Underfull \vbox (badness 10000) detected at line 1217
- []
-
-
-Underfull \vbox (badness 10000) detected at line 1217
- []
-
-[30] [31] (./Documentacion.aux) ) 
+[29] [30] (./Documentacion.aux) ) 
 Here is how much of TeX's memory you used:
- 14310 strings out of 478287
- 226155 string characters out of 5849288
- 646513 words of memory out of 5000000
- 32049 multiletter control sequences out of 15000+600000
+ 14296 strings out of 478287
+ 225974 string characters out of 5849288
+ 646393 words of memory out of 5000000
+ 32037 multiletter control sequences out of 15000+600000
  544328 words of font info for 141 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
  74i,12n,77p,1010b,373s stack positions out of 5000i,500n,10000p,200000b,80000s
@@ -870,10 +854,10 @@ hare/texmf/fonts/type1/public/lm/lmsy7.pfb></usr/share/texmf/fonts/type1/public
 /lm/lmtk10.pfb></usr/share/texmf/fonts/type1/public/lm/lmtko10.pfb></usr/share/
 texmf/fonts/type1/public/lm/lmtt10.pfb></usr/share/texmf/fonts/type1/public/lm/
 lmtti10.pfb>
-Output written on Documentacion.pdf (31 pages, 1939750 bytes).
+Output written on Documentacion.pdf (30 pages, 1707601 bytes).
 PDF statistics:
- 372 PDF objects out of 1000 (max. 8388607)
- 271 compressed objects within 3 object streams
- 62 named destinations out of 1000 (max. 500000)
- 41247 words of extra memory for PDF output out of 42996 (max. 10000000)
+ 363 PDF objects out of 1000 (max. 8388607)
+ 265 compressed objects within 3 object streams
+ 60 named destinations out of 1000 (max. 500000)
+ 41237 words of extra memory for PDF output out of 42996 (max. 10000000)
 
