@@ -1,0 +1,207 @@
+% !TeX document-id = {a88fc8da-a99f-4e14-8e0c-f77682c5796e}
+% !TeX TXS-program:compile = txs:///pdflatex/[--shell-escape]
+\documentclass[11pt, letterpaper]{article}
+
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{lmodern}
+\usepackage{graphicx}
+\usepackage{longtable}
+\usepackage{wrapfig}
+\usepackage{rotating}
+\usepackage{amsmath}
+\usepackage{textcomp}
+\usepackage{amssymb}
+\usepackage{hyperref}
+\usepackage{minted}
+\usepackage[spanish]{babel}
+\usepackage[round]{natbib}
+
+\title{\textsc{Programación Lógica y Funcional} \\
+	Tarea 5. LISP en IA (ID3)}
+
+\author{Angel García Báez \\ \emph{ZS24019400@estudiantes.uv.mx} \\ \\
+	Maestría en Inteligencia Artificial \\ \\ \textbf{IIIA}
+	Instituto de Investigaciones en Inteligencia Artificial \\
+	Universidad Veracruzana \\ \emph{Campus Sur, Calle Paseo Lote II,
+		Sección 2a, No 112} \\ \emph{Nuevo Xalapa, Xalapa, Ver., México 91097}}
+
+\date{\today}
+
+
+\begin{document}
+
+\maketitle
+
+
+
+\begin{itemize}
+	\item Utilizando los siguientes conjuntos de entrenamiento del repositorio UCI (\url{https://archive.ics.uci.edu/ml/index.php}):
+	
+	\begin{itemize}	
+		\item Car Evaluation
+		\item Tic-Tac-Toe
+		\item Zoo
+	\end{itemize}
+	
+	llevar a cabo las siguientes actividades:
+	
+	\begin{enumerate}
+		\item Implementar en Lisp las mejoras al algoritmo ID3 que adoptaron en su implementación en Prolog [65/100].
+		
+		\item . Describa brevemente (máximo una página) las diferencias y similitudes del uso de la programación lógica (prolog) y funcional (lisp) para
+		implementar ID3. [35/100]
+		
+	\end{enumerate}
+
+\end{itemize}
+
+%%%% Punto 1
+
+\newpage
+
+\section{Implementación de las mejoras en el ID3 (Split information y gain ratio)}
+
+Para realizar las mejoras al ID3 básico fue necesario retomar lo propuesto por \cite{quinlan86} en su articulo Induction of Decision Trees con la finalidad de entender la estructura base del árbol así como de las oportunidades de mejora que puede tener la implementación inicial del mismo.
+
+Después de revisar el articulo junto con las notas de clase de \cite{guerra2024} y retomando la implementación hecha en prolog, se opto por mejorar el algoritmo base mediante el criterio la split information y el gain ratio. Estos criterios se aplican después de calcular la entropía y la ganancia de información de tal forma que se pueda penalizar a aquellos atributos que tengan muchas clases y que no estén aportando realmente a realizar la correcta clasificación de las clases objetivo.
+
+Las formulas necesarias se expresan como siguen: 
+
+\
+
+\textbf{Entropía de la información por atributo:}	 
+
+$$\text{entropia(S)} = - \sum_{i=1}^{k} p_i \cdot \log_2(p_i)$$
+
+Donde:
+$$p_i = \frac{|S_i|}{|S|}$$
+
+\
+
+\textbf{Ganancia de información:}	 
+
+$$\text{gain(S, A)} = \text{entropia(S)} - \sum{\frac{|S_v|}{|S|} \cdot \text{entropia}(S_v)} $$
+
+\
+
+\textbf{División de la información:}	 
+
+$$\text{splitInformation(S, A)} = \sum_{i = 1}^{c} {\frac{|S_i|}{|S|} log_2 \frac{|S_i|}{|S|}}$$
+
+\
+
+\textbf{Ratio de información:}	 
+
+$$\text{gainRatio(S, A)} = \frac{\text{gain(S,A)}}{\text{splitInformation(S, A)}}$$
+
+Una vez identificada la mejora y recordados los pasos dados en prolog, se procede a buscar la manera de implementar esto en LISP.
+
+Primero se identificaron las funciones del código que se encargan de calcular la entropía y la ganancia de información dentro del código.
+
+A continuación se muestra la función de entropía dentro del código, la cual no fue cambiada dado que es necesaria para poder hacer el calculo del gain ratio:
+
+
+\begin{minted}[linenos,firstnumber=1]{LISP}
+;;;; Entropia ;;;;
+(defun entropy (examples attrib)
+  "It computes the entropy of EXAMPLES with respect to an ATTRIB"
+  (let ((partition (get-partition attrib examples))
+  (number-of-examples (length examples)))
+    (apply #'+
+     (mapcar #'(lambda(part)
+           (let* ((size-part (count-if #'atom 
+               (cdr part)))
+           (proportion 
+            (if (eq size-part 0) 0
+          (/ size-part 
+              number-of-examples))))
+     (* -1.0 proportion (log proportion 2))))
+     (cdr partition)))))	
+\end{minted}
+
+A continuación se muestra la función de ganancia de información básica que de igual forma, no fue modificada dado que es necesaria:
+
+\begin{minted}[linenos,firstnumber=1]{LISP}
+;;;; Ganancia de la información ;;;;;
+(defun information-gain (examples attribute)
+  "It computes information-gain for an ATTRIBUTE in EXAMPLES"
+  (let ((parts (get-partition attribute examples))
+  (no-examples (count-if #'atom examples)))
+    (- (entropy examples *target*)
+       (apply #'+
+        (mapcar 
+          #'(lambda(part)
+       (let* ((size-part (count-if #'atom
+                 (cdr part)))
+         (proportion (if (eq size-part 0) 0
+             (/ size-part
+                no-examples))))
+         (* proportion (entropy (cdr part) *target*))))
+         (cdr parts))))))
+\end{minted}
+
+Aquí es donde se añaden las mejoras al código, comenzando por añadir el calculo del split-information al código principal como sigue:
+
+\begin{minted}[linenos,firstnumber=1]{LISP}
+;;; Split Information
+(defun split-information (examples attribute)
+  "It computes the split information for an ATTRIBUTE in EXAMPLES"
+  (let ((partition (get-partition attribute examples))
+        (no-examples (length examples)))
+    (apply #'+
+           (mapcar #'(lambda (part)
+                       (let* ((size-part (length (cdr part)))
+                              (proportion (if (zerop size-part) 0
+                                            (/ size-part no-examples))))
+                           (if (zerop proportion) 0
+                               (* -1.0 proportion (log proportion 2)))))
+                   (cdr partition)))))
+\end{minted}
+
+La siguiente mejora necesaria es añadir el calculo del Gain Ratio como sigue:
+
+\begin{minted}[linenos,firstnumber=1]{LISP}
+;;; Gain Ratio
+(defun gain-ratio (examples attribute)
+  "It computes the gain ratio for an ATTRIBUTE in EXAMPLES"
+  (let ((info-gain (information-gain examples attribute))
+        (split-info (split-information examples attribute)))
+    (if (zerop split-info)
+         0
+         (/ info-gain split-info))))
+\end{minted}
+
+Una vez que se tienen todas las funciones necesarias, es necesario modificar la forma en que el algoritmo determina la mejor rama del árbol para que se base en el gain ratio. Dicho código cambia la selección basada en la ganancia de información para que en su lugar, considere al atributo que maximiza el gain ratio en cada iteración. El resultado se presenta a continuación como modificación de la función base best-partition:
+
+\newpage
+
+\begin{minted}[linenos,firstnumber=1]{LISP}
+;;; Mejor partición basada en Gain Ratio
+(defun best-partition (attributes examples)
+  "Computar la mejor partición en base al gain ratio"
+  (let* ((gain-ratios
+          (loop for attrib in attributes collect
+           (let ((gr (gain-ratio examples attrib))
+                 (p (get-partition attrib examples)))
+             (when *trace*
+               (format t "Partición inducida por el atributo ~s:~%~s~%"
+                       attrib p)
+               (format t "Gain Ratio: ~s~%" gr))
+             (list gr p))))
+         (best (cadar (sort gain-ratios #'(lambda (x y) (> (car x) (car y)))))))
+   (when *trace* (format t "Best partition: ~s~%-------------~%" best))
+   best))
+\end{minted}
+
+\newpage
+
+Una vez implementadas las mejoras factibles basadas en el gain-ratio, es momento de ponerlas a prueba sobre los conjuntos de datos propuestos. Para ello, 
+
+
+
+
+\bibliographystyle{apalike}
+\bibliography{Biblio}
+
+\end{document}

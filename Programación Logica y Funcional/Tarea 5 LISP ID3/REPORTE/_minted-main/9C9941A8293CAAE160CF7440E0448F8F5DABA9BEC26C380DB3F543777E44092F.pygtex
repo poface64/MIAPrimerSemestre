@@ -1,0 +1,18 @@
+\begin{Verbatim}[commandchars=\\\{\}]
+\PYG{c+c1}{;;;; Ganancia de la información ;;;;;}
+\PYG{p}{(}\PYG{n+nb}{defun}\PYG{+w}{ }\PYG{n+nv}{information\PYGZhy{}gain}\PYG{+w}{ }\PYG{p}{(}\PYG{n+nv}{examples}\PYG{+w}{ }\PYG{n+nv}{attribute}\PYG{p}{)}
+\PYG{+w}{  }\PYG{l+s}{\PYGZdq{}It computes information\PYGZhy{}gain for an ATTRIBUTE in EXAMPLES\PYGZdq{}}
+\PYG{+w}{  }\PYG{p}{(}\PYG{k}{let}\PYG{+w}{ }\PYG{p}{((}\PYG{n+nv}{parts}\PYG{+w}{ }\PYG{p}{(}\PYG{n+nv}{get\PYGZhy{}partition}\PYG{+w}{ }\PYG{n+nv}{attribute}\PYG{+w}{ }\PYG{n+nv}{examples}\PYG{p}{))}
+\PYG{+w}{  }\PYG{p}{(}\PYG{n+nv}{no\PYGZhy{}examples}\PYG{+w}{ }\PYG{p}{(}\PYG{n+nb}{count\PYGZhy{}if}\PYG{+w}{ }\PYG{n+nf}{\PYGZsh{}\PYGZsq{}}\PYG{n+nb}{atom}\PYG{+w}{ }\PYG{n+nv}{examples}\PYG{p}{)))}
+\PYG{+w}{    }\PYG{p}{(}\PYG{n+nb}{\PYGZhy{}}\PYG{+w}{ }\PYG{p}{(}\PYG{n+nv}{entropy}\PYG{+w}{ }\PYG{n+nv}{examples}\PYG{+w}{ }\PYG{n+nv+vg}{*target*}\PYG{p}{)}
+\PYG{+w}{       }\PYG{p}{(}\PYG{n+nb}{apply}\PYG{+w}{ }\PYG{n+nf}{\PYGZsh{}\PYGZsq{}}\PYG{n+nb}{+}
+\PYG{+w}{        }\PYG{p}{(}\PYG{n+nb}{mapcar}
+\PYG{+w}{          }\PYG{n+nf}{\PYGZsh{}\PYGZsq{}}\PYG{p}{(}\PYG{k}{lambda}\PYG{p}{(}\PYG{n+nv}{part}\PYG{p}{)}
+\PYG{+w}{       }\PYG{p}{(}\PYG{k}{let*}\PYG{+w}{ }\PYG{p}{((}\PYG{n+nv}{size\PYGZhy{}part}\PYG{+w}{ }\PYG{p}{(}\PYG{n+nb}{count\PYGZhy{}if}\PYG{+w}{ }\PYG{n+nf}{\PYGZsh{}\PYGZsq{}}\PYG{n+nb}{atom}
+\PYG{+w}{                 }\PYG{p}{(}\PYG{n+nb}{cdr}\PYG{+w}{ }\PYG{n+nv}{part}\PYG{p}{)))}
+\PYG{+w}{         }\PYG{p}{(}\PYG{n+nv}{proportion}\PYG{+w}{ }\PYG{p}{(}\PYG{k}{if}\PYG{+w}{ }\PYG{p}{(}\PYG{n+nb}{eq}\PYG{+w}{ }\PYG{n+nv}{size\PYGZhy{}part}\PYG{+w}{ }\PYG{l+m+mi}{0}\PYG{p}{)}\PYG{+w}{ }\PYG{l+m+mi}{0}
+\PYG{+w}{             }\PYG{p}{(}\PYG{n+nb}{/}\PYG{+w}{ }\PYG{n+nv}{size\PYGZhy{}part}
+\PYG{+w}{                }\PYG{n+nv}{no\PYGZhy{}examples}\PYG{p}{))))}
+\PYG{+w}{         }\PYG{p}{(}\PYG{n+nb}{*}\PYG{+w}{ }\PYG{n+nv}{proportion}\PYG{+w}{ }\PYG{p}{(}\PYG{n+nv}{entropy}\PYG{+w}{ }\PYG{p}{(}\PYG{n+nb}{cdr}\PYG{+w}{ }\PYG{n+nv}{part}\PYG{p}{)}\PYG{+w}{ }\PYG{n+nv+vg}{*target*}\PYG{p}{))))}
+\PYG{+w}{         }\PYG{p}{(}\PYG{n+nb}{cdr}\PYG{+w}{ }\PYG{n+nv}{parts}\PYG{p}{))))))}
+\end{Verbatim}

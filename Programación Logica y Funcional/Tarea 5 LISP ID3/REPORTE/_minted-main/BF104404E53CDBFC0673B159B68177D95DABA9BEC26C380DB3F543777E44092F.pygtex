@@ -1,0 +1,17 @@
+\begin{Verbatim}[commandchars=\\\{\}]
+\PYG{c+c1}{;;; Mejor partición basada en Gain Ratio}
+\PYG{p}{(}\PYG{n+nb}{defun}\PYG{+w}{ }\PYG{n+nv}{best\PYGZhy{}partition}\PYG{+w}{ }\PYG{p}{(}\PYG{n+nv}{attributes}\PYG{+w}{ }\PYG{n+nv}{examples}\PYG{p}{)}
+\PYG{+w}{  }\PYG{l+s}{\PYGZdq{}Computar la mejor partición en base al gain ratio\PYGZdq{}}
+\PYG{+w}{  }\PYG{p}{(}\PYG{k}{let*}\PYG{+w}{ }\PYG{p}{((}\PYG{n+nv}{gain\PYGZhy{}ratios}
+\PYG{+w}{          }\PYG{p}{(}\PYG{n+nb}{loop}\PYG{+w}{ }\PYG{n+nv}{for}\PYG{+w}{ }\PYG{n+nv}{attrib}\PYG{+w}{ }\PYG{n+nv}{in}\PYG{+w}{ }\PYG{n+nv}{attributes}\PYG{+w}{ }\PYG{n+nv}{collect}
+\PYG{+w}{           }\PYG{p}{(}\PYG{k}{let}\PYG{+w}{ }\PYG{p}{((}\PYG{n+nv}{gr}\PYG{+w}{ }\PYG{p}{(}\PYG{n+nv}{gain\PYGZhy{}ratio}\PYG{+w}{ }\PYG{n+nv}{examples}\PYG{+w}{ }\PYG{n+nv}{attrib}\PYG{p}{))}
+\PYG{+w}{                 }\PYG{p}{(}\PYG{n+nv}{p}\PYG{+w}{ }\PYG{p}{(}\PYG{n+nv}{get\PYGZhy{}partition}\PYG{+w}{ }\PYG{n+nv}{attrib}\PYG{+w}{ }\PYG{n+nv}{examples}\PYG{p}{)))}
+\PYG{+w}{             }\PYG{p}{(}\PYG{n+nb}{when}\PYG{+w}{ }\PYG{n+nv+vg}{*trace*}
+\PYG{+w}{               }\PYG{p}{(}\PYG{n+nb}{format}\PYG{+w}{ }\PYG{n+no}{t}\PYG{+w}{ }\PYG{l+s}{\PYGZdq{}Partición inducida por el atributo \PYGZti{}s:\PYGZti{}\PYGZpc{}\PYGZti{}s\PYGZti{}\PYGZpc{}\PYGZdq{}}
+\PYG{+w}{                       }\PYG{n+nv}{attrib}\PYG{+w}{ }\PYG{n+nv}{p}\PYG{p}{)}
+\PYG{+w}{               }\PYG{p}{(}\PYG{n+nb}{format}\PYG{+w}{ }\PYG{n+no}{t}\PYG{+w}{ }\PYG{l+s}{\PYGZdq{}Gain Ratio: \PYGZti{}s\PYGZti{}\PYGZpc{}\PYGZdq{}}\PYG{+w}{ }\PYG{n+nv}{gr}\PYG{p}{))}
+\PYG{+w}{             }\PYG{p}{(}\PYG{n+nb}{list}\PYG{+w}{ }\PYG{n+nv}{gr}\PYG{+w}{ }\PYG{n+nv}{p}\PYG{p}{))))}
+\PYG{+w}{         }\PYG{p}{(}\PYG{n+nv}{best}\PYG{+w}{ }\PYG{p}{(}\PYG{n+nb}{cadar}\PYG{+w}{ }\PYG{p}{(}\PYG{n+nb}{sort}\PYG{+w}{ }\PYG{n+nv}{gain\PYGZhy{}ratios}\PYG{+w}{ }\PYG{n+nf}{\PYGZsh{}\PYGZsq{}}\PYG{p}{(}\PYG{k}{lambda}\PYG{+w}{ }\PYG{p}{(}\PYG{n+nv}{x}\PYG{+w}{ }\PYG{n+nv}{y}\PYG{p}{)}\PYG{+w}{ }\PYG{p}{(}\PYG{n+nb}{\PYGZgt{}}\PYG{+w}{ }\PYG{p}{(}\PYG{n+nb}{car}\PYG{+w}{ }\PYG{n+nv}{x}\PYG{p}{)}\PYG{+w}{ }\PYG{p}{(}\PYG{n+nb}{car}\PYG{+w}{ }\PYG{n+nv}{y}\PYG{p}{)))))))}
+\PYG{+w}{   }\PYG{p}{(}\PYG{n+nb}{when}\PYG{+w}{ }\PYG{n+nv+vg}{*trace*}\PYG{+w}{ }\PYG{p}{(}\PYG{n+nb}{format}\PYG{+w}{ }\PYG{n+no}{t}\PYG{+w}{ }\PYG{l+s}{\PYGZdq{}Best partition: \PYGZti{}s\PYGZti{}\PYGZpc{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZhy{}\PYGZti{}\PYGZpc{}\PYGZdq{}}\PYG{+w}{ }\PYG{n+nv}{best}\PYG{p}{))}
+\PYG{+w}{   }\PYG{n+nv}{best}\PYG{p}{))}
+\end{Verbatim}

@@ -1,0 +1,17 @@
+\begin{Verbatim}[commandchars=\\\{\}]
+\PYG{c+c1}{;;;; Entropia ;;;;}
+\PYG{p}{(}\PYG{n+nb}{defun}\PYG{+w}{ }\PYG{n+nv}{entropy}\PYG{+w}{ }\PYG{p}{(}\PYG{n+nv}{examples}\PYG{+w}{ }\PYG{n+nv}{attrib}\PYG{p}{)}
+\PYG{+w}{  }\PYG{l+s}{\PYGZdq{}It computes the entropy of EXAMPLES with respect to an ATTRIB\PYGZdq{}}
+\PYG{+w}{  }\PYG{p}{(}\PYG{k}{let}\PYG{+w}{ }\PYG{p}{((}\PYG{n+nv}{partition}\PYG{+w}{ }\PYG{p}{(}\PYG{n+nv}{get\PYGZhy{}partition}\PYG{+w}{ }\PYG{n+nv}{attrib}\PYG{+w}{ }\PYG{n+nv}{examples}\PYG{p}{))}
+\PYG{+w}{  }\PYG{p}{(}\PYG{n+nv}{number\PYGZhy{}of\PYGZhy{}examples}\PYG{+w}{ }\PYG{p}{(}\PYG{n+nb}{length}\PYG{+w}{ }\PYG{n+nv}{examples}\PYG{p}{)))}
+\PYG{+w}{    }\PYG{p}{(}\PYG{n+nb}{apply}\PYG{+w}{ }\PYG{n+nf}{\PYGZsh{}\PYGZsq{}}\PYG{n+nb}{+}
+\PYG{+w}{     }\PYG{p}{(}\PYG{n+nb}{mapcar}\PYG{+w}{ }\PYG{n+nf}{\PYGZsh{}\PYGZsq{}}\PYG{p}{(}\PYG{k}{lambda}\PYG{p}{(}\PYG{n+nv}{part}\PYG{p}{)}
+\PYG{+w}{           }\PYG{p}{(}\PYG{k}{let*}\PYG{+w}{ }\PYG{p}{((}\PYG{n+nv}{size\PYGZhy{}part}\PYG{+w}{ }\PYG{p}{(}\PYG{n+nb}{count\PYGZhy{}if}\PYG{+w}{ }\PYG{n+nf}{\PYGZsh{}\PYGZsq{}}\PYG{n+nb}{atom}
+\PYG{+w}{               }\PYG{p}{(}\PYG{n+nb}{cdr}\PYG{+w}{ }\PYG{n+nv}{part}\PYG{p}{)))}
+\PYG{+w}{           }\PYG{p}{(}\PYG{n+nv}{proportion}
+\PYG{+w}{            }\PYG{p}{(}\PYG{k}{if}\PYG{+w}{ }\PYG{p}{(}\PYG{n+nb}{eq}\PYG{+w}{ }\PYG{n+nv}{size\PYGZhy{}part}\PYG{+w}{ }\PYG{l+m+mi}{0}\PYG{p}{)}\PYG{+w}{ }\PYG{l+m+mi}{0}
+\PYG{+w}{          }\PYG{p}{(}\PYG{n+nb}{/}\PYG{+w}{ }\PYG{n+nv}{size\PYGZhy{}part}
+\PYG{+w}{              }\PYG{n+nv}{number\PYGZhy{}of\PYGZhy{}examples}\PYG{p}{))))}
+\PYG{+w}{     }\PYG{p}{(}\PYG{n+nb}{*}\PYG{+w}{ }\PYG{l+m+mf}{\PYGZhy{}1.0}\PYG{+w}{ }\PYG{n+nv}{proportion}\PYG{+w}{ }\PYG{p}{(}\PYG{n+nb}{log}\PYG{+w}{ }\PYG{n+nv}{proportion}\PYG{+w}{ }\PYG{l+m+mi}{2}\PYG{p}{))))}
+\PYG{+w}{     }\PYG{p}{(}\PYG{n+nb}{cdr}\PYG{+w}{ }\PYG{n+nv}{partition}\PYG{p}{)))))}\PYG{+w}{	}
+\end{Verbatim}

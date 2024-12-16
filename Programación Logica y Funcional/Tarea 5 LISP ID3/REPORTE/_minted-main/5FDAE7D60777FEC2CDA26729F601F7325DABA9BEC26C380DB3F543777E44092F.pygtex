@@ -1,0 +1,10 @@
+\begin{Verbatim}[commandchars=\\\{\}]
+\PYG{c+c1}{;;; Gain Ratio}
+\PYG{p}{(}\PYG{n+nb}{defun}\PYG{+w}{ }\PYG{n+nv}{gain\PYGZhy{}ratio}\PYG{+w}{ }\PYG{p}{(}\PYG{n+nv}{examples}\PYG{+w}{ }\PYG{n+nv}{attribute}\PYG{p}{)}
+\PYG{+w}{  }\PYG{l+s}{\PYGZdq{}It computes the gain ratio for an ATTRIBUTE in EXAMPLES\PYGZdq{}}
+\PYG{+w}{  }\PYG{p}{(}\PYG{k}{let}\PYG{+w}{ }\PYG{p}{((}\PYG{n+nv}{info\PYGZhy{}gain}\PYG{+w}{ }\PYG{p}{(}\PYG{n+nv}{information\PYGZhy{}gain}\PYG{+w}{ }\PYG{n+nv}{examples}\PYG{+w}{ }\PYG{n+nv}{attribute}\PYG{p}{))}
+\PYG{+w}{        }\PYG{p}{(}\PYG{n+nv}{split\PYGZhy{}info}\PYG{+w}{ }\PYG{p}{(}\PYG{n+nv}{split\PYGZhy{}information}\PYG{+w}{ }\PYG{n+nv}{examples}\PYG{+w}{ }\PYG{n+nv}{attribute}\PYG{p}{)))}
+\PYG{+w}{    }\PYG{p}{(}\PYG{k}{if}\PYG{+w}{ }\PYG{p}{(}\PYG{n+nb}{zerop}\PYG{+w}{ }\PYG{n+nv}{split\PYGZhy{}info}\PYG{p}{)}
+\PYG{+w}{         }\PYG{l+m+mi}{0}
+\PYG{+w}{         }\PYG{p}{(}\PYG{n+nb}{/}\PYG{+w}{ }\PYG{n+nv}{info\PYGZhy{}gain}\PYG{+w}{ }\PYG{n+nv}{split\PYGZhy{}info}\PYG{p}{))))}
+\end{Verbatim}
