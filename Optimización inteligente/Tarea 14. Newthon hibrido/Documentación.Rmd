@@ -1,0 +1,160 @@
+---
+title: "\\textbf{Optimización inteligente}"
+subtitle: "\\textbf{Tarea 14. Método Marquart}"
+author: "\\textbf{Ángel García Báez}"
+date: "\\textbf{2024-09-12}"
+output: 
+  pdf_document:
+    toc: true
+    number_sections: true
+header-includes:
+   - \usepackage{sectsty}
+   - \allsectionsfont{\bfseries}
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = F,
+                      eval = T, 
+                      message = F,
+                      warning = F)
+```
+
+\newpage
+
+# Breve introducción 
+
+Se planteo un ejercicio en clase donde se pedía encontrar el valor de $x$  que lograra encontrar el mínimo global de la función $f(x_1,x_2) = (x^2_1 + x_2-11) + (x_1 + x^2_2-7)$ haciendo uso de el método de busqueda del Marquart.
+
+A continuación se muestra el pseudocodigo para implementar dicho método:
+
+## Método de Marquart
+
+Algoritmo:
+
+Paso 1: Elegir un punto inicial $X^{(0)}$, el número máximo de iteraciones, $M$, y un parámetro de terminación, $\epsilon$.  
+Hacer $k = 0$ y $\lambda^{(0)} = 1 \times 10^4$ (un valor grande).
+
+Paso 2: Calcular $\nabla f(X^{(k)})$.
+
+Paso 3: IF $\|\nabla f(X^{(k)})\| \leq \epsilon$ o $k \geq M$ THEN Terminar  
+
+ELSE GOTO Paso 4.
+
+Paso 4: Calcular $s(X^{(k)}) = -\left[ H^{(k)} + \lambda^{(k)}I \right]^{-1} \nabla f(X^{(k)})$  
+Hacer $X^{(k+1)} = X^{(k)} + s(X^{(k)})$.
+
+Paso 5: ¿Es $f(X^{(k+1)}) < f(X^{(k)})$?  
+Si es así, GOTO Paso 6.  
+ELSE GOTO Paso 7.
+
+Paso 6: Hacer $\lambda^{(k+1)} = \frac{1}{2} \lambda^{(k)}$  
+$k = k + 1$. GOTO Paso 2.
+
+Paso 7: Hacer $\lambda^{(k+1)} = 2\lambda^{(k)}$  
+GOTO Paso 4.
+
+
+\newpage
+
+# Experimentación con los resultados.
+
+Primero, debido a que la función se puede graficar en un espacio de 3 dimensiones, se recurrió a esto para tener un referente visual del comportamiento de la misma:
+
+```{python,eval = F}
+# Cargar librerias
+import numpy as np
+import matplotlib.pyplot as plt
+# Definir la función
+def f(x, y):
+    return (x**2 + y - 11)**2 + (x + y**2 - 7)**2
+# Crear el grid
+x = np.linspace(-6, 6, 500)
+y = np.linspace(-6, 6, 500)
+X, Y = np.meshgrid(x, y)
+Z = f(X, Y)
+# Graficar la superficie
+fig = plt.figure(figsize=(10, 7))
+ax = fig.add_subplot(111, projection='3d')
+ax.plot_surface(X, Y, Z, cmap='viridis', alpha=0.9)
+# Etiquetas
+ax.set_title("Gráfica 3D de la función")
+ax.set_xlabel('X1')
+ax.set_ylabel('X2')
+ax.set_zlabel('f(X1, X2)')
+plt.show()
+```
+
+
+![](G1.png)
+
+La función ya no es tan fácil de visualizar o seguir, debido al aumento de una dimensión extra. Dicha función se comporta como una sabana arrugada, la cual parece tener un mínimo muy en el centro de la función con posibles mínimos locales a las orillas.
+
+\newpage
+
+# Experimentación 
+
+## Resolución de clase
+
+Durante la clase se abordo la forma de iniciaizar el método con los siguientes parámetros:
+
+$$
+\begin{matrix}
+x_0 = (0,0) & f(x_0) = 170  & \varepsilon = 0.001
+\end{matrix}
+$$
+
+
+Una vez inicializado el algoritmo con dichos valores de $x_0$, $\varepsilon$  se hizo la prueba de correr el algoritmo.
+
+A continuación se muestran los resultados de las evaluaciones que hizo el algoritmo:
+
+```{r}
+# Busqueda de direcciones conjugadas de Powell
+# Librería para hacer las tablas bonitas
+library(flextable)
+# Llamo el código
+source("Tarea 14 Marquart MAIN.R")
+# Declaro la función que se desea minimizar
+#### Evaluación para el ejercicio de clase ####
+# fx = función multivariable
+# X = punto inicial
+# tol = tolerancia
+# a = Limite inferior de busqueda
+# b = Limite superior de busqueda
+# tol = Tolerancia permitida
+
+#### Evaluación de clase ####
+# Función objetivo
+fx = function(X){(X[1]^2+X[2]-11)^2 + (X[1] + X[2]^2-7)^2}
+# Parametros de la función
+X0 = c(0,0)
+a = 0
+b = 5
+tol = 0.001
+# Reporte
+res1 = NH(fx,X0,tol,a,b)
+# Reporta bonito los resultados
+autofit(theme_box(flextable(res1)))
+```
+
+Para esta evaluación de clase, con los parámetros iniciales dados, el método logra encontrar un punto que aproxima bastante bien uno de los mínimos de la función. Dicho punto es $[3,2]$ el cual satisface el criterio de tolerancia en apenas 8 iteraciones.
+
+
+\newpage
+
+# Anexo 1: Codigo principal del método de Marquart
+
+```{r}
+# Incluir el código de bisección
+cat(readLines("Tarea 14 Marquart MAIN.R"), sep = "\n")
+```
+
+\newpage
+
+# Anexo 2: Código para hacer las evaluaciones del método.
+
+```{r}
+# Incluir el código de bisección
+cat(readLines("Tarea 14 Marquart EVAL.R"), sep = "\n")
+```
+

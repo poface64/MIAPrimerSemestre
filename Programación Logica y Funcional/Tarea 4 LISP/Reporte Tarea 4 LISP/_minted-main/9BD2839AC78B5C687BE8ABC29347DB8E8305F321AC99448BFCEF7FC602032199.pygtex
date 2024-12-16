@@ -1,0 +1,14 @@
+\begin{Verbatim}[commandchars=\\\{\}]
+\PYG{n+nb}{\PYGZgt{}}\PYG{p}{(}\PYG{n+nb}{defun}\PYG{+w}{ }\PYG{n+nv}{perms}\PYG{+w}{ }\PYG{p}{(}\PYG{n+nv}{lista}\PYG{p}{)}
+\PYG{+w}{   }\PYG{l+s}{\PYGZdq{}Devuelve una lista con todas las permutaciones posibles de LISTA.\PYGZdq{}}
+\PYG{+w}{   }\PYG{p}{(}\PYG{k}{if}\PYG{+w}{ }\PYG{p}{(}\PYG{n+nb}{null}\PYG{+w}{ }\PYG{n+nv}{lista}\PYG{p}{)}
+\PYG{+w}{       }\PYG{o}{\PYGZsq{}}\PYG{p}{(())}\PYG{+w}{ }\PYG{c+c1}{; Caso base si la lista es vacia}
+\PYG{+w}{       }\PYG{p}{(}\PYG{n+nb}{mapcan}
+\PYG{+w}{        }\PYG{p}{(}\PYG{k}{lambda}\PYG{+w}{ }\PYG{p}{(}\PYG{n+nv}{x}\PYG{p}{)}
+\PYG{+w}{         }\PYG{p}{(}\PYG{n+nb}{mapcar}\PYG{+w}{ }\PYG{p}{(}\PYG{k}{lambda}\PYG{+w}{ }\PYG{p}{(}\PYG{n+nv}{perm}\PYG{p}{)}
+\PYG{+w}{                  }\PYG{p}{(}\PYG{n+nb}{cons}\PYG{+w}{ }\PYG{n+nv}{x}\PYG{+w}{ }\PYG{n+nv}{perm}\PYG{p}{))}
+\PYG{+w}{                 }\PYG{p}{(}\PYG{n+nv}{perms}\PYG{+w}{ }\PYG{p}{(}\PYG{n+nb}{remove}\PYG{+w}{ }\PYG{n+nv}{x}\PYG{+w}{ }\PYG{n+nv}{lista}\PYG{+w}{ }\PYG{l+s+ss}{:count}\PYG{+w}{ }\PYG{l+m+mi}{1}\PYG{p}{))))}
+\PYG{+w}{       }\PYG{n+nv}{lista}\PYG{p}{)))}
+\PYG{n+nb}{\PYGZgt{}}\PYG{p}{(}\PYG{n+nv}{perms}\PYG{+w}{ }\PYG{o}{\PYGZsq{}}\PYG{p}{(}\PYG{l+m+mi}{1}\PYG{+w}{ }\PYG{l+m+mi}{2}\PYG{+w}{ }\PYG{l+m+mi}{3}\PYG{p}{))}
+\PYG{p}{((}\PYG{l+m+mi}{1}\PYG{+w}{ }\PYG{l+m+mi}{2}\PYG{+w}{ }\PYG{l+m+mi}{3}\PYG{p}{)}\PYG{+w}{ }\PYG{p}{(}\PYG{l+m+mi}{1}\PYG{+w}{ }\PYG{l+m+mi}{3}\PYG{+w}{ }\PYG{l+m+mi}{2}\PYG{p}{)}\PYG{+w}{ }\PYG{p}{(}\PYG{l+m+mi}{2}\PYG{+w}{ }\PYG{l+m+mi}{1}\PYG{+w}{ }\PYG{l+m+mi}{3}\PYG{p}{)}\PYG{+w}{ }\PYG{p}{(}\PYG{l+m+mi}{2}\PYG{+w}{ }\PYG{l+m+mi}{3}\PYG{+w}{ }\PYG{l+m+mi}{1}\PYG{p}{)}\PYG{+w}{ }\PYG{p}{(}\PYG{l+m+mi}{3}\PYG{+w}{ }\PYG{l+m+mi}{1}\PYG{+w}{ }\PYG{l+m+mi}{2}\PYG{p}{)}\PYG{+w}{ }\PYG{p}{(}\PYG{l+m+mi}{3}\PYG{+w}{ }\PYG{l+m+mi}{2}\PYG{+w}{ }\PYG{l+m+mi}{1}\PYG{p}{))}
+\end{Verbatim}

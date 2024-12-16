@@ -1,0 +1,4 @@
+\begin{Verbatim}[commandchars=\\\{\}]
+\PYG{p}{(}\PYG{n+nb}{defvar}\PYG{+w}{ }\PYG{n+nv+vg}{*db*}\PYG{+w}{ }\PYG{n+no}{nil}\PYG{p}{)}
+\PYG{p}{(}\PYG{n+nb}{defun}\PYG{+w}{ }\PYG{n+nv}{agregar\PYGZhy{}reg}\PYG{+w}{ }\PYG{p}{(}\PYG{n+nv}{libro}\PYG{p}{)}\PYG{+w}{ }\PYG{p}{(}\PYG{n+nb}{push}\PYG{+w}{ }\PYG{n+nv}{libro}\PYG{+w}{ }\PYG{n+nv+vg}{*db*}\PYG{p}{))}
+\end{Verbatim}

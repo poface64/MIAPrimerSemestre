@@ -1,0 +1,8 @@
+\begin{Verbatim}[commandchars=\\\{\}]
+\PYG{c+c1}{;; 1.4 Diferencia}
+\PYG{c+c1}{;; Capitulo 3 del libro de commond lisp}
+\PYG{p}{(}\PYG{n+nb}{defun}\PYG{+w}{ }\PYG{n+nv}{dif}\PYG{+w}{ }\PYG{p}{(}\PYG{n+nv}{conjunto1}\PYG{+w}{ }\PYG{n+nv}{conjunto2}\PYG{p}{)}
+\PYG{l+s}{\PYGZdq{}Devuelve la diferencia de dos conjuntos representados como listas.\PYGZdq{}}
+\PYG{p}{(}\PYG{n+nb}{remove\PYGZhy{}if}\PYG{+w}{ }\PYG{p}{(}\PYG{k}{lambda}\PYG{+w}{ }\PYG{p}{(}\PYG{n+nv}{x}\PYG{p}{)}\PYG{+w}{ }\PYG{p}{(}\PYG{n+nb}{member}\PYG{+w}{ }\PYG{n+nv}{x}\PYG{+w}{ }\PYG{n+nv}{conjunto2}\PYG{p}{))}\PYG{+w}{ }\PYG{n+nv}{conjunto1}\PYG{p}{))}
+
+\end{Verbatim}

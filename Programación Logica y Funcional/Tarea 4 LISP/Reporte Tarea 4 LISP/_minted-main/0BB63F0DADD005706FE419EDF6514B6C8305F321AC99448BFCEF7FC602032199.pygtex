@@ -1,0 +1,15 @@
+\begin{Verbatim}[commandchars=\\\{\}]
+\PYG{n+nb}{\PYGZgt{}}\PYG{p}{(}\PYG{n+nb}{defmacro}\PYG{+w}{ }\PYG{n+nv}{repeat}\PYG{+w}{ }\PYG{p}{(}\PYG{n+nv}{n}\PYG{+w}{ }\PYG{k}{\PYGZam{}rest}\PYG{+w}{ }\PYG{n+nv}{body}\PYG{p}{)}
+\PYG{+w}{   }\PYG{l+s}{\PYGZdq{}Repite la expresión BODY N veces.\PYGZdq{}}
+\PYG{+w}{   }\PYG{p}{(}\PYG{k}{let}\PYG{+w}{ }\PYG{p}{((}\PYG{n+nv}{i}\PYG{+w}{ }\PYG{p}{(}\PYG{n+nb}{gensym}\PYG{p}{)))}\PYG{+w}{  }\PYG{c+c1}{; Genera un nombre único para el índice}
+\PYG{+w}{     }\PYG{o}{`}\PYG{p}{(}\PYG{n+nb}{dotimes}\PYG{+w}{ }\PYG{p}{(}\PYG{o}{,}\PYG{n+nv}{i}\PYG{+w}{ }\PYG{o}{,}\PYG{n+nv}{n}\PYG{p}{)}\PYG{+w}{   }\PYG{c+c1}{; Repite el cuerpo N veces}
+\PYG{+w}{        }\PYG{o}{,@}\PYG{n+nv}{body}\PYG{p}{)))}\PYG{+w}{         }\PYG{c+c1}{; Expansión del cuerpo (se ejecuta en cada iteración)}
+
+\PYG{n+nb}{\PYGZgt{}}\PYG{p}{(}\PYG{n+nv}{repeat}\PYG{+w}{ }\PYG{l+m+mi}{5}\PYG{+w}{ }\PYG{p}{(}\PYG{n+nb}{print}\PYG{+w}{ }\PYG{l+s}{\PYGZdq{}Hola, mundo!\PYGZdq{}}\PYG{p}{))}
+\PYG{l+s}{\PYGZdq{}Hola, mundo!\PYGZdq{}}
+\PYG{l+s}{\PYGZdq{}Hola, mundo!\PYGZdq{}}
+\PYG{l+s}{\PYGZdq{}Hola, mundo!\PYGZdq{}}
+\PYG{l+s}{\PYGZdq{}Hola, mundo!\PYGZdq{}}
+\PYG{l+s}{\PYGZdq{}Hola, mundo!\PYGZdq{}}
+\PYG{n+no}{NIL}
+\end{Verbatim}

@@ -1,0 +1,200 @@
+---
+title: "\\textbf{Optimización inteligente}"
+subtitle: "\\textbf{Tarea 13. Método del Gradiente Conjugado (Fletcher-Reeves)}"
+author: "\\textbf{Ángel García Báez}"
+date: "\\textbf{2024-06-12}"
+output: 
+  pdf_document:
+    toc: true
+    number_sections: true
+header-includes:
+   - \usepackage{sectsty}
+   - \allsectionsfont{\bfseries}
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = F,
+                      eval = T, 
+                      message = F,
+                      warning = F)
+```
+
+\newpage
+
+# Breve introducción 
+
+Se planteo un ejercicio en clase donde se pedía encontrar el valor de $x$  que lograra encontrar el mínimo global de la función $f(x_1,x_2) = (x^2_1 + x_2-11) + (x_1 + x^2_2-7)$ haciendo uso de el método de busqueda del gradiente conjugado.
+
+A continuación se muestra el pseudocodigo para implementar dicho método:
+
+## Método de busqueda del Gradiente Conjugado
+
+Algoritmo:
+
+Paso 1: Elegir un punto inicial $x^{(0)}$ y tres parámetros de terminación $\epsilon_1$, $\epsilon_2$ y $\epsilon_3$.
+
+Paso 2: Encontrar $\nabla f(x^{(0)})$ y hacer $s^{(0)} = -\nabla f(x^{(0)})$.
+
+Paso 3: Encontrar $\lambda^{(0)}$ tal que $f(x^{(0)} + \lambda^{(0)}s^{(0)})$ se minimice con una tolerancia de $\epsilon_1$. 
+
+Hacer $x^{(1)} = x^{(0)} + \lambda^{(0)}s^{(0)}$ y $k = 1$. Calcular $\nabla f(x^{(1)})$.
+
+Paso 4: Hacer $s^{(k)} = -\nabla f(x^{(k)}) + \frac{\|\nabla f(x^{(k)})\|^2}{\|\nabla f(x^{(k-1)})\|^2}s^{(k-1)}.$
+
+Paso 5: Encontrar $\lambda^{(k)}$ tal que $f(x^{(k)} + \lambda^{(k)}s^{(k)})$ sea mínima con una tolerancia $\epsilon_1$. 
+
+Hacer $x^{(k+1)} = x^{(k)} + \lambda^{(k)}s^{(k)}$.
+
+Paso 6: ¿Es $\frac{\|x^{(k+1)} - x^{(k)}\|}{\|x^{(k)}\|} \leq \epsilon_2 \quad \text{o} \quad \|\nabla f(x^{(k+1)})\| \leq \epsilon_3$?
+
+Si es así, TERMINAR.
+
+ELSE $k = k + 1$. GOTO Paso 4.
+
+**NOTA**
+
+Debido a la acumulación de errores de redondeo, para mejorar el desempeño del algoritmo se recomienda re-inicializar la dirección de búsqueda cada $m = n+1$ (n variables) iteraciones, con la dirección del descenso empinado.
+
+\newpage
+
+# Experimentación con los resultados.
+
+Primero, debido a que la función se puede graficar en un espacio de 3 dimensiones, se recurrió a esto para tener un referente visual del comportamiento de la misma:
+
+```{python,eval = F}
+# Cargar librerias
+import numpy as np
+import matplotlib.pyplot as plt
+# Definir la función
+def f(x, y):
+    return (x**2 + y - 11)**2 + (x + y**2 - 7)**2
+# Crear el grid
+x = np.linspace(-6, 6, 500)
+y = np.linspace(-6, 6, 500)
+X, Y = np.meshgrid(x, y)
+Z = f(X, Y)
+# Graficar la superficie
+fig = plt.figure(figsize=(10, 7))
+ax = fig.add_subplot(111, projection='3d')
+ax.plot_surface(X, Y, Z, cmap='viridis', alpha=0.9)
+# Etiquetas
+ax.set_title("Gráfica 3D de la función")
+ax.set_xlabel('X1')
+ax.set_ylabel('X2')
+ax.set_zlabel('f(X1, X2)')
+plt.show()
+```
+
+
+![](G1.png)
+
+La función ya no es tan fácil de visualizar o seguir, debido al aumento de una dimensión extra. Dicha función se comporta como una sabana arrugada, la cual parece tener un mínimo muy en el centro de la función con posibles mínimos locales a las orillas.
+
+\newpage
+
+# Experimentación 
+
+## Resolución de clase
+
+Durante la clase se abordo la forma de iniciaizar el método con los siguientes parámetros:
+
+$$
+\begin{matrix}
+x_0 = (0,0) & f(x_0) = 170  & \varepsilon = 0.001
+\end{matrix}
+$$
+
+adicionalmente se plantearon los limites $a = 0, b = 1$ para inicializar el método de eliminación de regiones dentro del método principal
+
+Una vez inicializado el algoritmo con dichos valores de $x_0$, $\varepsilon$, $a$ y $b$  se hizo la prueba de correr el algoritmo.
+
+A continuación se muestran los resultados de las evaluaciones que hizo el algoritmo:
+
+```{r}
+# Busqueda de direcciones conjugadas de Powell
+# Librería para hacer las tablas bonitas
+library(flextable)
+# Llamo el código
+source("Tarea 13. Conjugadas  MAIN.R")
+# Declaro la función que se desea minimizar
+#### Evaluación para el ejercicio de clase ####
+# fx = función multivariable
+# X = punto inicial
+# tol = tolerancia
+# a = Limite inferior de busqueda
+# b = Limite superior de busqueda
+# tol = Tolerancia permitida
+
+# Parametros de inicio
+# Función objetivo
+fx = function(X){(X[1]^2+X[2]-11)^2 + (X[1] + X[2]^2-7)^2}
+# Parametros de la función
+X0 = c(0,0)
+h = 0.001
+a = 0.001
+b = 1
+tol = 0.001
+# Resultado de la corrida de clase forzandolo un poco
+# Resultado de la corrida de clase forzandolo un poco
+res1 = conjugadas(fx,X0,tol,a,b)
+# Reporta bonito los resultados
+autofit(theme_box(flextable(res1)))
+```
+
+Para esta evaluación de clase, con los parámetros iniciales dados, el método logra encontrar un punto que aproxima bastante bien uno de los mínimos de la función. Dicho punto es $[3.584272,-1.850442]$ el cual satisface el criterio de tolerancia en apenas 11 iteraciones.
+
+\newpage
+
+## Propuesta con interalo de busqueda [-10,10]
+
+Debido a la naturaleza tridimensional de la función, no es tan facil visualizar si es que dicha función es unimodal o multimodal.
+Se sospecha que la función tiene más de un minimo, por lo que se decide probar que sucede al ampliar el intervalo de busqueda del método de acotamiento para probar sí es que encuentra otro punto que se pueda considerar un minimo.
+
+Se mantienen todos los parametros iguales a excepción del intervalo de busqueda, el cual cambia por $a = -10$ y $b = 10$
+
+A continuación se pone a prueba el algoritmo con dichos cambios:
+
+```{r}
+#### Evaluación con cambio de limites ####
+# Parametros de la función
+X0 = c(0,0)
+h = 0.001
+a = -10
+b = 10
+tol = 0.001
+# Resultado de la corrida de clase forzandolo un poco
+# Resultado de la corrida de clase forzandolo un poco
+res2 = conjugadas(fx,X0,tol,a,b)
+# Reporta bonito los resultados
+autofit(theme_box(flextable(res2)))
+```
+
+El algoritmo logra encontrar otro mínimo de la función en apenas 6 iteraciones. Dicho punto que también minimiza a la función es $[-2.805139,3.131228]$.
+
+\newpage
+
+# Conclusiones
+
+Tras la implementación del método y de las corridas de clase, se observa que el método logra aproximar bastante bien optimos de la función mediante el gradiente conjugado pero llama mucho la atención que se esperaba llegar al punto $[3,2]$ pero se termino por llegar a otros puntos minimos que tambien satisfacen la restricción de tolerancia, ademas que se lleva su tiempo en converger, tal y como se pudo observar en la primera corrida de clase. Por lo que si bien, el método da buenos resultados, acarrea implicito el problema del redondeo decimal conforme va avanzando, lo que termina en situaciones como esta donde puede que no se encuentre el minimo que se busca y termine por llegar a otras soluciones locales.
+
+
+
+
+\newpage
+
+# Anexo 1: Codigo principal del método de Gradiente Conjugado
+
+```{r}
+# Incluir el código de bisección
+cat(readLines("Tarea 13. Conjugadas  MAIN.R"), sep = "\n")
+```
+
+\newpage
+
+# Anexo 2: Código para hacer las evaluaciones del método.
+
+```{r}
+# Incluir el código de bisección
+cat(readLines("Tarea 13. Conjugadas EVAL.R"), sep = "\n")
+```
+

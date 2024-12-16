@@ -1,0 +1,4 @@
+\begin{Verbatim}[commandchars=\\\{\}]
+\PYG{n+nb}{\PYGZgt{}}\PYG{+w}{ }\PYG{p}{(}\PYG{n+nv}{agregar\PYGZhy{}reg}\PYG{+w}{ }\PYG{p}{(}\PYG{n+nv}{crea\PYGZhy{}libro}\PYG{+w}{ }\PYG{l+s}{\PYGZdq{}Pericia Artificial\PYGZdq{}}\PYG{+w}{ }\PYG{l+s}{\PYGZdq{}Alejadro Guerra\PYGZdq{}}\PYG{+w}{ }\PYG{l+s}{\PYGZdq{}UV\PYGZdq{}}\PYG{+w}{ }\PYG{l+m+mf}{90.50}\PYG{p}{))}
+\PYG{p}{((}\PYG{l+s+ss}{:TITULO}\PYG{+w}{ }\PYG{l+s}{\PYGZdq{}Pericia Artificial\PYGZdq{}}\PYG{+w}{ }\PYG{l+s+ss}{:AUTOR}\PYG{+w}{ }\PYG{l+s}{\PYGZdq{}Alejadro Guerra\PYGZdq{}}\PYG{+w}{ }\PYG{l+s+ss}{:ED}\PYG{+w}{ }\PYG{l+s}{\PYGZdq{}UV\PYGZdq{}}\PYG{+w}{ }\PYG{l+s+ss}{:PRECIO}\PYG{+w}{ }\PYG{l+m+mf}{90.5}\PYG{p}{))}
+\end{Verbatim}

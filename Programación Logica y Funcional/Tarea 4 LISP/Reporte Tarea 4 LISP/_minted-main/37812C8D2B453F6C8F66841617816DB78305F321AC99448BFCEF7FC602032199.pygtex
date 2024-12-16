@@ -1,0 +1,8 @@
+\begin{Verbatim}[commandchars=\\\{\}]
+\PYG{c+c1}{;; 1.2 Intersección}
+\PYG{p}{(}\PYG{n+nb}{defun}\PYG{+w}{ }\PYG{n+nv}{inter}\PYG{+w}{ }\PYG{p}{(}\PYG{n+nv}{conjunto1}\PYG{+w}{ }\PYG{n+nv}{conjunto2}\PYG{p}{)}
+\PYG{l+s}{\PYGZdq{}Devuelve la intersección de dos conjuntos representados como listas.\PYGZdq{}}
+\PYG{p}{(}\PYG{n+nb}{remove\PYGZhy{}duplicates}
+\PYG{p}{(}\PYG{n+nb}{remove\PYGZhy{}if\PYGZhy{}not}\PYG{+w}{ }\PYG{p}{(}\PYG{k}{lambda}\PYG{+w}{ }\PYG{p}{(}\PYG{n+nv}{x}\PYG{p}{)}\PYG{+w}{ }\PYG{p}{(}\PYG{n+nb}{member}\PYG{+w}{ }\PYG{n+nv}{x}\PYG{+w}{ }\PYG{n+nv}{conjunto2}\PYG{p}{))}
+\PYG{n+nv}{conjunto1}\PYG{p}{)))}
+\end{Verbatim}

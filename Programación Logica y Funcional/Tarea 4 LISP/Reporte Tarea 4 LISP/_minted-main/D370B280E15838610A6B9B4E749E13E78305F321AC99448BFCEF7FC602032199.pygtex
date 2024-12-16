@@ -1,0 +1,9 @@
+\begin{Verbatim}[commandchars=\\\{\}]
+\PYG{c+c1}{;; Subconjunto}
+\PYG{p}{(}\PYG{n+nb}{defun}\PYG{+w}{ }\PYG{n+nv}{subset}\PYG{+w}{ }\PYG{p}{(}\PYG{n+nv}{a}\PYG{+w}{ }\PYG{n+nv}{b}\PYG{+w}{ }\PYG{k}{\PYGZam{}key}\PYG{+w}{ }\PYG{p}{(}\PYG{n+nv}{test}\PYG{+w}{ }\PYG{n+nf}{\PYGZsh{}\PYGZsq{}}\PYG{n+nb}{eql}\PYG{p}{))}
+\PYG{l+s}{\PYGZdq{}Devuelve T si A es subconjunto de B, NIL en caso contrario.}
+\PYG{l+s}{El parámetro opcional TEST permite personalizar la comparación.\PYGZdq{}}
+\PYG{p}{(}\PYG{n+nb}{every}\PYG{+w}{ }\PYG{p}{(}\PYG{k}{lambda}\PYG{+w}{ }\PYG{p}{(}\PYG{n+nv}{element}\PYG{p}{)}
+\PYG{p}{(}\PYG{n+nb}{find}\PYG{+w}{ }\PYG{n+nv}{element}\PYG{+w}{ }\PYG{n+nv}{b}\PYG{+w}{ }\PYG{l+s+ss}{:test}\PYG{+w}{ }\PYG{n+nv}{test}\PYG{p}{))}
+\PYG{n+nv}{a}\PYG{p}{))}
+\end{Verbatim}

@@ -1,0 +1,14 @@
+\begin{Verbatim}[commandchars=\\\{\}]
+\PYG{c+c1}{;; 7. La siguiente función me permite definir una entrada en un registro de mis}
+\PYG{c+c1}{;; libros:}
+
+\PYG{c+c1}{; Función para crear un registro de libro}
+\PYG{n+nb}{\PYGZgt{}}\PYG{+w}{ }\PYG{p}{(}\PYG{n+nb}{defun}\PYG{+w}{ }\PYG{n+nv}{crea\PYGZhy{}libro}\PYG{+w}{ }\PYG{p}{(}\PYG{n+nv}{titulo}\PYG{+w}{ }\PYG{n+nv}{autor}\PYG{+w}{ }\PYG{n+nb}{ed}\PYG{+w}{ }\PYG{n+nv}{precio}\PYG{p}{)}
+\PYG{+w}{    }\PYG{p}{(}\PYG{n+nb}{list}\PYG{+w}{ }\PYG{l+s+ss}{:titulo}\PYG{+w}{ }\PYG{n+nv}{titulo}\PYG{+w}{ }\PYG{l+s+ss}{:autor}\PYG{+w}{ }\PYG{n+nv}{autor}\PYG{+w}{ }\PYG{l+s+ss}{:ed}\PYG{+w}{ }\PYG{n+nb}{ed}\PYG{+w}{ }\PYG{l+s+ss}{:precio}\PYG{+w}{ }\PYG{n+nv}{precio}\PYG{p}{))}
+
+\PYG{c+c1}{; Definir la variable global para almacenar las entradas}
+\PYG{n+nb}{\PYGZgt{}}\PYG{+w}{ }\PYG{p}{(}\PYG{n+nb}{defvar}\PYG{+w}{ }\PYG{n+nv+vg}{*db*}\PYG{+w}{ }\PYG{n+no}{nil}\PYG{p}{)}
+
+\PYG{c+c1}{; Definir la función que agrega libros a la base de datos db}
+\PYG{n+nb}{\PYGZgt{}}\PYG{+w}{ }\PYG{p}{(}\PYG{n+nb}{defun}\PYG{+w}{ }\PYG{n+nv}{agregar\PYGZhy{}reg}\PYG{+w}{ }\PYG{p}{(}\PYG{n+nv}{libro}\PYG{p}{)}\PYG{+w}{ }\PYG{p}{(}\PYG{n+nb}{push}\PYG{+w}{ }\PYG{n+nv}{libro}\PYG{+w}{ }\PYG{n+nv+vg}{*db*}\PYG{p}{))}
+\end{Verbatim}

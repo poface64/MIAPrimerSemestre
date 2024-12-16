@@ -1,0 +1,9 @@
+\begin{Verbatim}[commandchars=\\\{\}]
+\PYG{n+nb}{\PYGZgt{}}\PYG{p}{(}\PYG{n+nb}{defun}\PYG{+w}{ }\PYG{n+nv}{eliminarlp}\PYG{+w}{ }\PYG{p}{(}\PYG{n+nv}{elemento}\PYG{+w}{ }\PYG{n+nv}{lista}\PYG{p}{)}
+\PYG{+w}{   }\PYG{l+s}{\PYGZdq{}Elimina todas las ocurrencias de ELEMENTO en LISTA usando LOOP.\PYGZdq{}}
+\PYG{+w}{   }\PYG{p}{(}\PYG{n+nb}{loop}\PYG{+w}{ }\PYG{n+nv}{for}\PYG{+w}{ }\PYG{n+nv}{x}\PYG{+w}{ }\PYG{n+nv}{in}\PYG{+w}{ }\PYG{n+nv}{lista}
+\PYG{+w}{     }\PYG{n+nb}{unless}\PYG{+w}{ }\PYG{p}{(}\PYG{n+nb}{eql}\PYG{+w}{ }\PYG{n+nv}{x}\PYG{+w}{ }\PYG{n+nv}{elemento}\PYG{p}{)}\PYG{+w}{ }\PYG{c+c1}{; Si X no es igual, incluyelo}
+\PYG{+w}{     }\PYG{n+nv}{collect}\PYG{+w}{ }\PYG{n+nv}{x}\PYG{p}{))}
+\PYG{n+nb}{\PYGZgt{}}\PYG{p}{(}\PYG{n+nv}{eliminarlp}\PYG{+w}{ }\PYG{l+m+mi}{3}\PYG{+w}{ }\PYG{o}{\PYGZsq{}}\PYG{p}{(}\PYG{l+m+mi}{1}\PYG{+w}{ }\PYG{l+m+mi}{3}\PYG{+w}{ }\PYG{l+m+mi}{2}\PYG{+w}{ }\PYG{l+m+mi}{4}\PYG{+w}{ }\PYG{l+m+mi}{5}\PYG{+w}{ }\PYG{l+m+mi}{3}\PYG{+w}{ }\PYG{l+m+mi}{6}\PYG{+w}{ }\PYG{l+m+mi}{7}\PYG{p}{))}
+\PYG{p}{(}\PYG{l+m+mi}{1}\PYG{+w}{ }\PYG{l+m+mi}{2}\PYG{+w}{ }\PYG{l+m+mi}{4}\PYG{+w}{ }\PYG{l+m+mi}{5}\PYG{+w}{ }\PYG{l+m+mi}{6}\PYG{+w}{ }\PYG{l+m+mi}{7}\PYG{p}{)}
+\end{Verbatim}

@@ -1,0 +1,41 @@
+\begin{Verbatim}[commandchars=\\\{\}]
+\PYG{c+c1}{;Agregue entradas al registro}
+\PYG{n+nb}{\PYGZgt{}}\PYG{p}{(}\PYG{n+nv}{agregar\PYGZhy{}reg}\PYG{+w}{ }\PYG{p}{(}\PYG{n+nv}{crea\PYGZhy{}libro}\PYG{+w}{ }\PYG{l+s}{\PYGZdq{}El Aleph\PYGZdq{}}\PYG{+w}{ }\PYG{l+s}{\PYGZdq{}Jorge Luis Borges\PYGZdq{}}\PYG{+w}{ }\PYG{l+s}{\PYGZdq{}Debolsillo\PYGZdq{}}\PYG{+w}{ }\PYG{l+m+mf}{199.00}\PYG{p}{))}
+\PYG{n+nb}{\PYGZgt{}}\PYG{p}{(}\PYG{n+nv}{agregar\PYGZhy{}reg}\PYG{+w}{ }\PYG{p}{(}\PYG{n+nv}{crea\PYGZhy{}libro}\PYG{+w}{ }\PYG{l+s}{\PYGZdq{}Ficciones\PYGZdq{}}\PYG{+w}{  }\PYG{l+s}{\PYGZdq{}Jorge Luis Borges\PYGZdq{}}\PYG{+w}{ }\PYG{l+s}{\PYGZdq{}Debolsillo\PYGZdq{}}\PYG{+w}{ }\PYG{l+m+mf}{259.00}\PYG{p}{))}
+\PYG{n+nb}{\PYGZgt{}}\PYG{p}{(}\PYG{n+nv}{agregar\PYGZhy{}reg}\PYG{+w}{ }\PYG{p}{(}\PYG{n+nv}{crea\PYGZhy{}libro}\PYG{+w}{ }\PYG{l+s}{\PYGZdq{}El libro de los sueños\PYGZdq{}}\PYG{+w}{ }\PYG{l+s}{\PYGZdq{}Jorge Luis Borges\PYGZdq{}}\PYG{+w}{ }\PYG{l+s}{\PYGZdq{}Debolsillo\PYGZdq{}}\PYG{+w}{ }\PYG{l+m+mf}{229.00}\PYG{p}{))}
+\PYG{n+nb}{\PYGZgt{}}\PYG{p}{(}\PYG{n+nv}{agregar\PYGZhy{}reg}\PYG{+w}{ }\PYG{p}{(}\PYG{n+nv}{crea\PYGZhy{}libro}\PYG{+w}{ }\PYG{l+s}{\PYGZdq{}Análisis de algoritmos\PYGZdq{}}\PYG{+w}{ }\PYG{l+s}{\PYGZdq{}Homero Vladimir Ríos Figueroa\PYGZdq{}}\PYG{+w}{ }\PYG{l+s}{\PYGZdq{}UV\PYGZdq{}}\PYG{+w}{  }\PYG{l+m+mf}{20.00}\PYG{p}{))}
+\PYG{n+nb}{\PYGZgt{}}\PYG{p}{(}\PYG{n+nv}{agregar\PYGZhy{}reg}\PYG{+w}{ }\PYG{p}{(}\PYG{n+nv}{crea\PYGZhy{}libro}\PYG{+w}{ }\PYG{l+s}{\PYGZdq{}Pericia Artificial\PYGZdq{}}\PYG{+w}{ }\PYG{l+s}{\PYGZdq{}Alejandro Guerra Hernández\PYGZdq{}}\PYG{+w}{ }\PYG{l+s}{\PYGZdq{}UV\PYGZdq{}}\PYG{+w}{  }\PYG{l+m+mf}{90.50}\PYG{p}{))}
+
+\PYG{c+c1}{; Definir la función para que se proyecte bonito}
+\PYG{n+nb}{\PYGZgt{}}\PYG{p}{(}\PYG{n+nb}{defun}\PYG{+w}{ }\PYG{n+nv}{dump\PYGZhy{}db}\PYG{+w}{ }\PYG{p}{()}
+\PYG{+w}{   }\PYG{p}{(}\PYG{n+nb}{dolist}\PYG{+w}{ }\PYG{p}{(}\PYG{n+nv}{libro}\PYG{+w}{ }\PYG{n+nv+vg}{*db*}\PYG{p}{)}
+\PYG{+w}{     }\PYG{p}{(}\PYG{n+nb}{format}\PYG{+w}{ }\PYG{n+no}{t}\PYG{+w}{ }\PYG{l+s}{\PYGZdq{}\PYGZti{}\PYGZob{}\PYGZti{}a:\PYGZti{}10t\PYGZti{}a\PYGZti{}\PYGZpc{}\PYGZti{}\PYGZcb{}\PYGZti{}\PYGZpc{}\PYGZdq{}}\PYG{+w}{ }\PYG{n+nv}{libro}\PYG{p}{)))}
+
+\PYG{n+nb}{\PYGZgt{}}\PYG{+w}{ }\PYG{p}{(}\PYG{n+nv}{dump\PYGZhy{}db}\PYG{p}{)}
+
+\PYG{n+nv}{TITULO:}\PYG{+w}{   }\PYG{n+nv}{Pericia}\PYG{+w}{ }\PYG{n+nv}{Artificial}
+\PYG{n+nv}{AUTOR:}\PYG{+w}{    }\PYG{n+nv}{Alejandro}\PYG{+w}{ }\PYG{n+nv}{Guerra}\PYG{+w}{ }\PYG{n+nv}{Hernández}
+\PYG{n+nv}{ED:}\PYG{+w}{       }\PYG{n+nv}{UV}
+\PYG{n+nv}{PRECIO:}\PYG{+w}{   }\PYG{l+m+mf}{90.5}
+
+\PYG{n+nv}{TITULO:}\PYG{+w}{   }\PYG{n+nv}{Análisis}\PYG{+w}{ }\PYG{n+nv}{de}\PYG{+w}{ }\PYG{n+nv}{algoritmos}
+\PYG{n+nv}{AUTOR:}\PYG{+w}{    }\PYG{n+nv}{Homero}\PYG{+w}{ }\PYG{n+nv}{Vladimir}\PYG{+w}{ }\PYG{n+nv}{Ríos}\PYG{+w}{ }\PYG{n+nv}{Figueroa}
+\PYG{n+nv}{ED:}\PYG{+w}{       }\PYG{n+nv}{UV}
+\PYG{n+nv}{PRECIO:}\PYG{+w}{   }\PYG{l+m+mf}{20.0}
+
+\PYG{n+nv}{TITULO:}\PYG{+w}{   }\PYG{n+nv}{El}\PYG{+w}{ }\PYG{n+nv}{libro}\PYG{+w}{ }\PYG{n+nv}{de}\PYG{+w}{ }\PYG{n+nv}{los}\PYG{+w}{ }\PYG{n+nv}{sueños}
+\PYG{n+nv}{AUTOR:}\PYG{+w}{    }\PYG{n+nv}{Jorge}\PYG{+w}{ }\PYG{n+nv}{Luis}\PYG{+w}{ }\PYG{n+nv}{Borges}
+\PYG{n+nv}{ED:}\PYG{+w}{       }\PYG{n+nv}{Debolsillo}
+\PYG{n+nv}{PRECIO:}\PYG{+w}{   }\PYG{l+m+mf}{229.0}
+
+\PYG{n+nv}{TITULO:}\PYG{+w}{   }\PYG{n+nv}{Ficciones}
+\PYG{n+nv}{AUTOR:}\PYG{+w}{    }\PYG{n+nv}{Jorge}\PYG{+w}{ }\PYG{n+nv}{Luis}\PYG{+w}{ }\PYG{n+nv}{Borges}
+\PYG{n+nv}{ED:}\PYG{+w}{       }\PYG{n+nv}{Debolsillo}
+\PYG{n+nv}{PRECIO:}\PYG{+w}{   }\PYG{l+m+mf}{259.0}
+
+\PYG{n+nv}{TITULO:}\PYG{+w}{   }\PYG{n+nv}{El}\PYG{+w}{ }\PYG{n+nv}{Aleph}
+\PYG{n+nv}{AUTOR:}\PYG{+w}{    }\PYG{n+nv}{Jorge}\PYG{+w}{ }\PYG{n+nv}{Luis}\PYG{+w}{ }\PYG{n+nv}{Borges}
+\PYG{n+nv}{ED:}\PYG{+w}{       }\PYG{n+nv}{Debolsillo}
+\PYG{n+nv}{PRECIO:}\PYG{+w}{   }\PYG{l+m+mf}{199.0}
+
+\end{Verbatim}

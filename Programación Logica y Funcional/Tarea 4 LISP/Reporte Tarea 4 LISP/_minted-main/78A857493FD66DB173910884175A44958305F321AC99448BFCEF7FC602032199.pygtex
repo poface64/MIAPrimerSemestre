@@ -1,0 +1,4 @@
+\begin{Verbatim}[commandchars=\\\{\}]
+\PYG{p}{(}\PYG{n+nb}{defun}\PYG{+w}{ }\PYG{n+nv}{crea\PYGZhy{}libro}\PYG{+w}{ }\PYG{p}{(}\PYG{n+nv}{titulo}\PYG{+w}{ }\PYG{n+nv}{autor}\PYG{+w}{ }\PYG{n+nb}{ed}\PYG{+w}{ }\PYG{n+nv}{precio}\PYG{p}{)}
+\PYG{+w}{   }\PYG{p}{(}\PYG{n+nb}{list}\PYG{+w}{ }\PYG{l+s+ss}{:titulo}\PYG{+w}{ }\PYG{n+nv}{titulo}\PYG{+w}{ }\PYG{l+s+ss}{:autor}\PYG{+w}{ }\PYG{n+nv}{autor}\PYG{+w}{ }\PYG{l+s+ss}{:ed}\PYG{+w}{ }\PYG{n+nb}{ed}\PYG{+w}{ }\PYG{l+s+ss}{:precio}\PYG{+w}{ }\PYG{n+nv}{precio}\PYG{p}{))}
+\end{Verbatim}

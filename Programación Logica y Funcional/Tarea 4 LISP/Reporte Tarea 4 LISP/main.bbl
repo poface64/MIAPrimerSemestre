@@ -1,0 +1,18 @@
+\begin{thebibliography}{}
+
+\bibitem[Clocksin, 2003]{clock2003}
+Clocksin, William F. \&~Mellish, C.~S. (2003).
+\newblock {\em Programming in PROLOG}.
+\newblock Springer Science \& Business Media.
+
+\bibitem[{Guerra-Hern{\'a}ndez}, 2024]{guerra2024}
+{Guerra-Hern{\'a}ndez}, D.~A. (2024).
+\newblock {Programaci{\'o}n L{\'o}gica y Funcional - Programaci{\'o}n
+  L{\'o}gica}.
+
+\bibitem[Seibel, 2006]{seibel2006}
+Seibel, P. (2006).
+\newblock {\em Practical Common Lisp}.
+\newblock Apress, Berkeley, CA, USA.
+
+\end{thebibliography}

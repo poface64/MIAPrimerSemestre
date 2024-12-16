@@ -1,0 +1,7 @@
+\begin{Verbatim}[commandchars=\\\{\}]
+\PYG{n+nb}{\PYGZgt{}}\PYG{+w}{ }\PYG{p}{(}\PYG{n+nv}{repeat}\PYG{+w}{ }\PYG{l+m+mi}{3}\PYG{+w}{ }\PYG{p}{(}\PYG{n+nb}{print}\PYG{+w}{ }\PYG{l+s+ss}{\PYGZsq{}hi}\PYG{p}{))}
+\PYG{n+nv}{HI}
+\PYG{n+nv}{HI}
+\PYG{n+nv}{HI}
+\PYG{n+no}{NIL}
+\end{Verbatim}
